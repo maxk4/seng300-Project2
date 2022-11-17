@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import org.junit.*;
 
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.OverloadException;
@@ -20,7 +20,7 @@ import com.diy.hardware.Product;
 
 public class CustomerUITest {
 
-	private DoItYourselfStation station;
+	private DoItYourselfStationAR station;
 	private ExpectedWeightListenerStub listener;
 	private CustomerUI customer;
 	private AttendantStation attstation;
@@ -33,7 +33,7 @@ public class CustomerUITest {
 	
 	@Before
 	public void setUp() throws Exception {
-		this.station = new DoItYourselfStation();
+		this.station = new DoItYourselfStationAR();
 		station.plugIn();
 		station.turnOn();
 		

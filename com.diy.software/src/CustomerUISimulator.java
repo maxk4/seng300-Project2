@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.opeechee.Card;
@@ -17,7 +17,7 @@ public class CustomerUISimulator extends CustomerUI {
 	
 	private Customer customer;
 
-	public CustomerUISimulator(DoItYourselfStation station, Customer customer) {
+	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer) {
 		super(station);
 		
 		JDialog customerSim = new JDialog(station.touchScreen.getFrame());

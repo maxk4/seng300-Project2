@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import org.junit.*;
 
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.necchi.Barcode;
@@ -32,9 +32,9 @@ public class AttendantUITests {
 	@Test
 	public void add() {
 		List<CustomerUI> uis = new ArrayList<CustomerUI>();
-		List<DoItYourselfStation> stations = new ArrayList<DoItYourselfStation>();
+		List<DoItYourselfStationAR> stations = new ArrayList<DoItYourselfStationAR>();
 		for (int i = 0; i < 7; i++) {
-			DoItYourselfStation station = new DoItYourselfStation();
+			DoItYourselfStationAR station = new DoItYourselfStationAR();
 			station.plugIn();
 			station.turnOn();
 			CustomerUI ui = new CustomerUI(station);
@@ -43,7 +43,7 @@ public class AttendantUITests {
 			station.scanner.register(sil);
 	
 			ExpectedWeightListener ewl = new ExpectedWeightListener(ui);
-			station.baggingArea.register(ewl);
+			station.scale.register(ewl);
 			ui.setWeightListener(ewl);
 			
 			DiscrepancyListener dl = new DiscrepancyListener(attendant);
@@ -69,7 +69,7 @@ public class AttendantUITests {
 		testScanner.enable();
 		testScanner.scan(new BarcodedItem(bc, 10));
 		
-		stations.get(3).baggingArea.add(new Item(1) {});
+		stations.get(3).scale.add(new Item(1) {});
 		testScanner.scan(new BarcodedItem(bc, 10));
 		//stations.get(3).baggingArea.add(new Item(11) {});
 		attendant.notifyNoBaggingRequest(uis.get(3));

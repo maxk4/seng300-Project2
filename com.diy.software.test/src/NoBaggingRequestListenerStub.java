@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import org.junit.*;
 
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.OverloadException;

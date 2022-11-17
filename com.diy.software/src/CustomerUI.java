@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 import com.diy.hardware.external.ProductDatabases;
 import com.jimmyselectronics.necchi.Barcode;
@@ -45,12 +45,12 @@ public class CustomerUI {
 	private List<Product> productList = new ArrayList<Product>();
 	private List<DiscrepancyListener> discrepancyListeners = new ArrayList<DiscrepancyListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
-	private DoItYourselfStation station;
+	private DoItYourselfStationAR station;
 
 	private JDialog activeDialog;
 
 	
-	public CustomerUI(DoItYourselfStation station) {
+	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
 //		customerFrame = station.touchScreen.getFrame();
 //		customerPanel = new JPanel();

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
  
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 import com.diy.hardware.external.ProductDatabases;
 import com.diy.simulation.Customer;
@@ -26,7 +26,7 @@ public class AddItemByScanningTests {
    AttendantUI attendant;
    Customer customer;
    AttendantStation astation;
-   DoItYourselfStation station;
+   DoItYourselfStationAR station;
    CustomerUI ui;
    ScanItemListener sil = new ScanItemListener(ui);
    Barcode bc1, bc2, bc3;
@@ -63,7 +63,7 @@ public class AddItemByScanningTests {
        AttendantStationListener listener = new AttendantStationListener(attendant);
        aStation.registerListener(listener);
       
-       station = new DoItYourselfStation();
+       station = new DoItYourselfStationAR();
       
        station.plugIn();
        station.turnOn();
@@ -74,7 +74,7 @@ public class AddItemByScanningTests {
        station.scanner.register(sil);
   
        ExpectedWeightListener ewl = new ExpectedWeightListener(ui);
-       station.baggingArea.register(ewl);
+       station.scale.register(ewl);
        ui.setWeightListener(ewl);
           
        DiscrepancyListener dl = new DiscrepancyListener(attendant);

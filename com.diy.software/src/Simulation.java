@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.diy.simulation.Customer;
 import com.jimmyselectronics.necchi.Barcode;
@@ -50,11 +50,11 @@ public class Simulation {
 		
 		// Initialize diy stations
 		List<CustomerUI> uis = new ArrayList<CustomerUI>();
-		List<DoItYourselfStation> stations = new ArrayList<DoItYourselfStation>();
+		List<DoItYourselfStationAR> stations = new ArrayList<DoItYourselfStationAR>();
 		for (int i = 0; i < diyStations; i++) {
 			Customer customer = genCustomer();
 			
-			DoItYourselfStation station = new DoItYourselfStation();
+			DoItYourselfStationAR station = new DoItYourselfStationAR();
 			station.plugIn();
 			station.turnOn();
 			CustomerUI ui = new CustomerUISimulator(station, customer);

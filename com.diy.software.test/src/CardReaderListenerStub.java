@@ -36,4 +36,16 @@ public class CardReaderListenerStub implements CardReaderListener {
 		
 	}
 
+	@Override
+	public void cardTapped(CardReader reader) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardSwiped(CardReader reader) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
