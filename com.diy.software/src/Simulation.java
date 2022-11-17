@@ -1,0 +1,123 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.swing.SwingUtilities;
+
+import com.diy.hardware.BarcodedProduct;
+import com.diy.hardware.DoItYourselfStation;
+import com.diy.hardware.external.ProductDatabases;
+import com.diy.simulation.Customer;
+import com.jimmyselectronics.necchi.Barcode;
+import com.jimmyselectronics.necchi.BarcodedItem;
+import com.jimmyselectronics.necchi.Numeral;
+import com.jimmyselectronics.opeechee.Card;
+
+public class Simulation {
+	
+	public static final Barcode[] barcodes = new Barcode[] {
+		new Barcode(new Numeral[] {Numeral.one}),
+		new Barcode(new Numeral[] {Numeral.two}),
+		new Barcode(new Numeral[] {Numeral.three}),
+		new Barcode(new Numeral[] {Numeral.four}),
+		new Barcode(new Numeral[] {Numeral.five}),
+		new Barcode(new Numeral[] {Numeral.six}),
+		new Barcode(new Numeral[] {Numeral.seven}),
+		new Barcode(new Numeral[] {Numeral.eight}),
+		new Barcode(new Numeral[] {Numeral.nine}),
+		new Barcode(new Numeral[] {Numeral.one, Numeral.two})
+	};
+	
+	public static List<Card> cards = new ArrayList<Card>();
+
+	public static void main(String[] args) {
+		
+		if (args.length < 1) {
+			System.out.println("Missing arguments: <stations>");
+			return;
+		}
+		setup();
+		
+		// Get number of stations
+		int diyStations = Integer.parseInt(args[0]);
+		
+		// Initialize attendant station and ui
+		AttendantStation aStation = new AttendantStation();
+		AttendantUI attendant = new AttendantUI(aStation, diyStations);
+		AttendantStationListener aStationListener = new AttendantStationListener(attendant);
+		aStation.registerListener(aStationListener);
+		NoBaggingRequestListener nbrListener = new NoBaggingRequestListener(attendant);
+		
+		// Initialize diy stations
+		List<CustomerUI> uis = new ArrayList<CustomerUI>();
+		List<DoItYourselfStation> stations = new ArrayList<DoItYourselfStation>();
+		for (int i = 0; i < diyStations; i++) {
+			Customer customer = genCustomer();
+			
+			DoItYourselfStation station = new DoItYourselfStation();
+			station.plugIn();
+			station.turnOn();
+			CustomerUI ui = new CustomerUISimulator(station, customer);
+			
+			ScanItemListener sil = new ScanItemListener(ui);
+			station.scanner.register(sil);
+			customer.useStation(station);
+			
+			station.cardReader.register(new PayWithCardListener(ui));
+	
+			ExpectedWeightListener ewl = new ExpectedWeightListener(ui);
+			station.baggingArea.register(ewl);
+			ui.setWeightListener(ewl);
+			
+			DiscrepancyListener dl = new DiscrepancyListener(attendant);
+			ui.registerDiscrepancyListener(dl);
+			ui.registerNoBaggingRequestListener(nbrListener);
+			
+			uis.add(ui);
+			stations.add(station);
+			ui.getFrame().setLocation(i * ui.getFrame().getWidth(), 0);
+			SwingUtilities.invokeLater(() -> {
+				ui.getFrame().setVisible(true);
+			});
+		}
+		
+		// Register diy stations with the attendant station
+		for (CustomerUI cStation : uis) aStation.registerStation(cStation);
+		
+		// Setup attendant station
+		aStation.getTouchScreen().plugIn();
+		aStation.getTouchScreen().turnOn();
+		aStation.getTouchScreen().enable();
+		
+		// Make Attendant UI visible
+		SwingUtilities.invokeLater(() -> {
+			aStation.getTouchScreen().setVisible(true);
+		});
+	}
+	
+	private static void setup() {
+		
+		for (int i = 0; i < barcodes.length; i++)
+			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), i + 1, 0.1));
+		
+		for (int i = 0; i < 5; i++) {
+			Card card = new Card("credit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);
+			Calendar expiry = Calendar.getInstance();
+			expiry.set(2025, 1, 1);
+			Bank.CARD_ISSUER.addCardData(card.number, card.cardholder, expiry, card.cvv, Double.MAX_VALUE);
+			cards.add(card);
+		}
+	}
+
+	private static Customer genCustomer() {
+		Customer customer = new Customer();
+		
+		for (int i = 0; i < 10; i++) {
+			BarcodedItem item = new BarcodedItem(barcodes[i], 0.1);
+			customer.shoppingCart.add(item);
+		}
+		customer.wallet.cards.addAll(cards);
+		return customer;
+	}
+
+}
