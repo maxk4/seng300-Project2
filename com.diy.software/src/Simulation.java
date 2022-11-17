@@ -66,7 +66,7 @@ public class Simulation {
 			station.cardReader.register(new PayWithCardListener(ui));
 	
 			ExpectedWeightListener ewl = new ExpectedWeightListener(ui);
-			station.baggingArea.register(ewl);
+			station.scale.register(ewl);
 			ui.setWeightListener(ewl);
 			
 			DiscrepancyListener dl = new DiscrepancyListener(attendant);
