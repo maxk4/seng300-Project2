@@ -75,7 +75,7 @@ public class PayWithCardListener implements CardReaderListener {
 	public void transactionWithCreditCard(CardReader reader, CardData data, CardIssuer bank, long total) {
 		//if the card is not a credit card and debit card
 		if (!(data.getKind().equals("credit") || data.getKind().equals("debit"))) {
-			throw new InvalidArgumentSimulationException("Card inserted is not of type credit");
+			throw new InvalidArgumentSimulationException("Card inserted is not of type credit or debit");
 		}
 		
 		//get hold number on card, issued by the bank, if an error is encountered,
