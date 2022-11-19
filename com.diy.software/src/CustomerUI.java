@@ -5,6 +5,7 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 import com.diy.hardware.external.ProductDatabases;
+import com.jimmyselectronics.disenchantment.TouchScreen;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
@@ -56,7 +57,13 @@ public class CustomerUI {
 //		customerPanel = new JPanel();
 //		customerPanel.setLayout(new GridLayout(1, 2));
 		
-		frame = station.touchScreen.getFrame();
+		// Switched for testing
+		//frame = station.touchScreen.getFrame();
+		TouchScreen screen = new TouchScreen();
+		screen.plugIn();
+		screen.turnOn();
+		screen.enable();
+		frame = screen.getFrame();
 		
 		container = new JPanel();
 		container.setLayout(new GridLayout(1, 2));
@@ -490,5 +497,12 @@ public class CustomerUI {
 	 */
 	public long getBalance() {
 		return balance;
+	}
+	
+	/**
+	 * End the current session
+	 */
+	public void endSession() {
+		
 	}
 }
