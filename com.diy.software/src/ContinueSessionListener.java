@@ -1,4 +1,3 @@
-
 public class ContinueSessionListener {
 	
 	private CustomerUI customer;

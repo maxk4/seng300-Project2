@@ -1,4 +1,3 @@
-
 public class AttendantStationListener {
 	
 	private AttendantUI attendant;

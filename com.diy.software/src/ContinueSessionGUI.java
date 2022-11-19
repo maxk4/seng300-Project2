@@ -1,3 +1,5 @@
+
+
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,7 +18,7 @@ import javax.swing.Timer;
 
 import com.diy.hardware.DoItYourselfStationAR;
 
-public class ContinueSessionWindow {
+public class ContinueSessionGUI {
 	
 	private static final int AUTO_CLOSE = 60;
 	
@@ -105,7 +107,7 @@ public class ContinueSessionWindow {
 		station.plugIn();
 		station.turnOn();
 		CustomerUI customer = new CustomerUI(station);
-		ContinueSessionWindow.prompt(customer);
+		ContinueSessionGUI.prompt(customer);
 	}
 	
 }
