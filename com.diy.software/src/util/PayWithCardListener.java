@@ -61,7 +61,6 @@ public class PayWithCardListener implements CardReaderListener {
 		if (!enabled) return;
 		this.data = data;
 		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
-		
 	}
 	
 	/**

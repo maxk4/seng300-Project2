@@ -76,10 +76,7 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 		long changeToDispense = -customer.getBalance();  
 		long changeIssued = 0;
 		
-		// break change to dispense by above 5 and below 5
-		// above 5 value would be a multiple of 5 and passed to emitBannknotes
-		// the rest is passed to emitCoins
-		long banknoteToDispense = (changeToDispense / 500) * 500;
+		long banknoteToDispense = changeToDispense;
 		changeIssued = emitBanknotes(banknoteToDispense, changeIssued);
 		long coinToDispense = changeToDispense - changeIssued;
 		changeIssued = emitCoins(coinToDispense, changeIssued);
