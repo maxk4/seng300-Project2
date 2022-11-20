@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
+import util.CustomerUI;
+
 import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.GroupLayout;
@@ -38,7 +43,7 @@ public class ScanScreenGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ScanScreenGUI frame = new ScanScreenGUI();
+					ScanScreenGUI frame = new ScanScreenGUI(new CustomerUI(new DoItYourselfStationAR()));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +55,7 @@ public class ScanScreenGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ScanScreenGUI() {
+	public ScanScreenGUI(CustomerUI customer) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ScanScreenGUI.class.getResource("/resources/icons8-pc-on-desk-100.png")));
 		setTitle("-- DoItYourselfStation --");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

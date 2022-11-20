@@ -61,9 +61,9 @@ public class CustomerUI {
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
-		payWithCashGUI = new PayWithCashGUI();
-		payWithCreditGUI = new PayWithCreditGUI();
-		payWithDebitGUI = new PayWithDebitGUI();
+		payWithCashGUI = new PayWithCashGUI(this);
+		payWithCreditGUI = new PayWithCreditGUI(this);
+		payWithDebitGUI = new PayWithDebitGUI(this);
 		
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);

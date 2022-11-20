@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
+import util.CustomerUI;
+
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -26,7 +31,7 @@ public class PayWithCreditGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PayWithCreditGUI frame = new PayWithCreditGUI();
+					PayWithCreditGUI frame = new PayWithCreditGUI(new CustomerUI(new DoItYourselfStationAR()));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +43,7 @@ public class PayWithCreditGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PayWithCreditGUI() {
+	public PayWithCreditGUI(CustomerUI customer) {
 		setTitle("Credit Payment");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 451, 266);

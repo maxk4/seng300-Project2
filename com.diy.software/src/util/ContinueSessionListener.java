@@ -1,3 +1,4 @@
+package util;
 public class ContinueSessionListener {
 	
 	private CustomerUI customer;

@@ -13,6 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
+import util.CustomerUI;
+
 import javax.swing.ImageIcon;
 
 public class PayWithDebitGUI extends JFrame {
@@ -25,7 +30,7 @@ public class PayWithDebitGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PayWithDebitGUI frame = new PayWithDebitGUI();
+					PayWithDebitGUI frame = new PayWithDebitGUI(new CustomerUI(new DoItYourselfStationAR()));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +42,7 @@ public class PayWithDebitGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PayWithDebitGUI() {
+	public PayWithDebitGUI(CustomerUI customer) {
 		setTitle("Debit Payment");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 453, 238);
