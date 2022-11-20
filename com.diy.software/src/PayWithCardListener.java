@@ -14,7 +14,7 @@ public class PayWithCardListener implements CardReaderListener {
 	
 	private boolean enabled = false;
 	private CardData data; 
-	private boolean cardInserted = false;
+	public boolean cardInserted = false;
 	private CustomerUI customer;
 	
 	
@@ -22,12 +22,12 @@ public class PayWithCardListener implements CardReaderListener {
 		this.customer = customer;
 	}
 	
-	public CardData getCardData() {
-		return data;
-	}
-	public boolean isCardInserted() {
-		return cardInserted;
-	}
+//	public CardData getCardData() {
+//		return data;
+//	}
+//	public boolean isCardInserted() {
+//		return cardInserted;
+//	}
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
@@ -95,16 +95,16 @@ public class PayWithCardListener implements CardReaderListener {
 				System.out.println("The transaction was successful");
 				customer.notifyPayment(total);
 				//looping 5 tries
-				for (int i = 0; i < 5 || (!bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
-					//delay for 20 seconds
-					try {
-						Thread.sleep(20000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-						return;
-					}
-					System.out.println("The transaction failed");
-				}
+//				for (int i = 0; i < 5 || (!bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
+//					//delay for 20 seconds
+//					try {
+//						Thread.sleep(20000);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//						return;
+//					}
+//					System.out.println("The transaction failed");
+//				}
 		}
 	}
 

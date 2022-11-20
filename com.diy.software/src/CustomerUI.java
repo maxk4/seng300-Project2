@@ -5,6 +5,7 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 import com.diy.hardware.external.ProductDatabases;
+import com.jimmyselectronics.disenchantment.TouchScreen;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
@@ -46,17 +47,24 @@ public class CustomerUI {
 	private List<DiscrepancyListener> discrepancyListeners = new ArrayList<DiscrepancyListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
 	private DoItYourselfStationAR station;
-
+	
 	private JDialog activeDialog;
 
+	private TouchScreen touchScreen;
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
+		station.plugIn();
+		station.turnOn();
+		
+		touchScreen = new TouchScreen();
+		touchScreen.plugIn();
+		touchScreen.turnOn();
 //		customerFrame = station.touchScreen.getFrame();
 //		customerPanel = new JPanel();
 //		customerPanel.setLayout(new GridLayout(1, 2));
 		
-		frame = station.touchScreen.getFrame();
+		frame = touchScreen.getFrame();
 		
 		container = new JPanel();
 		container.setLayout(new GridLayout(1, 2));
@@ -474,7 +482,7 @@ public class CustomerUI {
 			
 			
 			station.scanner.disable();
-			weightListener.setExpectedWeight(0);
+			//weightListener.setExpectedWeight(0);
 			scanItemButton.setEnabled(true);
 			
 			productList.clear();
