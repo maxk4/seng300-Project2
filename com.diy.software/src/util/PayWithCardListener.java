@@ -15,7 +15,7 @@ public class PayWithCardListener implements CardReaderListener {
 	
 	private boolean enabled = false;
 	private CardData data; 
-	private boolean cardInserted = false;
+	public boolean cardInserted = false;
 	private CustomerUI customer;
 	
 	
@@ -23,12 +23,12 @@ public class PayWithCardListener implements CardReaderListener {
 		this.customer = customer;
 	}
 	
-	public CardData getCardData() {
-		return data;
-	}
-	public boolean isCardInserted() {
-		return cardInserted;
-	}
+//	public CardData getCardData() {
+//		return data;
+//	}
+//	public boolean isCardInserted() {
+//		return cardInserted;
+//	}
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
