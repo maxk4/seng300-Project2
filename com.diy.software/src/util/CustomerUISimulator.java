@@ -1,3 +1,4 @@
+package util;
 import java.awt.GridLayout;
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
 import com.jimmyselectronics.Item;
+import com.jimmyselectronics.disenchantment.TouchScreen;
 import com.jimmyselectronics.opeechee.Card;
 
 public class CustomerUISimulator extends CustomerUI {
@@ -20,7 +22,13 @@ public class CustomerUISimulator extends CustomerUI {
 	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer) {
 		super(station);
 		
-		JDialog customerSim = new JDialog(station.touchScreen.getFrame());
+		
+		//JDialog customerSim = new JDialog(station.touchScreen.getFrame());
+		TouchScreen screen = new TouchScreen();
+		screen.plugIn();
+		screen.turnOn();
+		screen.enable();
+		JDialog customerSim = new JDialog(screen.getFrame());
 		
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1, 2));

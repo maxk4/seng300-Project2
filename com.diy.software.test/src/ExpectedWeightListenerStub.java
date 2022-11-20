@@ -16,6 +16,10 @@ import com.jimmyselectronics.necchi.BarcodeScanner;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.virgilio.ElectronicScale;
+
+import util.CustomerUI;
+import util.ExpectedWeightListener;
+
 import com.diy.hardware.Product;
 
 public class ExpectedWeightListenerStub extends ExpectedWeightListener {

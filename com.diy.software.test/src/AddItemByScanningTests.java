@@ -20,6 +20,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
  
 import ca.ucalgary.seng300.simulation.NullPointerSimulationException;
+import util.AttendantStation;
+import util.AttendantStationListener;
+import util.AttendantUI;
+import util.CustomerUI;
+import util.DiscrepancyListener;
+import util.ExpectedWeightListener;
+import util.ScanItemListener;
  
 public class AddItemByScanningTests {
   

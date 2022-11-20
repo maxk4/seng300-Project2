@@ -1,3 +1,4 @@
+package util;
 public class NoBaggingRequestListener {
 	
 	private AttendantUI attendant;

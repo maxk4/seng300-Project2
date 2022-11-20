@@ -1,3 +1,4 @@
+package util;
 import com.jimmyselectronics.AbstractDevice;
 import com.jimmyselectronics.AbstractDeviceListener;
 import com.jimmyselectronics.virgilio.ElectronicScale;

@@ -1,3 +1,4 @@
+package util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,11 @@ import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.opeechee.Card;
+
+import views.PayWithCashGUI;
+import views.PayWithCreditGUI;
+import views.PayWithDebitGUI;
+import views.ScanScreenGUI;
 
 import java.awt.Color;
 import java.awt.Dialog;
@@ -36,11 +42,6 @@ public class CustomerUI {
 //	JLabel ShowLabel;
 //	JButton showMessage;
 	
-	private JFrame frame;
-	private JPanel container, productView, functionPanel, addPanel, payPanel;
-	private JButton scanItemButton, payWithCashButton, payWithCardButton, payWithCryptoButton;
-	private JLabel totalLabel;
-	
 	private long balance;
 	
 	private ExpectedWeightListener weightListener;
@@ -50,146 +51,24 @@ public class CustomerUI {
 	private DoItYourselfStationAR station;
 
 	private JDialog activeDialog;
+	
+	private PayWithCashGUI payWithCashGUI;
+	private PayWithCreditGUI payWithCreditGUI;
+	private PayWithDebitGUI payWithDebitGUI;
 
+	private ScanScreenGUI scanScreenGUI;
+	
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
-//		customerFrame = station.touchScreen.getFrame();
-//		customerPanel = new JPanel();
-//		customerPanel.setLayout(new GridLayout(1, 2));
+		payWithCashGUI = new PayWithCashGUI();
+		payWithCreditGUI = new PayWithCreditGUI();
+		payWithDebitGUI = new PayWithDebitGUI();
 		
-		// Switched for testing
-		//frame = station.touchScreen.getFrame();
-		TouchScreen screen = new TouchScreen();
-		screen.plugIn();
-		screen.turnOn();
-		screen.enable();
-		frame = screen.getFrame();
-		
-		container = new JPanel();
-		container.setLayout(new GridLayout(1, 2));
-		container.setBackground(Color.DARK_GRAY);
-		
-		station.scanner.enable();
-		
-		addWidgets();
-
-		frame.getContentPane().add(container);
-		frame.pack();
-		
-//
-//		customerFrame.getContentPane().add(customerPanel, BorderLayout.CENTER);
-//		customerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		customerFrame.pack();
-//		customerFrame.setVisible(true);
-	}
-
-	private void addWidgets() {
-//		message = new JTextField();
-//		messageToShow = new JLabel("Enter Message", SwingConstants.CENTER);
-//		ShowLabel = new JLabel("Message", SwingConstants.CENTER);
-//		showMessage = new JButton("!SHOW");
-//		showMessage.addActionListener(e -> {
-//			String Msg = String.valueOf(message.getText());
-//			ShowLabel.setText(Msg);
-//		});
-//		customerPanel.add(message);
-//		customerPanel.add(messageToShow);
-//		customerPanel.add(showMessage);
-//		customerPanel.add(ShowLabel);
-		productView = new JPanel();
-		productView.setLayout(new BoxLayout(this.productView, BoxLayout.PAGE_AXIS));
-		productView.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 16));
-		//productView.setBackground(Color.WHITE);
-		
-		functionPanel = new JPanel();
-		functionPanel.setLayout(new GridLayout(2, 1));
-		functionPanel.setBackground(Color.DARK_GRAY);
-		
-		addPanel = new JPanel();
-		addPanel.setLayout(new GridLayout(1, 1));
-		addPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		addPanel.setBackground(Color.DARK_GRAY);
-		
-		payPanel = new JPanel();
-		payPanel.setLayout(new GridLayout(4, 1, 0, 8));
-		payPanel.setBackground(Color.DARK_GRAY);
-		
-		scanItemButton = new JButton("Start Scanning");
-		scanItemButton.addActionListener(e -> { 
-			station.scanner.enable();
-			scanItemButton.setEnabled(false);
-		});
-		scanItemButton.setSize(200, 200);
-		
-		addPanel.add(scanItemButton);
-		
-		totalLabel = new JLabel("Total: $" + balance);
-		totalLabel.setForeground(Color.WHITE);
-		totalLabel.setFont(new Font("arial", Font.PLAIN, 24));
-		
-		payWithCashButton = new JButton("Pay with Cash");
-		payWithCashButton.setSize(200, 50);
-		
-		payWithCardButton = new JButton("Pay with Card");
-		payWithCardButton.setSize(200, 50);
-		payWithCardButton.addActionListener(e -> {
-			station.cardReader.enable();
-			JDialog insertCardDialog = genInsertCardDialog();
-			insertCardDialog.setVisible(true);
-			activeDialog = insertCardDialog;
-		});
-		
-		payWithCryptoButton = new JButton("Pay with Crypto-Currency");
-		payWithCryptoButton.setSize(200, 50);
-		
-		payPanel.add(totalLabel);
-		payPanel.add(payWithCashButton);
-		payPanel.add(payWithCardButton);
-		payPanel.add(payWithCryptoButton);
-		payPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		functionPanel.add(addPanel);
-		functionPanel.add(payPanel);
-		
-		container.add(productView);
-		container.add(functionPanel);
-	}
-	
-	private JDialog genInsertCardDialog() {
-		JDialog dialog = new JDialog(frame);
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2, 1));
-		
-		JLabel label = new JLabel("Please insert your card into the card reader");
-		label.setFont(new Font("arial", Font.PLAIN, 24));
-		
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(e -> {
-			dialog.dispose();
-			activeDialog = null;
-		});
-		cancel.setFont(new Font("arial", Font.PLAIN, 24));
-		
-		panel.add(label);
-		panel.add(cancel);
-		panel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		dialog.getContentPane().add(panel);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setUndecorated(true);
-		dialog.pack();
-		
-		return dialog;
-	}
-
-	/**
-	 * Get the JFrame the UI is stored in
-	 * @return JFrame the jframe
-	 */
-	public JFrame getFrame() {
-		return frame;
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
 	}
 
 	/**
@@ -219,22 +98,7 @@ public class CustomerUI {
 		// Add product to UI
 		productList.add(product);
 		
-		JLabel prodLabel = genProductPanel(product.getDescription(), product.getPrice(), product.isPerUnit());
-		productView.add(prodLabel);
-		productView.revalidate();
-		
-		balance += product.getPrice();
-		totalLabel.setText(String.format("Total: $%d", balance));
-	}
-	
-	private JLabel genProductPanel(String desc, long price, boolean perUnit) {
-		JLabel label = new JLabel(String.format("%s               $%d%s", desc, price, perUnit ? "" : "/kg"));
-		
-		label.setSize(200, 12);
-		label.setVerticalAlignment(Label.CENTER);
-		label.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		return label;
+		// update scanScreenGUI
 	}
 	
 
@@ -348,75 +212,12 @@ public class CustomerUI {
 	 */
 	public void alertWeightDiscrepancy() {
 		
-		JDialog dialog = genWeightAlertDialog();
-		activeDialog = dialog;
-		dialog.setVisible(true);
-		dialog.setLocationRelativeTo(null);
-		
+		// Show weight discrepancy gui
 		station.scanner.disable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyDetected(this);
 	}
 	
-	private JDialog genWeightAlertDialog() {
-		JDialog dialog = new JDialog(frame, Dialog.ModalityType.MODELESS);
-		
-		JPanel box = new JPanel();
-		box.setLayout(new GridLayout(3,1));
-		
-		JLabel msg = new JLabel("Please place the item in the bagging area");
-		msg.setFont(new Font("arial", Font.PLAIN, 36));
-		msg.setSize(200, 50);
-		msg.setHorizontalAlignment(JLabel.CENTER);
-		
-		JLabel or = new JLabel("or");
-		or.setSize(200, 50);
-		or.setHorizontalAlignment(JLabel.CENTER);
-		
-		JButton makeNoBaggingRequestButton = new JButton("Make \"No Bagging Request\"");
-		makeNoBaggingRequestButton.setFont(new Font("arial", Font.PLAIN, 36));
-		makeNoBaggingRequestButton.setSize(200, 50);
-		makeNoBaggingRequestButton.addActionListener(e ->  {
-			dialog.dispose();
-			JDialog waitDialog = genWaitDialog();
-			activeDialog = waitDialog;
-			waitDialog.setVisible(true);
-			waitDialog.setLocationRelativeTo(null);
-			for (NoBaggingRequestListener listener : nbrListeners) 
-				listener.notifyNoBaggingRequest(this);
-		});
-		
-		box.add(msg);
-		box.add(or);
-		box.add(makeNoBaggingRequestButton);
-		box.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		dialog.getContentPane().add(box);
-
-		dialog.setUndecorated(true);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.pack();
-		return dialog;
-	}
-	
-	private JDialog genWaitDialog() {
-		JDialog dialog = new JDialog(frame, Dialog.ModalityType.MODELESS);
-
-		JLabel msg = new JLabel("<html><center>No Bagging Request has been made<br>Please Wait ...</center></html>");
-		msg.setFont(new Font("arial", Font.PLAIN, 36));
-		msg.setSize(200, 50);
-		msg.setHorizontalAlignment(JLabel.CENTER);
-		msg.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		dialog.getContentPane().add(msg);
-
-		dialog.setUndecorated(true);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.pack();
-		
-		return dialog;
-	}
-
 	/**
 	 * Resolve a weight discrepancy *only to be called by the AttendantStation or
 	 * the attached expected weight listener
@@ -470,26 +271,37 @@ public class CustomerUI {
 	public void notifyPayment(long amount) {
 		balance -= amount;
 		
-
-		totalLabel.setText(String.format("Total: $%d", balance));
-		
-		if (balance <= 0) {
-			// Print Receipt
-			if (activeDialog != null) activeDialog.dispose();
-			// Start new Session
-			
-			System.out.println("Transaction Complete");
-			
-			
-			station.scanner.disable();
-			weightListener.setExpectedWeight(0);
-			scanItemButton.setEnabled(true);
-			
-			productList.clear();
-			productView.removeAll();
-			productView.revalidate();
-			frame.repaint();
-		}
+		// Update scanScreenGUI
+		// close payUI
+	}
+	
+	
+	public void completePayment() {
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+	}
+	
+	public void payWithCash() {
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(true);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+	}
+	
+	public void payWithCredit() {
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(true);
+		payWithDebitGUI.setVisible(false);
+	}
+	
+	public void payWithDedit() {
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(true);
 	}
 	
 	/**
@@ -504,6 +316,6 @@ public class CustomerUI {
 	 * End the current session
 	 */
 	public void endSession() {
-		
+		// Show startScreenGUI
 	}
 }

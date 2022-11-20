@@ -16,6 +16,12 @@ import com.jimmyselectronics.necchi.BarcodeScanner;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.virgilio.ElectronicScale;
+
+import util.AttendantStation;
+import util.AttendantUI;
+import util.CustomerUI;
+import util.DiscrepancyListener;
+
 import com.diy.hardware.Product;
 
 public class CustomerUITest {
