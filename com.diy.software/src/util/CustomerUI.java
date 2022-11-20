@@ -20,7 +20,7 @@ public class CustomerUI {
 	private long balance;
 	
 	private ExpectedWeightListener weightListener;
-	private ProductList productList = new ProductList();
+	private ProductList productList;
 	
 	private List<DiscrepancyListener> discrepancyListeners = new ArrayList<DiscrepancyListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
@@ -35,15 +35,14 @@ public class CustomerUI {
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
+		
 		scanScreenGUI = new ScanScreenGUI(this);
 		payWithCashGUI = new PayWithCashGUI(this);
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
 		
-		scanScreenGUI.setVisible(true);
-		payWithCashGUI.setVisible(false);
-		payWithCreditGUI.setVisible(false);
-		payWithDebitGUI.setVisible(false);
+		setScanningEnabled(true);
+		beginSession();
 	}
 	
 	/**
@@ -325,8 +324,29 @@ public class CustomerUI {
 	
 	/**
 	 * End the current session
+	 * @throws IllegalStateException when balance > 0
 	 */
-	public void endSession() {
-		// Show startScreenGUI
+	public void endSession() throws IllegalStateException {
+		if (balance > 0) throw new IllegalStateException("Customer balance is greater than 0");
+
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+		// Show end screen
+		
+		
+		
+	}
+	
+	public void beginSession() {
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+		
+		balance = 0;
+		productList = new ProductList();
+		scanScreenGUI.update(0, productList);
 	}
 }

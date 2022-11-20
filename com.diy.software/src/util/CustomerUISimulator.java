@@ -40,6 +40,7 @@ public class CustomerUISimulator extends CustomerUI {
 				customer.selectNextItem();
 				customer.scanItem();
 				customer.placeItemInBaggingArea();
+				System.out.println("Scanned");
 			});
 			cart.add(button);
 		}
