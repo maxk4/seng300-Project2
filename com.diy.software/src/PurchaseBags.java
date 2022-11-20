@@ -241,7 +241,6 @@ public class PurchaseBags {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		/** TEST TO SEE IF IT WORKS
 		DoItYourselfStationAR station = new DoItYourselfStationAR();
