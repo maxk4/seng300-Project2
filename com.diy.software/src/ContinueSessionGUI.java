@@ -12,11 +12,13 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import com.diy.hardware.DoItYourselfStationAR;
+import com.jimmyselectronics.disenchantment.TouchScreen;
 
 public class ContinueSessionGUI {
 	
@@ -28,8 +30,8 @@ public class ContinueSessionGUI {
 	 * Auto closes and ends session after AUTO_CLOSE seconds
 	 * @param customer CustomerUI to bind to
 	 */
-	public static void prompt(CustomerUI customer) {
-		JDialog dialog = new JDialog(customer.getFrame());
+	public static void prompt(CustomerUI customer, JFrame parent) {
+		JDialog dialog = new JDialog(parent);
 		dialog.setModal(true);
 		dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 		
@@ -95,7 +97,6 @@ public class ContinueSessionGUI {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				timer.stop();
-				customer.getFrame().dispose();
 			}
 		});
 		dialog.setVisible(true);
@@ -107,7 +108,7 @@ public class ContinueSessionGUI {
 		station.plugIn();
 		station.turnOn();
 		CustomerUI customer = new CustomerUI(station);
-		ContinueSessionGUI.prompt(customer);
+		ContinueSessionGUI.prompt(customer, new TouchScreen().getFrame());
 	}
 	
 }
