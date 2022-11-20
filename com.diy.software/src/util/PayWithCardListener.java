@@ -74,37 +74,51 @@ public class PayWithCardListener implements CardReaderListener {
 	 * @throws InvalidArgumentSimulationException
 	 */
 	public void transactionWithCreditCard(CardReader reader, CardData data, CardIssuer bank, long total) {
-		//if the card is not a credit card
-		if (!(data.getKind().equals("credit"))) {
-			throw new InvalidArgumentSimulationException("Card inserted is not of type credit");
+		//if the card is not a credit card and debit card
+		if (!(data.getKind().equals("credit") || data.getKind().equals("debit"))) {
+			throw new InvalidArgumentSimulationException("Card inserted is not of type credit or debit");
 		}
+		
 		//get hold number on card, issued by the bank, if an error is encountered,
 		//a hold number of -1 is found, and the system is notified that the hold failed
 		long holdNumber = bank.authorizeHold(data.getNumber(), total);
+		//If communication with the Bank is faulty or interrupted, prior to the hold being authorized, the transaction will fail.
 		if (holdNumber == -1) {
 			System.out.println("The hold failed");
 			
 		}
+
+	     
 		//otherwise, the transaction is posted, the amount of credit is reduced, and the 
 		//system is notified that the transaction was successful
 		else {
 			bank.postTransaction(data.getNumber(), holdNumber, total);
-				System.out.println("The transaction was successful");
-				customer.notifyPayment(total);
-				customer.completePayment();
+			System.out.println("The transaction was successful");
+			customer.notifyPayment(total);
+				
+			//looping 5 tries
+			for (int i = 0; i < 5 || (!bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
+				//delay for 20 seconds
+				try {
+					Thread.sleep(20000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					return;
+				}
+				System.out.println("The transaction failed");
+			}
 		}
-
 	}
 
 	@Override
 	public void cardTapped(CardReader reader) {
-		// TODO Auto-generated method stub
+		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 
 	@Override
 	public void cardSwiped(CardReader reader) {
-		// TODO Auto-generated method stub
+		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 }
