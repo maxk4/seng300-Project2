@@ -21,6 +21,10 @@ import com.jimmyselectronics.opeechee.CardReader;
 import com.jimmyselectronics.opeechee.CardReaderListener;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
+import util.Bank;
+import util.CustomerUI;
+import util.ExpectedWeightListener;
+import util.PayWithCardListener;
 
 public class PayByDebitCardTest {
 	
