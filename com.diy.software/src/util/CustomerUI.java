@@ -271,6 +271,8 @@ public class CustomerUI {
 		station.coinSlot.disable();
 		station.banknoteInput.disable();
 		station.banknoteOutput.disable();
+		
+		scanScreenGUI.update(balance, productList);
 	}
 	
 	/**
@@ -335,7 +337,7 @@ public class CustomerUI {
 		payWithDebitGUI.setVisible(false);
 		// Show end screen
 		
-		
+		System.out.println("end session");
 		
 	}
 	

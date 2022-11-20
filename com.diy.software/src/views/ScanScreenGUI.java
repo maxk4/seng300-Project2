@@ -87,7 +87,11 @@ public class ScanScreenGUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("Complete/Print Receipt");
 		btnNewButton_1.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-receipt-100.png")));
 		btnNewButton_1.addActionListener(e -> {
-			customer.endSession();
+			try {
+				customer.endSession();
+			} catch (IllegalStateException err) {
+				// Alert customer that they have a balance remaining
+			}
 		});
 		
 		JButton btnNewButton_2 = new JButton("Credit");
