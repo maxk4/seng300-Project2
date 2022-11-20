@@ -193,6 +193,15 @@ public class PurchaseBags {
 	        }
 	    });
 		
+		JButton returnBtn = new JButton(new AbstractAction ("Return to Previous Menu") {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				amountBags = 0;
+				dialog.setVisible(false);
+			}
+		});
+		
 	}
 	
 	public void setUnitCostBag() {
@@ -236,7 +245,13 @@ public class PurchaseBags {
 	
 	public void addProductBagToList() {
 		
-		customer.addBarcodedProductToList(bag);
+		if (amountBags == 0) {
+			;
+		}
+		
+		else {
+			customer.addBarcodedProductToList(bag);
+		}
 		
 	}
 	
