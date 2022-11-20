@@ -18,25 +18,35 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 import com.diy.hardware.external.ProductDatabases;
+import com.diy.simulation.Customer;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 
+/**
+ * Class designed to control the purchase of bags
+ * Also controls the main bagging menu (namely purchase of bags, use of own bags, or no bags)
+ * @author Shaheryar Syed
+ *
+ */
+
 public class PurchaseBags {
 
 	private double unitcostBag;
-	private double totalcostBags;
-	private static int amountBags;
+	private long totalcostBags;
+	private int amountBags;
+	private Barcode bagBarcode;
+	private BarcodedProduct bag;
+	private CustomerUI customer;
 	
 	/**
 	 * Opens Customer UI to select bagging options
 	 * @param Create Customer UI to select bag options
 	 * @return 
 	 */
-	
 	@SuppressWarnings("serial")
 	
-	public static void mainFrame(CustomerUI customer) {
+	public void mainFrame(CustomerUI customer) {
 		
 		JDialog dialog = new JDialog(customer.getFrame());
 		dialog.setModal(true);
@@ -51,12 +61,11 @@ public class PurchaseBags {
 			
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-				JLabel msg = new JLabel("Clicked Purchase");
-				msg.setHorizontalAlignment(JLabel.CENTER);
-				msg.setVerticalAlignment(JLabel.CENTER);
-				msg.setFont(new Font("arial", Font.PLAIN, 32));
-				
-				
+		    	
+		    	/** GO TO PURCHASE BAGS FRAME METHOD **/
+		    	
+		    	purchaseBagsFrame(customer);
+		    	
 		        }
 		    });
 		
@@ -82,14 +91,13 @@ public class PurchaseBags {
 		
 	}
 	
-	@SuppressWarnings("serial")
-	
 	/**
 	 * Opens Customer UI to select the amount of bags client wants to purchase
 	 * @param Create Customer UI to select Bag(s) amount
 	 * @return 
 	 */
-	public static int purchaseBagsFrame(CustomerUI customer) {
+	@SuppressWarnings("serial")
+	public void purchaseBagsFrame(CustomerUI customer) {
 		
 		JDialog dialog = new JDialog(customer.getFrame());
 		dialog.setModal(true);
@@ -185,17 +193,63 @@ public class PurchaseBags {
 	        }
 	    });
 		
+	}
+	
+	public void setUnitCostBag() {
+		unitcostBag = 1.00;
+	}
+	
+	public double getUnitCostBag() {
+		return unitcostBag;
+	}
+	
+	public void setAmountBags(int a) {
+		this.amountBags = a;
+	}
+	
+	public int getAmountBags() {
 		return amountBags;
+	}
+	
+	public void totalCostBags(int amount, double unitcost) {
+		
+		this.amountBags = amount;
+		this.unitcostBag = unitcost;
+		
+		totalcostBags = (long)unitcost * amount;
+	}
+	
+	public void setTotalCostBags(long a) {
+		this.totalcostBags = a;
+	}
+	
+	public long getTotalCostBags() {
+		return totalcostBags;
+	}
+	
+	public void createProductBag() {
+		
+		bagBarcode = new Barcode(new Numeral[] { Numeral.zero, Numeral.zero, Numeral.zero, Numeral.zero, Numeral.one });
+		BarcodedProduct bag = new BarcodedProduct(bagBarcode, "Purchase Store Bags", totalcostBags, 0.01);
+		
+	}
+	
+	public void addProductBagToList() {
+		
+		customer.addBarcodedProductToList(bag);
+		
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		/** TEST TO SEE IF IT WORKS
 		DoItYourselfStationAR station = new DoItYourselfStationAR();
 		station.plugIn();
 		station.turnOn();
 		CustomerUI customer = new CustomerUI(station);
-		PurchaseBags.mainFrame(customer);
+		PurchaseBags.mainFrame(customer); **/
+		
 	}
 
 }
