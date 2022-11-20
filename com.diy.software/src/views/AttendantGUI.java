@@ -9,7 +9,6 @@ import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -17,7 +16,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import com.jimmyselectronics.disenchantment.*;
+import util.AttendantStation;
+import util.AttendantUI;
 
 public class AttendantGUI extends JFrame {
 
@@ -36,7 +36,7 @@ public class AttendantGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AttendantGUI frame = new AttendantGUI();
+					AttendantGUI frame = new AttendantGUI(new AttendantUI(new AttendantStation(), 1));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class AttendantGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AttendantGUI() {
+	public AttendantGUI(AttendantUI attendant) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 593, 298);
 		contentPane = new JPanel();

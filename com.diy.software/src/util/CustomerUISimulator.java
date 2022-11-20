@@ -16,19 +16,12 @@ import com.jimmyselectronics.disenchantment.TouchScreen;
 import com.jimmyselectronics.opeechee.Card;
 
 public class CustomerUISimulator extends CustomerUI {
-	
-	private Customer customer;
 
 	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer) {
 		super(station);
 		
-		
-		//JDialog customerSim = new JDialog(station.touchScreen.getFrame());
-		TouchScreen screen = new TouchScreen();
-		screen.plugIn();
-		screen.turnOn();
-		screen.enable();
-		JDialog customerSim = new JDialog(screen.getFrame());
+		JDialog customerSim = new JDialog(getFrame());
+		customerSim.setLocationRelativeTo(null);
 		
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1, 2));

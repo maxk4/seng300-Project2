@@ -91,6 +91,7 @@ public class PayWithCardListener implements CardReaderListener {
 			bank.postTransaction(data.getNumber(), holdNumber, total);
 				System.out.println("The transaction was successful");
 				customer.notifyPayment(total);
+				customer.completePayment();
 		}
 
 	}

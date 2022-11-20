@@ -6,9 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
+import com.diy.hardware.Product;
 
 import util.CustomerUI;
+import util.ProductList;
 
 import java.awt.Color;
 import javax.swing.UIManager;
@@ -22,14 +25,16 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
+
+import java.util.List;
 
 public class ScanScreenGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextArea scannedPricesArea;
+	private JTextArea scannedItemsArea;
 
 	/**
 	 * Launch the application.
@@ -74,9 +79,8 @@ public class ScanScreenGUI extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Debit");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnNewButton.addActionListener(e -> {
+			customer.payWithDebit();
 		});
 		btnNewButton.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-debit-card-100.png")));
 		
@@ -84,17 +88,20 @@ public class ScanScreenGUI extends JFrame {
 		btnNewButton_1.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-receipt-100.png")));
 		
 		JButton btnNewButton_2 = new JButton("Credit");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnNewButton_2.addActionListener(e -> {
+			customer.payWithCredit();
 		});
 		btnNewButton_2.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-mastercard-credit-card-100.png")));
 		
 		JButton btnNewButton_3 = new JButton("Cash");
 		btnNewButton_3.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-cash-100.png")));
+		btnNewButton_3.addActionListener(e -> {
+			customer.payWithCash();
+		});
 		
 		JButton btnNewButton_4 = new JButton("Start Scanning");
 		btnNewButton_4.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-barcode-100.png")));
+		btnNewButton_4.addActionListener(e -> customer.setScanningEnabled(true));
 		
 		JButton btnNewButton_5 = new JButton("Attendant");
 		
@@ -181,14 +188,29 @@ public class ScanScreenGUI extends JFrame {
 					.addGap(63))
 		);
 		
-		JTextArea scannedPricesArea = new JTextArea();
+		scannedPricesArea = new JTextArea();
 		scannedPricesArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		scrollPane.setRowHeaderView(scannedPricesArea);
 		scannedPricesArea.setColumns(10);
 		
-		JTextArea scannedItemsArea = new JTextArea();
+		scannedItemsArea = new JTextArea();
 		scannedItemsArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		scrollPane.setViewportView(scannedItemsArea);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public void update(long balance, ProductList products) {
+		StringBuilder productSB = new StringBuilder();
+		StringBuilder priceSB = new StringBuilder();
+		products.forEach((prod, desc, price) -> {
+			productSB.append(desc);
+			productSB.append("\n");
+			priceSB.append(String.format("$%.2f", price / 100d));
+			priceSB.append("\n");
+		});
+		scannedItemsArea.setText(priceSB.toString());
+		scannedPricesArea.setText(productSB.toString());
+		textField.setText(String.format("$%.2f", balance / 100d));
+		System.out.println(products);
 	}
 }

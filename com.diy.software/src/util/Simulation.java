@@ -76,10 +76,6 @@ public class Simulation {
 			
 			uis.add(ui);
 			stations.add(station);
-			ui.getFrame().setLocation(i * ui.getFrame().getWidth(), 0);
-			SwingUtilities.invokeLater(() -> {
-				ui.getFrame().setVisible(true);
-			});
 		}
 		
 		// Register diy stations with the attendant station
@@ -99,7 +95,7 @@ public class Simulation {
 	private static void setup() {
 		
 		for (int i = 0; i < barcodes.length; i++)
-			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), i + 1, 0.1));
+			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), (i + 1) * 100, 0.1));
 		
 		for (int i = 0; i < 5; i++) {
 			Card card = new Card("credit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);

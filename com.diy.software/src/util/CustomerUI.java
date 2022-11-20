@@ -3,54 +3,28 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
-import com.diy.hardware.external.ProductDatabases;
-import com.jimmyselectronics.disenchantment.TouchScreen;
-import com.jimmyselectronics.necchi.Barcode;
-import com.jimmyselectronics.necchi.BarcodedItem;
-import com.jimmyselectronics.necchi.Numeral;
-import com.jimmyselectronics.opeechee.Card;
 
 import views.PayWithCashGUI;
 import views.PayWithCreditGUI;
 import views.PayWithDebitGUI;
 import views.ScanScreenGUI;
 
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Label;
-import java.io.IOException;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class CustomerUI {
-
-//	JFrame customerFrame;
-//	JPanel customerPanel;
-//	JTextField message;
-//	JLabel messageToShow;
-//	JLabel ShowLabel;
-//	JButton showMessage;
 	
 	private long balance;
 	
 	private ExpectedWeightListener weightListener;
-	private List<Product> productList = new ArrayList<Product>();
+	private ProductList productList = new ProductList();
+	
 	private List<DiscrepancyListener> discrepancyListeners = new ArrayList<DiscrepancyListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
 	private DoItYourselfStationAR station;
-
-	private JDialog activeDialog;
 	
 	private PayWithCashGUI payWithCashGUI;
 	private PayWithCreditGUI payWithCreditGUI;
@@ -61,6 +35,7 @@ public class CustomerUI {
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
+		scanScreenGUI = new ScanScreenGUI(this);
 		payWithCashGUI = new PayWithCashGUI(this);
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
@@ -69,6 +44,14 @@ public class CustomerUI {
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
+	}
+	
+	/**
+	 * Get the main frame of the customerGUI
+	 * @return the frame
+	 */
+	public JFrame getFrame() {
+		return scanScreenGUI;
 	}
 
 	/**
@@ -96,9 +79,9 @@ public class CustomerUI {
 	 */
 	public void addBarcodedProductToList(BarcodedProduct product) {
 		// Add product to UI
-		productList.add(product);
-		
-		// update scanScreenGUI
+		productList.add(product, product.getDescription(), product.getPrice());
+		balance += product.getPrice();
+		scanScreenGUI.update(balance, productList);
 	}
 	
 
@@ -109,7 +92,7 @@ public class CustomerUI {
 	 */
 	public boolean checkProductList(Product product) {
 		boolean statement;
-		statement = productList.contains(product);
+		statement = productList.containsProduct(product);
 		return statement;
 	}
 	
@@ -223,7 +206,6 @@ public class CustomerUI {
 	 * the attached expected weight listener
 	 */
 	public void resolveWeightDiscrepancy() {
-		if (activeDialog != null) activeDialog.dispose();
 		station.scanner.enable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyResolved(this);
@@ -235,7 +217,6 @@ public class CustomerUI {
 	 */
 	public void notifyNoBaggingRequestApproved() {
 		approveWeightDiscrepancy();
-		if (activeDialog != null) activeDialog.dispose();
 	}
 
 	/**
@@ -243,8 +224,6 @@ public class CustomerUI {
 	 * be called by attendant & related classes IMPORTANT!
 	 */
 	public void notifyNoBaggingRequestDenied() {
-		activeDialog.dispose();
-		if (activeDialog != null) activeDialog.dispose();
 		alertWeightDiscrepancy();
 	}
 
@@ -270,38 +249,70 @@ public class CustomerUI {
 	 */
 	public void notifyPayment(long amount) {
 		balance -= amount;
-		
-		// Update scanScreenGUI
-		// close payUI
 	}
 	
+	/**
+	 * Enable/Disable the station associated with this customerUI's scanner
+	 * @param enabled boolean true if the scanner should be enabled false otherwise
+	 */
+	public void setScanningEnabled(boolean enabled) {
+		if (enabled) station.scanner.enable();
+		else station.scanner.disable();
+	}
 	
+	/**
+	 * Notify customerui that payment has completed
+	 */
 	public void completePayment() {
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
+		station.cardReader.disable();
+		station.coinSlot.disable();
+		station.banknoteInput.disable();
+		station.banknoteOutput.disable();
 	}
 	
+	/**
+	 * Notify the customerui that the customer has requested to pay with cash
+	 * 
+	 */
 	public void payWithCash() {
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(true);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
+		
+		station.coinSlot.enable();
+		station.banknoteInput.enable();
+		station.banknoteOutput.enable();
 	}
-	
+
+	/**
+	 * Notify the customerui that the customer has requested to pay with credit
+	 * 
+	 */
 	public void payWithCredit() {
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(true);
 		payWithDebitGUI.setVisible(false);
+		
+		station.cardReader.enable();
 	}
-	
-	public void payWithDedit() {
+
+	/**
+	 * Notify the customerui that the customer has requested to pay with debit
+	 * 
+	 */
+	public void payWithDebit() {
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(true);
+		
+		station.cardReader.enable();
 	}
 	
 	/**
