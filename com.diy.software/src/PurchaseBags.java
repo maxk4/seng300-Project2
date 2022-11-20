@@ -42,7 +42,7 @@ public class PurchaseBags {
 		
 		dialog.setTitle("Bags Menu");
 		
-		JPanel container = new JPanel(new GridLayout(3,8,1,2));
+		JPanel container = new JPanel(new GridLayout(3,8,1,3));
 		JPanel buttons = new JPanel(new GridLayout(1,3));
 		
 		JButton purchaseButton = new JButton(new AbstractAction("Purchase Bags") {
