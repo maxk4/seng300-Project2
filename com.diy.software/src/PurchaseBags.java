@@ -26,13 +26,15 @@ public class PurchaseBags {
 
 	private double unitcostBag;
 	private double totalcostBags;
-	private int amountBags;
+	private static int amountBags;
 	
 	/**
-	 * Opens Customer UI to select the amount of bags client wants to purchase
-	 * @param Create Customer UI to select Bag(s) amount
+	 * Opens Customer UI to select bagging options
+	 * @param Create Customer UI to select bag options
 	 * @return 
 	 */
+	
+	@SuppressWarnings("serial")
 	
 	public static void mainFrame(CustomerUI customer) {
 		
@@ -53,6 +55,8 @@ public class PurchaseBags {
 				msg.setHorizontalAlignment(JLabel.CENTER);
 				msg.setVerticalAlignment(JLabel.CENTER);
 				msg.setFont(new Font("arial", Font.PLAIN, 32));
+				
+				
 		        }
 		    });
 		
@@ -77,6 +81,113 @@ public class PurchaseBags {
 		
 		
 	}
+	
+	@SuppressWarnings("serial")
+	
+	/**
+	 * Opens Customer UI to select the amount of bags client wants to purchase
+	 * @param Create Customer UI to select Bag(s) amount
+	 * @return 
+	 */
+	public static int purchaseBagsFrame(CustomerUI customer) {
+		
+		JDialog dialog = new JDialog(customer.getFrame());
+		dialog.setModal(true);
+		dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
+		
+		dialog.setTitle("Purchase Bags");
+		
+		JPanel container = new JPanel(new GridLayout(3,8,1,3));
+		JPanel buttons = new JPanel(new GridLayout(1,3));
+		
+		JLabel mainText = new JLabel("How many bags would you like to purchase?");
+		mainText.setHorizontalAlignment(JLabel.CENTER);
+		mainText.setVerticalAlignment(JLabel.TOP);
+		
+		JButton oneBag = new JButton(new AbstractAction("1") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 1;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton twoBag = new JButton(new AbstractAction("2") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 2;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton threeBag = new JButton(new AbstractAction("3") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 3;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton fourBag = new JButton(new AbstractAction("4") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 4;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton fiveBag = new JButton(new AbstractAction("5") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 5;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton sixBag = new JButton(new AbstractAction("6") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 5;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton sevenBag = new JButton(new AbstractAction("7") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 7;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton eightBag = new JButton(new AbstractAction("8") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 8;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		JButton nineBag = new JButton(new AbstractAction("9") {
+			
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	amountBags = 9;
+	            dialog.setVisible(false);
+	        }
+	    });
+		
+		return amountBags;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
