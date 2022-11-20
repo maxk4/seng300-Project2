@@ -26,6 +26,8 @@ public class CustomerUI {
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
 	private DoItYourselfStationAR station;
 	
+	private CashPayment cashPayment;
+	
 	private PayWithCashGUI payWithCashGUI;
 	private PayWithCreditGUI payWithCreditGUI;
 	private PayWithDebitGUI payWithDebitGUI;
@@ -41,8 +43,18 @@ public class CustomerUI {
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
 		
+		cashPayment = new CashPayment(this, null, station);
+		
 		setScanningEnabled(true);
 		beginSession();
+	}
+	
+	/**
+	 * Gets the cashPayment field
+	 * @return CashPayment cashPayment field of this customer ui
+	 */
+	public CashPayment getCashPaymentController() {
+		return cashPayment;
 	}
 	
 	/**
@@ -288,6 +300,7 @@ public class CustomerUI {
 		station.coinSlot.enable();
 		station.banknoteInput.enable();
 		station.banknoteOutput.enable();
+		station.banknoteValidator.activate();
 	}
 
 	/**
@@ -318,7 +331,7 @@ public class CustomerUI {
 	
 	/**
 	 * Get the current balance
-	 * @param Get the current balance
+	 * @return Get the current balance
 	 */
 	public long getBalance() {
 		return balance;
@@ -336,6 +349,8 @@ public class CustomerUI {
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
 		// Show end screen
+		
+		
 		
 		System.out.println("end session");
 		
