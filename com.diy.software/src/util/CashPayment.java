@@ -1,5 +1,6 @@
 package util;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
@@ -72,8 +73,20 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 		// balance should be a negative number to return change
 		if (customer.getBalance() >= 0)
 			return;
+		// Round balance
+		station.coinDenominations.sort((a, b) -> (int) (a - b));
+		long smallest = station.coinDenominations.get(0);
+		long balance = customer.getBalance();
+		long rDown = balance - (balance % smallest);
+		long rUp = balance - (balance % smallest) + smallest;
+		long diffUp = balance - rUp;
+		long diffDown = balance - rDown;
+		if (rDown == 0) balance = rUp;
+		else if (Math.abs(diffUp) < Math.abs(diffDown)) balance = rUp;
+		else balance = rDown;
+		customer.setBalance(balance);
 		
-		long changeToDispense = -customer.getBalance();  
+		long changeToDispense = -customer.getBalance();
 		long changeIssued = 0;
 		
 		long banknoteToDispense = changeToDispense;
