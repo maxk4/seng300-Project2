@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
-
 import com.diy.hardware.external.CardIssuer;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import util.AttendantStation;
