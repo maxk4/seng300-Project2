@@ -1,7 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,39 +10,26 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 
-public class WeightDiscrepancyGUI extends JFrame {
+public class WeightDiscrepancyGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WeightDiscrepancyGUI frame = new WeightDiscrepancyGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public WeightDiscrepancyGUI() {
-		setTitle("Weight Descrepancy");
-		setBackground(new Color(206, 103, 94));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 554, 431);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("Weight Descrepancy");
+		frame.setBackground(new Color(206, 103, 94));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 554, 431);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(206, 103, 94));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JLabel lblNewLabel = new JLabel("Station Locked for Weight Descrepancy");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 23));
@@ -73,6 +58,16 @@ public class WeightDiscrepancyGUI extends JFrame {
 					.addContainerGap(103, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 
 }

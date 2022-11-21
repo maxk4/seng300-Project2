@@ -1,12 +1,10 @@
 package views;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.diy.hardware.DoItYourselfStationAR;
 
 import util.CustomerUI;
 
@@ -17,40 +15,24 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class StartScreenGUI extends JFrame {
+public class StartScreenGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StartScreenGUI frame = new StartScreenGUI(new CustomerUI(new DoItYourselfStationAR()));
-					
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public StartScreenGUI(CustomerUI customer) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 355, 302);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 355, 302);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(50, 126, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JButton btnNewButton_4 = new JButton("Start Scanning");
 		btnNewButton_4.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-barcode-100.png")));
@@ -80,4 +62,13 @@ public class StartScreenGUI extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
+	}
 }

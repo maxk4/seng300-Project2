@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,17 +11,17 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import util.AttendantStation;
 import util.AttendantUI;
 
-public class AttendantGUI extends JFrame {
+public class AttendantGUI extends MainGUILauncher {
 
+	private static JFrame frame;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblNewLabel;
@@ -32,32 +31,17 @@ public class AttendantGUI extends JFrame {
 
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AttendantGUI frame = new AttendantGUI(new AttendantUI(new AttendantStation(), 1));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public AttendantGUI(AttendantUI attendant) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 593, 298);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 593, 298);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(14, 144, 215));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JButton btnNewButton = new JButton("Approve");
 		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
@@ -117,6 +101,16 @@ public class AttendantGUI extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 	
 

@@ -1,7 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,37 +10,25 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 
-public class KeypadGUI extends JFrame {
+public class KeypadGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					KeypadGUI frame = new KeypadGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public KeypadGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 342, 322);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 342, 322);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(50, 126, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JButton btnNewButton_1 = new JButton("1");
 		btnNewButton_1.setFont(new Font("Lucida Grande", Font.BOLD, 19));
@@ -154,6 +140,16 @@ public class KeypadGUI extends JFrame {
 					.addContainerGap(184, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 
 }

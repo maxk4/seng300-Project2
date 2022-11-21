@@ -1,12 +1,15 @@
 package views;
 
+
 import com.diy.hardware.DoItYourselfStationAR;
+import com.jimmyselectronics.AbstractDevice;
+import com.jimmyselectronics.disenchantment.TouchScreenListener;
 
 import util.CustomerUI;
 import util.AttendantStation;
 import util.AttendantUI;
 
-public class MainGUILauncher {
+public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 	public static StartScreenGUI startScreenGUI;
 	public static ScanScreenGUI scanScreenGUI;
 	public static AttendantGUI attendantGUI;
@@ -15,6 +18,8 @@ public class MainGUILauncher {
 	public static PayWithDebitGUI payWithDebitGUI;
 	public static WeightDiscrepancyGUI weightDiscrepancyGUI;
 	public static OrderFinishedGUI orderFinishedGUI;
+	
+	private boolean screenLocked = false;
 
 	
 	public static void main(String[] args) {
@@ -41,6 +46,16 @@ public class MainGUILauncher {
 		orderFinishedGUI = new OrderFinishedGUI();
 		
 		//changeView(-1);
+		// Launch Startup Screen
+		startScreenGUI.setVisible(true);
+	}
+	
+
+	public void lockScreen() {
+		screenLocked = true;
+	}
+	public void unlockScreen() {
+		screenLocked = false;
 	}
 
 	public static void changeView(int windowNum) {

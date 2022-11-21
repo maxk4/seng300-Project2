@@ -1,12 +1,11 @@
 package views;
 
 import java.awt.Color;
-import java.awt.EventQueue;
+
 import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,43 +13,30 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import com.diy.hardware.DoItYourselfStationAR;
 
 import util.CustomerUI;
 
 import javax.swing.ImageIcon;
 
-public class PayWithDebitGUI extends JFrame {
+public class PayWithDebitGUI extends MainGUILauncher {
+	
+	private static JFrame frame;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PayWithDebitGUI frame = new PayWithDebitGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public PayWithDebitGUI(CustomerUI customer) {
-		setTitle("Debit Payment");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 453, 238);
+		frame = new JFrame();
+		frame.setTitle("Debit Payment");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 453, 238);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(65, 139, 212));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JLabel lblNewLabel = new JLabel("Order Total: $");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 22));
@@ -108,5 +94,15 @@ public class PayWithDebitGUI extends JFrame {
 					.addGap(6))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 }

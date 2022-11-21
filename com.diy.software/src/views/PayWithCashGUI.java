@@ -1,12 +1,8 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.diy.hardware.DoItYourselfStationAR;
 
 import util.CustomerUI;
 
@@ -21,37 +17,24 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PayWithCashGUI extends JFrame {
+public class PayWithCashGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PayWithCashGUI frame = new PayWithCashGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public PayWithCashGUI(CustomerUI customer) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 656, 393);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 656, 393);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(65, 139, 212));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JLabel lblNewLabel_1 = new JLabel("Order Total: $");
 		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 22));
@@ -171,5 +154,15 @@ public class PayWithCashGUI extends JFrame {
 					.addGap(60))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 }

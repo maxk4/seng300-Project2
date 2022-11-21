@@ -1,12 +1,8 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.diy.hardware.DoItYourselfStationAR;
 
 import util.CustomerUI;
 
@@ -20,38 +16,25 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
-public class PayWithCreditGUI extends JFrame {
+public class PayWithCreditGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PayWithCreditGUI frame = new PayWithCreditGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public PayWithCreditGUI(CustomerUI customer) {
-		setTitle("Credit Payment");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 451, 266);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("Credit Payment");
+		frame.setBounds(100, 100, 451, 266);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(65, 139, 212));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JLabel lblNewLabel = new JLabel("Order Total: $");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 22));
@@ -116,5 +99,15 @@ public class PayWithCreditGUI extends JFrame {
 					.addGap(5))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 }

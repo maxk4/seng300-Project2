@@ -29,47 +29,29 @@ import java.awt.Font;
 
 import java.util.List;
 
-public class ScanScreenGUI extends JFrame {
+public class ScanScreenGUI extends MainGUILauncher {
 
+	private static JFrame frame;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextArea scannedPricesArea;
 	private JTextArea scannedItemsArea;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ScanScreenGUI frame = new ScanScreenGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public ScanScreenGUI(CustomerUI customer) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ScanScreenGUI.class.getResource("/resources/icons8-pc-on-desk-100.png")));
-		setTitle("-- DoItYourselfStation --");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 707, 794);
+		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(ScanScreenGUI.class.getResource("/resources/icons8-pc-on-desk-100.png")));
+		frame.setTitle("-- DoItYourselfStation --");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 707, 794);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(14, 144, 215));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JLabel lblNewLabel = new JLabel("$");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 19));
@@ -210,5 +192,15 @@ public class ScanScreenGUI extends JFrame {
 		scannedPricesArea.setText(productSB.toString());
 		textField.setText(String.format("$%.2f", balance / 100d));
 		System.out.println(products);
+	}
+
+	
+	/**
+	 * Set the visibility of the Jframe
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible) {
+		frame.setVisible(isVisible);
 	}
 }
