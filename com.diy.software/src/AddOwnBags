@@ -1,35 +1,35 @@
- public void addYourOwnBag(double weightOfBag)
-	{ 
-		{
+public void addYourOwnBag(double weightOfBag)
+{ 
+	{
 		if (weightOfBag <= 0) 
-		{
-			return false;
-		}
-		BarcodedItem ownbag = new BarcodedItem(new Barcode("9876"), weightOfBag);
-		this.personalBags.add(ownbag);
-		this.station.baggingArea.add(ownbag);
-		return true;
+	{
+		return false;
 	}
+	BarcodedItem ownbag = new BarcodedItem(new Barcode("9876"), weightOfBag);
+	this.personalBags.add(ownbag);
+	this.station.baggingArea.add(ownbag);
+	return true;
+}
 	
   
-	public boolean removeYourOwnBag(BarcodedItem ownbag) 
+public boolean removeYourOwnBag(BarcodedItem ownbag) 
+{
+	if (bag == null) 
 	{
-		if (bag == null) 
-		{
-			return false;
-		}
-		if (!this.personalBags.contains(ownbag)) 
-		{
-			return false;
-		}
-		this.personalBags.remove(ownbag);
-		this.station.baggingArea.remove(ownbag);
-		return true;
+		return false;
 	}
+	if (!this.personalBags.contains(ownbag)) 
+	{
+		return false;
+	}
+	this.personalBags.remove(ownbag);
+	this.station.baggingArea.remove(ownbag);
+	return true;
+}
 
 
-	public ArrayList<BarcodedItem> getPersonalBags() 
-	{
-		return this.personalBags;
-	}
-	}
+public ArrayList<BarcodedItem> getPersonalBags() 
+{
+	return this.personalBags;
+}
+}
