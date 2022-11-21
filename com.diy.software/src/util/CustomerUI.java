@@ -13,6 +13,7 @@ import views.PayWithCashGUI;
 import views.PayWithCreditGUI;
 import views.PayWithDebitGUI;
 import views.ScanScreenGUI;
+import views.StartScreenGUI;
 
 
 public class CustomerUI {
@@ -33,11 +34,12 @@ public class CustomerUI {
 	private PayWithDebitGUI payWithDebitGUI;
 
 	private ScanScreenGUI scanScreenGUI;
-	
+	private StartScreenGUI startScreenGUI;
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
 		
+		startScreenGUI = new StartScreenGUI(this);
 		scanScreenGUI = new ScanScreenGUI(this);
 		payWithCashGUI = new PayWithCashGUI(this);
 		payWithCreditGUI = new PayWithCreditGUI(this);
@@ -209,7 +211,7 @@ public class CustomerUI {
 	public void alertWeightDiscrepancy() {
 		
 		// Show weight discrepancy gui
-		station.scanner.disable();
+		//station.scanner.disable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyDetected(this);
 	}
@@ -270,7 +272,13 @@ public class CustomerUI {
 	 */
 	public void setScanningEnabled(boolean enabled) {
 		if (enabled) station.scanner.enable();
-		else station.scanner.disable();
+
+		startScreenGUI.setVisible(false);
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+		
 	}
 	
 	/**
@@ -359,7 +367,8 @@ public class CustomerUI {
 	}
 	
 	public void beginSession() {
-		scanScreenGUI.setVisible(true);
+		startScreenGUI.setVisible(true);
+		scanScreenGUI.setVisible(false);
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
