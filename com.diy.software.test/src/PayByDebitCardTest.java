@@ -59,8 +59,9 @@ public class PayByDebitCardTest {
 		station.plugIn();
 		station.turnOn();
 		customer = new CustomerUI(station);
-		reader = new CardReader();
 		payWithCard = new PayWithCardListener(customer);
+		station.cardReader.register(payWithCard);
+		reader = station.cardReader;
 		System.setOut(new PrintStream(content));
 		
 		reader.plugIn();
@@ -88,9 +89,10 @@ public class PayByDebitCardTest {
 	@Test
 	public void testSuccessfulTransactionWithDebit() throws IOException {
 		bank.addCardData("1234567890123456", "John Smith", expiry, "123", 150);
-		String expected = "The transaction was successful\nTransaction Complete\n";
+		String expected = "The transaction was successful\r\n";
+		customer.setBalance(10);
 		data = reader.insert(debitCard, "0000");
-		payWithCard.transactionWithCreditCard(reader, data, bank, 25);
+		//payWithCard.transactionWithCreditCard(reader, data, bank, 25);
 		
 		assertEquals(expected, content.toString());
 	}
@@ -101,11 +103,12 @@ public class PayByDebitCardTest {
 	@Test
 	public void testSuccessfulTransactionWithCredit() throws IOException {
 		bank.addCardData("2234567890123456", "John Smith", expiry, "111", 150);
-		String expected = "The transaction was successful\nTransaction Complete\n";
+		String expected = "The transaction was successful\r\n";
 		customer.payWithCredit();
+		customer.setBalance(10);
 		data = reader.insert(creditCard, "0000");
 		
-		payWithCard.transactionWithCreditCard(reader, data, bank, 45);
+		//payWithCard.transactionWithCreditCard(reader, data, bank, 45);
 		
 		assertEquals(expected, content.toString());
 	}
@@ -115,9 +118,9 @@ public class PayByDebitCardTest {
 	 */
 	@Test
 	public void testFailedTransactionWithCredit() throws IOException {
-		String expected = "The hold failed\n";
+		String expected = "The hold failed\r\n";
 		data = reader.insert(creditCard, "0000");
-		payWithCard.transactionWithCreditCard(reader, data, bank, 300);
+		//payWithCard.transactionWithCreditCard(reader, data, bank, 300);
 		assertEquals(expected, content.toString());
 	}
 	
@@ -126,9 +129,9 @@ public class PayByDebitCardTest {
 	 */
 	@Test 
 	public void testFailedTransactionWithDebit() throws IOException {
-		String expected = "The hold failed\n";
+		String expected = "The hold failed\r\n";
 		data = reader.insert(debitCard, "0000");
-		payWithCard.transactionWithCreditCard(reader, data, bank, 200);
+		//payWithCard.transactionWithCreditCard(reader, data, bank, 200);
 		assertEquals(expected, content.toString());
 	}
 	
@@ -137,8 +140,9 @@ public class PayByDebitCardTest {
 	 */
 	@Test
 	public void testCardTapped() throws IOException {
-		String expected = "The hold failed\n";
-		payWithCard.cardTapped(reader);
+		String expected = "The hold failed\r\n";
+		reader.tap(creditCard);
+		//payWithCard.cardTapped(reader);
 		assertEquals(expected, content.toString());
 	}
 	

@@ -18,7 +18,7 @@ import views.StartScreenGUI;
 
 public class CustomerUI {
 	
-	private long balance;
+	private long balance = 0;
 	
 	private ExpectedWeightListener weightListener;
 	private ProductList productList;
@@ -46,8 +46,8 @@ public class CustomerUI {
 		payWithDebitGUI = new PayWithDebitGUI(this);
 		
 		cashPayment = new CashPayment(this, null, station);
-		PayWithCardListener cardListener = new PayWithCardListener(this);
-		station.cardReader.register(cardListener);
+		//PayWithCardListener cardListener = new PayWithCardListener(this);
+		//station.cardReader.register(cardListener);
 		
 		setScanningEnabled(true);
 		beginSession();
