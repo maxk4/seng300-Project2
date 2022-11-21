@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.diy.hardware.BarcodedProduct;
+import com.diy.hardware.DoItYourselfStationAR;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.Numeral;
 
@@ -39,7 +40,6 @@ public class PurchaseBags {
 	@SuppressWarnings("serial")
 	
 	public void mainFrame(CustomerUI customer) {
-		
 		JDialog dialog = new JDialog(customer.getFrame());
 		dialog.setModal(true);
 		dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
@@ -249,12 +249,12 @@ public class PurchaseBags {
 	
 	public static void main(String[] args) {
 
-		/** TEST TO SEE IF IT WORKS
+		/** TEST TO SEE IF IT WORKS **/
 		DoItYourselfStationAR station = new DoItYourselfStationAR();
 		station.plugIn();
 		station.turnOn();
 		CustomerUI customer = new CustomerUI(station);
-		PurchaseBags.mainFrame(customer); **/
+		new PurchaseBags().mainFrame(customer); 
 		
 	}
 

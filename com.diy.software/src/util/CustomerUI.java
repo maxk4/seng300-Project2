@@ -44,6 +44,8 @@ public class CustomerUI {
 		payWithDebitGUI = new PayWithDebitGUI(this);
 		
 		cashPayment = new CashPayment(this, null, station);
+		PayWithCardListener cardListener = new PayWithCardListener(this);
+		station.cardReader.register(cardListener);
 		
 		setScanningEnabled(true);
 		beginSession();

@@ -20,6 +20,7 @@ import com.jimmyselectronics.opeechee.Card.CardData;
 import com.jimmyselectronics.opeechee.CardReader;
 import com.jimmyselectronics.opeechee.CardReaderListener;
 
+import ca.powerutility.PowerGrid;
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 import util.Bank;
 import util.CustomerUI;
@@ -45,6 +46,7 @@ public class PayByDebitCardTest {
 	
 	@Before
 	public void setup() {
+		PowerGrid.engageUninterruptiblePowerSource();
 		expiry.set(2023, 8, 23);
 		bank = Bank.CARD_ISSUER;
 		debitCard = new Card("debit", "1234567890123456", "John Smith", "123", "0000", true, true);
@@ -53,11 +55,14 @@ public class PayByDebitCardTest {
 		
 		expectedWeightListener = new ExpectedWeightListener(customer);
 		station = new DoItYourselfStationAR();
+		
+		station.plugIn();
+		station.turnOn();
 		customer = new CustomerUI(station);
 		reader = new CardReader();
 		payWithCard = new PayWithCardListener(customer);
 		System.setOut(new PrintStream(content));
-	    
+		
 		reader.plugIn();
 		reader.turnOn();
 		reader.enable();
@@ -97,7 +102,9 @@ public class PayByDebitCardTest {
 	public void testSuccessfulTransactionWithCredit() throws IOException {
 		bank.addCardData("2234567890123456", "John Smith", expiry, "111", 150);
 		String expected = "The transaction was successful\nTransaction Complete\n";
+		customer.payWithCredit();
 		data = reader.insert(creditCard, "0000");
+		
 		payWithCard.transactionWithCreditCard(reader, data, bank, 45);
 		
 		assertEquals(expected, content.toString());
