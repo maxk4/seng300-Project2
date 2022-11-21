@@ -168,7 +168,7 @@ public class CustomerUITest {
 		customer.setBalance(80);
 		customer.notifyPayment(80);
 		
-		assertEquals(0,customer.productCount());
+		assertEquals(0, customer.getBalance());
 	}
 	
 	@Test

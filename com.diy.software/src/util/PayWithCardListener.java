@@ -91,12 +91,14 @@ public class PayWithCardListener implements CardReaderListener {
 		//otherwise, the transaction is posted, the amount of credit is reduced, and the 
 		//system is notified that the transaction was successful
 		else {
-			bank.postTransaction(data.getNumber(), holdNumber, total);
-			System.out.println("The transaction was successful");
-			customer.notifyPayment(total);
-				
+			boolean posted = bank.postTransaction(data.getNumber(), holdNumber, total);
+			if (posted) {
+				System.out.println("The transaction was successful");
+				customer.notifyPayment(total);
+				return;
+			}
 			//looping 5 tries
-			for (int i = 0; i < 5 || (!bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
+			for (int i = 0; i < 5 || (posted = bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
 				//delay for 20 seconds
 				try {
 					Thread.sleep(20000);
@@ -104,6 +106,11 @@ public class PayWithCardListener implements CardReaderListener {
 					e.printStackTrace();
 					return;
 				}
+			}
+			if (posted) {
+				System.out.println("The transaction was successful");
+				customer.notifyPayment(total);
+			} else {
 				System.out.println("The transaction failed");
 			}
 		}
@@ -111,13 +118,13 @@ public class PayWithCardListener implements CardReaderListener {
 
 	@Override
 	public void cardTapped(CardReader reader) {
-		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
+		//transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 
 	@Override
 	public void cardSwiped(CardReader reader) {
-		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
+		//transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 }
