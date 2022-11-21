@@ -18,6 +18,17 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 	public static PayWithDebitGUI payWithDebitGUI;
 	public static WeightDiscrepancyGUI weightDiscrepancyGUI;
 	public static OrderFinishedGUI orderFinishedGUI;
+	public static KeypadGUI keypadGUI;
+	
+	public static int START_SCREEN = 			1;
+	public static int SCAN_SCREEN = 			2;
+	public static int ATTENDANT_SCREEN = 		3;
+	public static int PAY_CREDIT_SCREEN = 		4;
+	public static int PAY_DEBIT_SCREEN = 		5;
+	public static int PAY_CASH_SCREEN = 		6;
+	public static int WEIGHT_DISCREP_SCREEN = 	7;
+	public static int KEYPAD_SCREEN = 			8;
+	public static int ORDER_FINISHED_SCREEN = 	9;
 	
 	private boolean screenLocked = false;
 
@@ -33,6 +44,7 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 		CustomerUI customer = new CustomerUI(diyStation);
 		
 		scanScreenGUI = new ScanScreenGUI(customer);
+		keypadGUI = new KeypadGUI();
 		attendantGUI = new AttendantGUI(new AttendantUI(attendantStation, 1));
 		
 		payWithCashGUI = new PayWithCashGUI(customer);
@@ -58,11 +70,53 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 		screenLocked = false;
 	}
 
+	/**
+	 * Set the visibility of the various screens
+	 * Use the static global fields for this method to avoid errors when values change
+	 * 
+	 * example:
+	 * 		setScreenVisiblility(MainGUILauncher.KEYPAD_SCREEN, true);
+	 * 
+	 * @param viewIntegerValue
+	 * @param isVisible
+	 */
+	public void setScreenVisiblility(int viewIntegerValue, boolean isVisible) {
+		switch (viewIntegerValue) {
+		
+		case 1:
+			startScreenGUI.setVisible(isVisible);
+			break;
+		case 2:
+			scanScreenGUI.setVisible(isVisible);
+			break;
+		case 3:
+			attendantGUI.setVisible(isVisible);
+			break;
+		case 4:
+			payWithCashGUI.setVisible(isVisible);
+			break;
+		case 5:
+			payWithCreditGUI.setVisible(isVisible);
+			break;
+		case 6:
+			payWithDebitGUI.setVisible(isVisible);
+			break;
+		case 7:
+			weightDiscrepancyGUI.setVisible(isVisible);
+			break;
+		case 8:
+			keypadGUI.setVisible(isVisible);
+			break;
+		case 9:
+			orderFinishedGUI.setVisible(isVisible);
+			break;
+		}
+	}
+
 	public static void changeView(int windowNum) {
 		switch (windowNum) {
 		
 		case -1:
-			startScreenGUI.setVisible(true);
 			scanScreenGUI.setVisible(true);
 			attendantGUI.setVisible(true);
 			payWithCashGUI.setVisible(true);

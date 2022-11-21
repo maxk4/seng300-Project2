@@ -1,20 +1,15 @@
 package views;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.diy.hardware.BarcodedProduct;
-import com.diy.hardware.DoItYourselfStationAR;
-import com.diy.hardware.Product;
 
 import util.CustomerUI;
 import util.ProductList;
 
 import java.awt.Color;
-import javax.swing.UIManager;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -27,7 +22,8 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
-import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ScanScreenGUI extends MainGUILauncher {
 
@@ -98,6 +94,13 @@ public class ScanScreenGUI extends MainGUILauncher {
 		
 		JLabel lblNewLabel_1 = new JLabel("PAY");
 		lblNewLabel_1.setFont(new Font("Telugu MN", Font.BOLD, 23));
+		
+		JButton btnNewButton_6_1 = new JButton("Buy Bags");
+		btnNewButton_6_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setScreenVisiblility(MainGUILauncher.KEYPAD_SCREEN, true);
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -109,33 +112,33 @@ public class ScanScreenGUI extends MainGUILauncher {
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(100)
-										.addComponent(btnNewButton_5)
-										.addContainerGap())
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(6)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(btnNewButton_7, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-											.addComponent(btnNewButton_6, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
-										.addContainerGap())))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGap(58)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnNewButton_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-									.addComponent(btnNewButton_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 167, Short.MAX_VALUE)
-									.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-								.addGap(52)))
-						.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(100)
+									.addComponent(btnNewButton_5)
+									.addContainerGap())))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGap(58)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnNewButton_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+								.addComponent(btnNewButton_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 167, Short.MAX_VALUE)
+								.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+							.addGap(52))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 							.addGap(112)
 							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-							.addGap(112))))
+							.addGap(112))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnNewButton_6, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+								.addComponent(btnNewButton_7, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+								.addComponent(btnNewButton_6_1, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -145,10 +148,12 @@ public class ScanScreenGUI extends MainGUILauncher {
 							.addGap(3)
 							.addComponent(btnNewButton_5)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_7)
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNewButton_6)
-							.addGap(137)
+							.addGap(18)
+							.addComponent(btnNewButton_6_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_7)
+							.addGap(102)
 							.addComponent(lblNewLabel_1)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
