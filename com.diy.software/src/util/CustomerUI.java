@@ -50,12 +50,20 @@ public class CustomerUI {
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
-		
-		//PayWithCardListener cardListener = new PayWithCardListener(this);
-		//station.cardReader.register(cardListener);
 
 		cashPayment = new CashPayment(this, null, station);
 		beginSession();
+	}
+	
+	public CustomerUI(DoItYourselfStationAR station, String title) {
+		this.station = station;
+		
+		cashPayment = new CashPayment(this, null, station);
+		beginSession();
+		
+		scanScreenGUI.setTitle(title);
+		startScreenGUI.setTitle(title);
+		orderFinishedGUI.setTitle(title);
 	}
 	
 	/**

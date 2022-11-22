@@ -60,7 +60,7 @@ public class Simulation {
 			DoItYourselfStationAR station = new DoItYourselfStationAR();
 			station.plugIn();
 			station.turnOn();
-			CustomerUI ui = new CustomerUISimulator(station, customer);
+			CustomerUI ui = new CustomerUISimulator(station, customer, "Station " + (i + 1));
 			
 			ScanItemListener sil = new ScanItemListener(ui);
 			station.scanner.register(sil);

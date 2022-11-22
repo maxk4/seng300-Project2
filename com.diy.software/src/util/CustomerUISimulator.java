@@ -22,8 +22,8 @@ import com.unitedbankingservices.coin.Coin;
 
 public class CustomerUISimulator extends CustomerUI {
 
-	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer) {
-		super(station);
+	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer, String title) {
+		super(station, title);
 		
 		JDialog customerSim = new JDialog();
 		customerSim.setLocationRelativeTo(null);

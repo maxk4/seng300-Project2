@@ -31,14 +31,15 @@ public class AttendantUI {
 	 * Notify the attendant that the customer is making a no bagging request
 	 * @param customer CustomerUI that is making the request
 	 */
-	public void notifyNoBaggingRequest(CustomerUI customer) {
-	}
+	public void notifyNoBaggingRequest(CustomerUI customer) {}
 	
 	/**
 	 * Notify the attendant that there is a weight discrepancy
 	 * @param customer CustomerUI who has a weight discrepancy
 	 */
 	public void notifyWeightDiscrepancyDetected(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Weight Discrepancy Detected", index + 1));
 	}
 	
 	/**
@@ -46,6 +47,19 @@ public class AttendantUI {
 	 * @param customer CustomerUI that had the discrepancy
 	 */
 	public void notifyWeightDiscrepancyResolved(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Weight Discrepancy Resolved", index + 1));
+	}
+
+	
+	public void notifyLowInkDetected(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Low Ink", index + 1));
+	}
+	
+	public void notifyLowInkResolved(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Ink Filled", index + 1));
 	}
 	
 	/**
@@ -63,4 +77,8 @@ public class AttendantUI {
 	public void removeCustomerUI(CustomerUI customer) {
 		stations.remove(customer);
 	}
-}
+	
+	private int idOf(CustomerUI customer) {
+		return stations.indexOf(customer);
+	}
+ }
