@@ -7,6 +7,18 @@ import com.jimmyselectronics.abagnale.ReceiptPrinterListener;
 import com.jimmyselectronics.abagnale.ReceiptPrinterD;
 
 public class LowInkLowPaper implements ReceiptPrinterListener{
+	
+	boolean lowPaper;
+	boolean lowInk;
+	boolean noPaper;
+	boolean noInk;
+	
+	public LowInkLowPaper() {
+		this.lowPaper = false;
+		this.lowInk = false;
+		this.noPaper = false;
+		this.noInk = false;
+	}
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {}
@@ -23,21 +35,25 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	@Override
 	public void outOfPaper(IReceiptPrinter printer) {
 		abortPrinting();
+		noPaper = true;
 	}
 
 	@Override
 	public void outOfInk(IReceiptPrinter printer) {
 		abortPrinting();
+		noInk = true;
 	}
 
 	@Override
 	public void lowInk(IReceiptPrinter printer) {
 		notifyLowInk();
+		lowInk = true;
 	}
 
 	@Override
 	public void lowPaper(IReceiptPrinter printer) {
 		notifyLowPaper();
+		lowPaper = true;
 	}
 
 	@Override
@@ -46,8 +62,24 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	@Override
 	public void inkAdded(IReceiptPrinter printer) {}
 	
+	public boolean getLowInk() {
+		return lowInk;
+	}
 	
-	/**
+	public boolean getLowPaper() {
+		return lowPaper;
+	}
+	
+	public boolean getNoInk() {
+		return noInk;
+	}
+	
+	public boolean getNoPaper() {
+		 return noPaper;
+	 }
+	
+	
+	/** If printer runs of ink/paper while printing
 	 *  Abort printing, suspend station, inform attendant that duplicate receipt must be printed and station needs maintenance
 	 */
 	public void abortPrinting() {
