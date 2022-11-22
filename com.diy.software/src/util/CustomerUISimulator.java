@@ -1,6 +1,8 @@
 package util;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.Currency;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -11,8 +13,16 @@ import javax.swing.JPanel;
 
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
+import com.jimmyselectronics.AbstractDevice;
+import com.jimmyselectronics.AbstractDeviceListener;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.opeechee.Card;
+import com.jimmyselectronics.virgilio.ElectronicScale;
+import com.jimmyselectronics.virgilio.ElectronicScaleListener;
+import com.unitedbankingservices.DisabledException;
+import com.unitedbankingservices.TooMuchCashException;
+import com.unitedbankingservices.banknote.Banknote;
+import com.unitedbankingservices.coin.Coin;
 
 public class CustomerUISimulator extends CustomerUI {
 
@@ -23,7 +33,7 @@ public class CustomerUISimulator extends CustomerUI {
 		customerSim.setLocationRelativeTo(null);
 		
 		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1, 4));
+		container.setLayout(new GridLayout(1, 5));
 		
 		JPanel cart = new JPanel();
 		cart.setLayout(new BoxLayout(cart, BoxLayout.PAGE_AXIS));
@@ -38,23 +48,37 @@ public class CustomerUISimulator extends CustomerUI {
 				customer.shoppingCart.add(item);
 				customer.selectNextItem();
 				customer.scanItem();
-				System.out.println("Scanned");
 			});
 			cart.add(button);
 		}
+		
+		JPanel remove = new JPanel();
+		remove.setLayout(new BoxLayout(remove, BoxLayout.PAGE_AXIS));
+		JLabel removeLabel = new JLabel("Items: Click to remove");
+		remove.add(removeLabel);
 		
 		JLabel placeLabel = new JLabel("Items: Click to add to Scale");
 		JPanel placeList = new JPanel();
 		placeList.setLayout(new BoxLayout(placeList, BoxLayout.PAGE_AXIS));
 		placeList.add(placeLabel);
+		i = 0;
 		for (Item item : customer.shoppingCart) {
 			JButton button = new JButton(String.format("Item %d: Weight: %.2fkg", ++i, item.getWeight()));
+			JButton removeBtn = new JButton(String.format("Item %d: Weight: %.2fkg", i, item.getWeight()));
+			removeBtn.addActionListener(e -> {
+				remove.remove(removeBtn);
+				customerSim.revalidate();
+				customerSim.repaint();
+				station.scale.remove(item);
+			});
 			button.addActionListener(e -> {
-				if (station.scanner.isDisabled()) return;
+				if (station.scale.isDisabled()) return;
 				customer.shoppingCart.add(item);
 				customer.selectNextItem();
 				customer.placeItemInBaggingArea();
-				System.out.println("Placed");
+				remove.add(removeBtn);
+				customerSim.revalidate();
+				customerSim.repaint();
 			});
 			placeList.add(button);
 		}
@@ -80,8 +104,41 @@ public class CustomerUISimulator extends CustomerUI {
 			wallet.add(button);
 		}
 		
+		JPanel cash = new JPanel();
+		cash.setLayout(new BoxLayout(cash, BoxLayout.PAGE_AXIS));
+		
+		JLabel billLabel = new JLabel("Bills: Click to insert");
+		cash.add(billLabel);
+		for (int denom : station.banknoteDenominations) {
+			JButton bill = new JButton(String.format("$%.2f", denom / 100d));
+			bill.addActionListener(e -> {
+				try {
+					station.banknoteInput.receive(new Banknote(Currency.getInstance(Locale.CANADA), denom));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			});
+			cash.add(bill);
+		}
+		
+		JLabel coinLabel = new JLabel("Coins: Click to insert");
+		cash.add(coinLabel);
+		for (long denom : station.coinDenominations) {
+			JButton coin = new JButton(String.format("¢%d", denom));
+			coin.addActionListener(e -> {
+				try {
+					station.coinSlot.receive(new Coin(Currency.getInstance(Locale.CANADA), denom));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			});
+			cash.add(coin);
+		}
+		
 		container.add(cart);
 		container.add(placeList);
+		container.add(remove);
+		container.add(cash);
 		container.add(wallet);
 		container.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
@@ -91,5 +148,5 @@ public class CustomerUISimulator extends CustomerUI {
 		customerSim.setVisible(true);
 		
 	}
-
+	
 }

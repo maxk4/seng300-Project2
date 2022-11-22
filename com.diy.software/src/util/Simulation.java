@@ -93,6 +93,10 @@ public class Simulation {
 	}
 	
 	private static void setup() {
+		int[] banknoteDenominations = {5000,2000,1000,500};
+		long[] coinDenominations = {200, 100, 25, 10, 5};
+		DoItYourselfStationAR.configureBanknoteDenominations(banknoteDenominations);
+		DoItYourselfStationAR.configureCoinDenominations(coinDenominations);
 		
 		for (int i = 0; i < barcodes.length; i++)
 			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), (i + 1) * 100, 2.3));

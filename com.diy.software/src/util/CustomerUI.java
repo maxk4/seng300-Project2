@@ -220,7 +220,7 @@ public class CustomerUI {
 	public void alertWeightDiscrepancy() {
 		
 		// Show weight discrepancy gui
-		//station.scanner.disable();
+		station.scanner.disable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyDetected(this);
 		
@@ -276,6 +276,7 @@ public class CustomerUI {
 	 */
 	public void notifyPayment(long amount) {
 		balance -= amount;
+		scanScreenGUI.update(amount, productList);
 	}
 	
 	/**
