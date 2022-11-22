@@ -86,6 +86,8 @@ public class Simulation {
 		// Register diy stations with the attendant station
 		for (CustomerUI cStation : uis) aStation.registerStation(cStation);
 		
+		MaintenanceSimulator ms = new MaintenanceSimulator(attendant, stations);
+		
 		// Setup attendant station
 		aStation.getTouchScreen().plugIn();
 		aStation.getTouchScreen().turnOn();
