@@ -1,3 +1,4 @@
+package util;
 import com.jimmyselectronics.AbstractDevice;
 import com.jimmyselectronics.AbstractDeviceListener;
 import com.jimmyselectronics.virgilio.ElectronicScale;
@@ -10,7 +11,7 @@ import com.jimmyselectronics.virgilio.ElectronicScaleListener;
  */
 public class ExpectedWeightListener implements ElectronicScaleListener {
 	
-	private double expectedWeight, sensitivity, lastWeight;
+	private double expectedWeight, sensitivity = 0, lastWeight;
 	private CustomerUI customer;
 	
 	/**

@@ -1,3 +1,4 @@
+package util;
 
 
 import com.diy.hardware.external.CardIssuer;
@@ -14,7 +15,7 @@ public class PayWithCardListener implements CardReaderListener {
 	
 	private boolean enabled = false;
 	private CardData data; 
-	private boolean cardInserted = false;
+	public boolean cardInserted = false;
 	private CustomerUI customer;
 	
 	
@@ -22,12 +23,12 @@ public class PayWithCardListener implements CardReaderListener {
 		this.customer = customer;
 	}
 	
-	public CardData getCardData() {
-		return data;
-	}
-	public boolean isCardInserted() {
-		return cardInserted;
-	}
+//	public CardData getCardData() {
+//		return data;
+//	}
+//	public boolean isCardInserted() {
+//		return cardInserted;
+//	}
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
@@ -60,7 +61,6 @@ public class PayWithCardListener implements CardReaderListener {
 		if (!enabled) return;
 		this.data = data;
 		transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
-		
 	}
 	
 	/**
@@ -73,36 +73,58 @@ public class PayWithCardListener implements CardReaderListener {
 	 * @throws InvalidArgumentSimulationException
 	 */
 	public void transactionWithCreditCard(CardReader reader, CardData data, CardIssuer bank, long total) {
-		//if the card is not a credit card
-		if (!(data.getKind().equals("credit"))) {
-			throw new InvalidArgumentSimulationException("Card inserted is not of type credit");
+		//if the card is not a credit card and debit card
+		if (!(data.getKind().equals("credit") || data.getKind().equals("debit"))) {
+			throw new InvalidArgumentSimulationException("Card inserted is not of type credit or debit");
 		}
+		
 		//get hold number on card, issued by the bank, if an error is encountered,
 		//a hold number of -1 is found, and the system is notified that the hold failed
 		long holdNumber = bank.authorizeHold(data.getNumber(), total);
+		//If communication with the Bank is faulty or interrupted, prior to the hold being authorized, the transaction will fail.
 		if (holdNumber == -1) {
 			System.out.println("The hold failed");
 			
 		}
+
+	     
 		//otherwise, the transaction is posted, the amount of credit is reduced, and the 
 		//system is notified that the transaction was successful
 		else {
-			bank.postTransaction(data.getNumber(), holdNumber, total);
+			boolean posted = bank.postTransaction(data.getNumber(), holdNumber, total);
+			if (posted) {
 				System.out.println("The transaction was successful");
 				customer.notifyPayment(total);
+				return;
+			}
+			//looping 5 tries
+			for (int i = 0; i < 5 || (posted = bank.postTransaction(data.getNumber(), holdNumber, total)); i++){
+				//delay for 20 seconds
+				try {
+					Thread.sleep(20000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
+			if (posted) {
+				System.out.println("The transaction was successful");
+				customer.notifyPayment(total);
+			} else {
+				System.out.println("The transaction failed");
+			}
 		}
-
 	}
 
 	@Override
 	public void cardTapped(CardReader reader) {
-		// TODO Auto-generated method stub
+		//transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 
 	@Override
 	public void cardSwiped(CardReader reader) {
-		// TODO Auto-generated method stub
+		//transactionWithCreditCard(reader, data, Bank.CARD_ISSUER, customer.getBalance());
 		
 	}
 }

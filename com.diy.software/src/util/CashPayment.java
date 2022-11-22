@@ -1,3 +1,4 @@
+package util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,7 +9,6 @@ import com.diy.hardware.DoItYourselfStationAR;
 import com.unitedbankingservices.DisabledException;
 import com.unitedbankingservices.OutOfCashException;
 import com.unitedbankingservices.TooMuchCashException;
-import com.unitedbankingservices.banknote.Banknote;
 import com.unitedbankingservices.banknote.BanknoteDispenserObserver;
 import com.unitedbankingservices.banknote.BanknoteValidator;
 import com.unitedbankingservices.banknote.BanknoteValidatorObserver;
@@ -38,13 +38,13 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 	@Override
 	public void validBanknoteDetected(BanknoteValidator validator, Currency currency, long value) {
 		validBanknoteCount++;
-		customer.setBalance(customer.getBalance() - (double)value);
+		customer.notifyPayment(value);
 	}
 	
 	@Override
 	public void validCoinDetected(CoinValidator validator, long value) {
 		validCoinCount++;
-		customer.setBalance(customer.getBalance() - (double)value/100);		
+		customer.notifyPayment(value);		
 	}
 	
 	public int getValidBanknoteCount() {
@@ -73,30 +73,40 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 		// balance should be a negative number to return change
 		if (customer.getBalance() >= 0)
 			return;
+		// Round balance
+		station.coinDenominations.sort((a, b) -> (int) (a - b));
+		long smallest = station.coinDenominations.get(0);
+		long balance = customer.getBalance();
+		long rDown = balance - (balance % smallest);
+		long rUp = balance - (balance % smallest) + smallest;
+		long diffUp = balance - rUp;
+		long diffDown = balance - rDown;
+		if (rDown == 0) balance = rUp;
+		else if (Math.abs(diffUp) < Math.abs(diffDown)) balance = rUp;
+		else balance = rDown;
+		customer.setBalance(balance);
 		
-		double changeToDispense = - customer.getBalance();  
-		double changeIssued = 0;
+		long changeToDispense = -customer.getBalance();
+		long changeIssued = 0;
 		
-		// break change to dispense by above 5 and below 5
-		// above 5 value would be a multiple of 5 and passed to emitBannknotes
-		// the rest is passed to emitCoins
-		long banknoteToDispense = (int)(changeToDispense / 5) * 5;
-		double coinToDispense = changeToDispense - banknoteToDispense;
+		long banknoteToDispense = changeToDispense;
 		changeIssued = emitBanknotes(banknoteToDispense, changeIssued);
+		long coinToDispense = changeToDispense - changeIssued;
 		changeIssued = emitCoins(coinToDispense, changeIssued);
 		
-		customer.setBalance(customer.getBalance() + changeIssued);
+		customer.notifyPayment(-changeIssued);
 		
 		if (needMaintenance) {
 //		notify attendant (customer, customer.getBalance()), suspend station
 		}
+		if (customer.getBalance() != 0) throw new OutOfCashException();
 	} 
 	
 	/*
 	 * issue banknote as the change
 	 * return changeIssued
 	 */
-	private double emitBanknotes(long banknoteToDispense, double changeIssued) throws OutOfCashException, DisabledException, TooMuchCashException {
+	private long emitBanknotes(long banknoteToDispense, long changeIssued) throws OutOfCashException, DisabledException, TooMuchCashException {
 
 		if (banknoteToDispense == 0)
 			return changeIssued;
@@ -133,7 +143,7 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 	 * issue banknote as the change
 	 * return changeIssued 
 	 */
-	private double emitCoins(double coinToDispense, double changeIssued) throws TooMuchCashException, OutOfCashException, DisabledException {
+	private long emitCoins(long coinToDispense, long changeIssued) throws TooMuchCashException, OutOfCashException, DisabledException {
 
 		if (coinToDispense == 0)
 			return changeIssued;
@@ -143,8 +153,8 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 		Collections.reverse(coinDenominations);
 		
 		// turn coin value into cents
-		long changeInCents = (long)(coinToDispense * 100);
-		long centsIssued = (long)(changeIssued * 100);
+		long changeInCents = coinToDispense;
+		long centsIssued = changeIssued;
 		
 		int index = 0; // index of denomination
 		while (changeInCents != 0) {
@@ -155,7 +165,7 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 				break;
 			}
 			
-			double coinValue = (double)coinDenominations.get(index);
+			long coinValue = coinDenominations.get(index);
 			if (coinValue <= changeInCents) {
 				if (station.coinDispensers.get(coinDenominations.get(index)).size() > 0) {
 					station.coinDispensers.get(coinDenominations.get(index)).emit();
@@ -168,7 +178,7 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 				index++; // the current denomination is too large
 			}
 		}
-		return (double)centsIssued / 100;
+		return centsIssued;
 	}
 	
 	/*

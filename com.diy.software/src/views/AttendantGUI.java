@@ -5,13 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -19,7 +22,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import com.jimmyselectronics.disenchantment.*;
+import util.AttendantStation;
+import util.AttendantUI;
+import util.CustomerUI;
 
 public class AttendantGUI extends JFrame {
 
@@ -30,28 +35,12 @@ public class AttendantGUI extends JFrame {
 	private JButton btnUnlock;
 	private JButton btnNewButton_1;
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AttendantGUI frame = new AttendantGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
-	public AttendantGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public AttendantGUI(AttendantUI attendant) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setTitle("Attendant GUI");
 		setBounds(100, 100, 593, 298);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(14, 144, 215));

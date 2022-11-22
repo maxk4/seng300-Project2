@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
+import util.CustomerUI;
+
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,25 +24,9 @@ public class StartScreenGUI extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StartScreenGUI frame = new StartScreenGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public StartScreenGUI() {
+	public StartScreenGUI(CustomerUI customer) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 355, 302);
 		contentPane = new JPanel();
@@ -47,8 +36,8 @@ public class StartScreenGUI extends JFrame {
 		setContentPane(contentPane);
 		
 		JButton btnNewButton_4 = new JButton("Start Scanning");
-		btnNewButton_4.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		btnNewButton_4.setIcon(new ImageIcon(StartScreenGUI.class.getResource("/resources/icons8-barcode-100.png")));
+		btnNewButton_4.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-barcode-100.png")));
+		btnNewButton_4.addActionListener(e -> customer.setScanningEnabled(true));
 		
 		JLabel lblNewLabel = new JLabel("DIYourselfStation");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 23));

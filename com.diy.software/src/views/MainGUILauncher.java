@@ -1,5 +1,10 @@
 package views;
-import com.jimmyselectronics.disenchantment.TouchScreen;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
+import util.CustomerUI;
+import util.AttendantStation;
+import util.AttendantUI;
 
 public class MainGUILauncher {
 	public static StartScreenGUI startScreenGUI;
@@ -13,16 +18,29 @@ public class MainGUILauncher {
 
 	
 	public static void main(String[] args) {
-		startScreenGUI = new StartScreenGUI();
-		scanScreenGUI = new ScanScreenGUI();
-		attendantGUI = new AttendantGUI();
-		payWithCashGUI = new PayWithCashGUI();
-		payWithCreditGUI = new PayWithCreditGUI();
-		payWithDebitGUI = new PayWithDebitGUI();
+		DoItYourselfStationAR diyStation = new DoItYourselfStationAR();
+		diyStation.plugIn();
+		diyStation.turnOn();
+		
+		AttendantStation attendantStation = new AttendantStation();
+		
+		
+		CustomerUI customer = new CustomerUI(diyStation);
+		
+		scanScreenGUI = new ScanScreenGUI(customer);
+		attendantGUI = new AttendantGUI(new AttendantUI(attendantStation, 1));
+		
+		payWithCashGUI = new PayWithCashGUI(customer);
+		payWithCreditGUI = new PayWithCreditGUI(customer);
+		payWithDebitGUI = new PayWithDebitGUI(customer);
+		
+		//changeView(2);
+		startScreenGUI = new StartScreenGUI(customer);
+
 		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
 		orderFinishedGUI = new OrderFinishedGUI();
 		
-		changeView(-1);
+		//changeView(-1);
 	}
 
 	public static void changeView(int windowNum) {

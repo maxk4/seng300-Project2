@@ -1,3 +1,4 @@
+package util;
 
 
 import com.diy.hardware.BarcodedProduct;
@@ -44,14 +45,12 @@ public class ScanItemListener implements BarcodeScannerListener {
 	public void barcodeScanned(BarcodeScanner barcodeScanner, Barcode barcode) {
 		if (!enabled) return;
 		if (barcode == null) throw new NullPointerException("no barcode provided");
-		System.out.println("Item Scanned");
 		
 		// Search database for product with matching barcode
 		// if no such product exists the scan will be ignored
 		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(barcode)) return;
 		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
 		
-		System.out.println("Product Found");
 		
 		// Update the CustomerUI to include the scanned item
 		customer.addBarcodedProductToList(product);

@@ -5,6 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.BarcodedProduct;
+import com.diy.hardware.DoItYourselfStationAR;
+import com.diy.hardware.Product;
+
+import util.CustomerUI;
+import util.ProductList;
+
 import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.GroupLayout;
@@ -16,41 +24,25 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import java.awt.Font;
+
+import java.util.List;
 
 public class ScanScreenGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ScanScreenGUI frame = new ScanScreenGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JTextArea scannedPricesArea;
+	private JTextArea scannedItemsArea;
 
 	/**
 	 * Create the frame.
 	 */
-	public ScanScreenGUI() {
+	public ScanScreenGUI(CustomerUI customer) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ScanScreenGUI.class.getResource("/resources/icons8-pc-on-desk-100.png")));
 		setTitle("-- DoItYourselfStation --");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,24 +61,32 @@ public class ScanScreenGUI extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Debit");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnNewButton.addActionListener(e -> {
+			customer.payWithDebit();
 		});
 		btnNewButton.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-debit-card-100.png")));
 		
 		JButton btnNewButton_1 = new JButton("Complete/Print Receipt");
 		btnNewButton_1.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-receipt-100.png")));
+		btnNewButton_1.addActionListener(e -> {
+			try {
+				customer.endSession();
+			} catch (IllegalStateException err) {
+				// Alert customer that they have a balance remaining
+			}
+		});
 		
 		JButton btnNewButton_2 = new JButton("Credit");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnNewButton_2.addActionListener(e -> {
+			customer.payWithCredit();
 		});
 		btnNewButton_2.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-mastercard-credit-card-100.png")));
 		
 		JButton btnNewButton_3 = new JButton("Cash");
 		btnNewButton_3.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-cash-100.png")));
+		btnNewButton_3.addActionListener(e -> {
+			customer.payWithCash();
+		});
 		
 		JButton btnNewButton_5 = new JButton("Attendant");
 		
@@ -98,6 +98,13 @@ public class ScanScreenGUI extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("PAY");
 		lblNewLabel_1.setFont(new Font("Telugu MN", Font.BOLD, 23));
+		
+		JButton btnNewButton_6_1 = new JButton("Buy Bags");
+		btnNewButton_6_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				customer.purchageBags();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -109,33 +116,33 @@ public class ScanScreenGUI extends JFrame {
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(100)
-										.addComponent(btnNewButton_5)
-										.addContainerGap())
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(6)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(btnNewButton_7, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-											.addComponent(btnNewButton_6, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
-										.addContainerGap())))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGap(58)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnNewButton_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-									.addComponent(btnNewButton_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 167, Short.MAX_VALUE)
-									.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-								.addGap(52)))
-						.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(100)
+									.addComponent(btnNewButton_5)
+									.addContainerGap())))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGap(58)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnNewButton_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+								.addComponent(btnNewButton_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 167, Short.MAX_VALUE)
+								.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+							.addGap(52))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 							.addGap(112)
 							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-							.addGap(112))))
+							.addGap(112))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnNewButton_6, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+								.addComponent(btnNewButton_7, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+								.addComponent(btnNewButton_6_1, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -145,10 +152,12 @@ public class ScanScreenGUI extends JFrame {
 							.addGap(3)
 							.addComponent(btnNewButton_5)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_7)
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNewButton_6)
-							.addGap(137)
+							.addGap(18)
+							.addComponent(btnNewButton_6_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_7)
+							.addGap(102)
 							.addComponent(lblNewLabel_1)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
@@ -168,14 +177,28 @@ public class ScanScreenGUI extends JFrame {
 					.addGap(63))
 		);
 		
-		JTextArea scannedPricesArea = new JTextArea();
+		scannedPricesArea = new JTextArea();
 		scannedPricesArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		scrollPane.setRowHeaderView(scannedPricesArea);
 		scannedPricesArea.setColumns(10);
 		
-		JTextArea scannedItemsArea = new JTextArea();
+		scannedItemsArea = new JTextArea();
 		scannedItemsArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		scrollPane.setViewportView(scannedItemsArea);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public void update(long balance, ProductList products) {
+		StringBuilder productSB = new StringBuilder();
+		StringBuilder priceSB = new StringBuilder();
+		products.forEach((prod, desc, price) -> {
+			productSB.append(desc);
+			productSB.append("\n");
+			priceSB.append(String.format("$%.2f", price / 100d));
+			priceSB.append("\n");
+		});
+		scannedItemsArea.setText(priceSB.toString());
+		scannedPricesArea.setText(productSB.toString());
+		textField.setText(String.format("$%.2f", balance / 100d));
 	}
 }

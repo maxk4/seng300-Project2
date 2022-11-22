@@ -16,6 +16,11 @@ import com.jimmyselectronics.necchi.BarcodeScanner;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.virgilio.ElectronicScale;
+
+import util.AttendantUI;
+import util.CustomerUI;
+import util.NoBaggingRequestListener;
+
 import com.diy.hardware.Product;
 
 

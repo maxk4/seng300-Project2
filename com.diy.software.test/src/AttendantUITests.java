@@ -14,6 +14,14 @@ import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodeScanner;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
+
+import util.AttendantStation;
+import util.AttendantStationListener;
+import util.AttendantUI;
+import util.CustomerUI;
+import util.DiscrepancyListener;
+import util.ExpectedWeightListener;
+import util.ScanItemListener;
 public class AttendantUITests {
 	
 	AttendantUI attendant;

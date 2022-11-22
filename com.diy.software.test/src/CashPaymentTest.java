@@ -17,6 +17,10 @@ import com.unitedbankingservices.banknote.BanknoteValidatorObserver;
 import com.unitedbankingservices.coin.Coin;
 
 import ca.powerutility.PowerGrid;
+import util.AttendantStation;
+import util.AttendantUI;
+import util.CashPayment;
+import util.CustomerUI;
 
 public class CashPaymentTest {
 	
@@ -30,7 +34,7 @@ public class CashPaymentTest {
 	public void setup() throws TooMuchCashException {
 		
 		// configure denominations
-		int[] banknoteDenominations = {50,20,10,5};
+		int[] banknoteDenominations = {5000,2000,1000,500};
 		long[] coinDenominations = {200, 100, 25, 10, 5};
 		DoItYourselfStationAR.configureBanknoteDenominations(banknoteDenominations);
 		DoItYourselfStationAR.configureCoinDenominations(coinDenominations);
@@ -63,7 +67,9 @@ public class CashPaymentTest {
 		// initialize software
 		customer = new CustomerUI(checkoutStation);
 		attendant = new AttendantUI(attendantStation, 1);
-		cashPayment = new CashPayment(customer,attendant, checkoutStation);
+		cashPayment = customer.getCashPaymentController();
+		
+		customer.payWithCash();
 	}
 	
 	@After
@@ -103,123 +109,121 @@ public class CashPaymentTest {
 	
 	@Test
 	public void testBanknotePayment() throws DisabledException, TooMuchCashException {
+		//banknoteSlotToValidator();
 		
-		banknoteSlotToValidator();
+		Banknote fiveDollar = new Banknote(Currency.getInstance(Locale.CANADA), 500);
 		
-		Banknote fiveDollar = new Banknote(Currency.getInstance(Locale.CANADA), 5);
+		customer.setBalance(100);
 		
-		customer.setBalance(1);
-		
-		while(true) {
+		while(cashPayment.getValidBanknoteCount() != 1) {
 			checkoutStation.banknoteInput.receive(fiveDollar);
-			if (cashPayment.getValidBanknoteCount() == 1) {
+			if (cashPayment.getValidBanknoteCount() == 1)
 				break;
-			}
-			checkoutStation.banknoteInput.removeDanglingBanknote();
+				checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
-		assertEquals((double)-4, customer.getBalance(), (double)0.01);
+		assertEquals(-400, customer.getBalance());
 		
-		while(true) {
+		while(cashPayment.getValidBanknoteCount() != 2) {
 			checkoutStation.banknoteInput.receive(fiveDollar);
-			if (cashPayment.getValidBanknoteCount() == 2)
-				break;
-			checkoutStation.banknoteInput.removeDanglingBanknote();
+			if (cashPayment.getValidBanknoteCount() != 2)
+				checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
-		assertEquals((double)-9, customer.getBalance(), (double)0.01);
+		assertEquals(-900, customer.getBalance());
 		
 	}
 	
 	@Test
 	public void testCoinPayment() throws DisabledException, TooMuchCashException {
 		
-		coinSlotToValidator();
+		//coinSlotToValidator();
 		
 		Coin quarter = new Coin(Currency.getInstance(Locale.CANADA), 25);
 		
-		customer.setBalance(1);
+		customer.setBalance(100);
 		
 		while(true) {
 			checkoutStation.coinSlot.receive(quarter);
 			if (cashPayment.getValidCoinCount() == 1)
 				break;
 		}
-		assertEquals(0.75, customer.getBalance(), 0.01);
+		assertEquals(75, customer.getBalance());
 		
 		while(true) {
 			checkoutStation.coinSlot.receive(quarter);
 			if (cashPayment.getValidCoinCount() == 2)
 				break;
 		}
-		assertEquals(0.5, customer.getBalance(), 0.01);
+		assertEquals(50, customer.getBalance());
 		
 	}
 	
 	@Test
 	public void testBanknoteAndCoinPayment() throws DisabledException, TooMuchCashException {
 		
-		banknoteSlotToValidator();
-		coinSlotToValidator();
+		//banknoteSlotToValidator();
+		//coinSlotToValidator();
 		
-		Banknote fiveDollar = new Banknote(Currency.getInstance(Locale.CANADA), 5);		
+		Banknote fiveDollar = new Banknote(Currency.getInstance(Locale.CANADA), 500);		
 		Coin quarter = new Coin(Currency.getInstance(Locale.CANADA), 25);
 		
-		customer.setBalance(1);
+		customer.setBalance(100);
 		
 		while(true) {
 			checkoutStation.banknoteInput.receive(fiveDollar);
-			if (cashPayment.getValidBanknoteCount() == 1)
+			if (cashPayment.getValidBanknoteCount() == 1) 
 				break;
 			checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
-		assertEquals(-4, customer.getBalance(), 0.01);
+		assertEquals(-400, customer.getBalance());
 		
 		while(true) {
 			checkoutStation.coinSlot.receive(quarter);
 			if (cashPayment.getValidCoinCount() == 1)
 				break;
 		}
-		assertEquals(-4.25, customer.getBalance(), 0.01);
+		assertEquals(-425, customer.getBalance());
 	}
 	
 	@Test
 	public void testReturnBanknoteChange() throws TooMuchCashException, OutOfCashException, DisabledException {
 		customer.setBalance(-5);
 		cashPayment.returnChange();
-		assertEquals(0, customer.getBalance(), 0.01);
+		assertEquals(0, customer.getBalance());
 	}
 	
 	@Test
 	public void testReturnCoinChange() throws TooMuchCashException, OutOfCashException, DisabledException {
-		customer.setBalance(-0.25);
+		customer.setBalance(-25);
 		cashPayment.returnChange();
-		assertEquals(0, customer.getBalance(), 0.01);
+		assertEquals(0, customer.getBalance());
 	}
 
 	@Test
 	public void testBanknoteAndCoinChange() throws TooMuchCashException, OutOfCashException, DisabledException {
-		customer.setBalance(-6);
+		customer.setBalance(-600);
 		cashPayment.returnChange();
-		assertEquals(0, customer.getBalance(), 0.01);
+		assertEquals(0, customer.getBalance());
 	}
-	
-	@Test
+
+	@Test (expected = OutOfCashException.class)
 	public void testInsufficientBanknoteChange() throws TooMuchCashException, OutOfCashException, DisabledException {
-		customer.setBalance(-40);
+		customer.setBalance(-4000);
 		cashPayment.returnChange();
-		assertEquals(-5, customer.getBalance(), 0.01);
+		assertEquals(0, customer.getBalance());
 	}
-	
-	@Test
+
+	@Test (expected = OutOfCashException.class)
 	public void testInsufficientCoinChange() throws TooMuchCashException, OutOfCashException, DisabledException {
-		customer.setBalance(-0.2);
+		customer.setBalance(-2);
 		cashPayment.returnChange();
-		assertEquals(-0.05, customer.getBalance(), 0.01);
+		assertEquals(-2, customer.getBalance());
 	}
 	
-	@Test
+	@Test (expected = OutOfCashException.class)
 	public void testInsufficientBanknoteAndCoinChange() throws TooMuchCashException, OutOfCashException, DisabledException {
-		customer.setBalance(-40.2);
+		customer.setBalance(-4002);
 		cashPayment.returnChange();
-		assertEquals(-5.05, customer.getBalance(), 0.01);
+		assertEquals(-4002 + 3840, customer.getBalance());
+		
 	}
 }

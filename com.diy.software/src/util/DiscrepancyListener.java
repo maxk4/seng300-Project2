@@ -1,4 +1,4 @@
-
+package util;
 /**
  * A listener allowing the state of a weight discrepancy to be passed from 
  * the customer ui to and from the attendant ui

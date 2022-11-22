@@ -10,7 +10,10 @@ import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
 import com.diy.hardware.external.CardIssuer;
 import ca.ucalgary.seng300.simulation.SimulationException;
-
+import util.AttendantStation;
+import util.AttendantUI;
+import util.CustomerUI;
+import util.PayWithCardListener;
 
 import com.jimmyselectronics.opeechee.Card;
 import com.jimmyselectronics.opeechee.CardReader;
