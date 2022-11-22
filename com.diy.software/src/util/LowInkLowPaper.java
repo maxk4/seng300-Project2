@@ -14,6 +14,7 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	boolean noPaper;
 	boolean noInk;
 	
+	//Constructor
 	public LowInkLowPaper() {
 		this.lowPaper = false;
 		this.lowInk = false;
@@ -81,8 +82,8 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	
 	
 	/** If printer runs of ink/paper while printing
-	 *  Abort printing, suspend station, inform attendant that duplicate receipt must be printed and station needs maintenance
-	 */
+	 *  Abort printing, suspend station, and inform attendant that duplicate receipt must be printed and station needs maintenance
+	 */ 
 	public void abortPrinting() {
 		
 		JOptionPane maintenanceWarning = new JOptionPane();

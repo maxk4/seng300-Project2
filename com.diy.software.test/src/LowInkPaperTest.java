@@ -51,14 +51,9 @@ public class LowInkPaperTest {
 	public void testLowInk() throws EmptyException, OverloadException {
 		printer.addPaper(MAXIMUM_PAPER);
 		printer.addInk(20);
-		String expected = "Less than 10% ink remaining.";
 		printer.print('A');
 		
 		assertTrue(listener.getLowInk());
-		
-		//assertEquals(listener.lowInk(printer),listener.lowInk(printer));
-		
-		//assertEquals(expected,output.toString());
 	}
 	
 	/**
@@ -71,12 +66,9 @@ public class LowInkPaperTest {
 	public void testLowPaper() throws EmptyException, OverloadException {
 		printer.addInk(MAXIMUM_INK);
 		printer.addPaper(2);
-		String expected = "Less than 10% paper remaining.";
-
 		printer.print('A');
 		
 		assertTrue(listener.getLowPaper());
-		//assertEquals(expected,output.toString());
 	}
 	
 	/**
@@ -123,7 +115,6 @@ public class LowInkPaperTest {
 		printer.addPaper(1);
 		printer.print('\n');
 
-		
 		assertTrue(listener.getNoPaper());
 	}
 	
