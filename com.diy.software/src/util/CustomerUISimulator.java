@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
 import com.jimmyselectronics.Item;
-import com.jimmyselectronics.disenchantment.TouchScreen;
 import com.jimmyselectronics.opeechee.Card;
 
 public class CustomerUISimulator extends CustomerUI {
