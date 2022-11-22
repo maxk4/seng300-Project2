@@ -24,23 +24,6 @@ public class StartScreenGUI extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StartScreenGUI frame = new StartScreenGUI(new CustomerUI(new DoItYourselfStationAR()));
-					
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public StartScreenGUI(CustomerUI customer) {

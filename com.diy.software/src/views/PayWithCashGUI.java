@@ -25,21 +25,6 @@ public class PayWithCashGUI extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PayWithCashGUI frame = new PayWithCashGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

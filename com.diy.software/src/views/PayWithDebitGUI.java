@@ -22,23 +22,7 @@ import javax.swing.ImageIcon;
 
 public class PayWithDebitGUI extends JFrame {
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PayWithDebitGUI frame = new PayWithDebitGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */

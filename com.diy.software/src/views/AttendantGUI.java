@@ -35,33 +35,6 @@ public class AttendantGUI extends JFrame {
 	private JButton btnUnlock;
 	private JButton btnNewButton_1;
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DoItYourselfStationAR station = new DoItYourselfStationAR();
-					station.plugIn();
-					station.turnOn();
-					CustomerUI customer = new CustomerUI(station);
-					AttendantUI attendant = new AttendantUI(new AttendantStation(), 1);
-					attendant.addCustomerUI(customer);
-					attendant.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */

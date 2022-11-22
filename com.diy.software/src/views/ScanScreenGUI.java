@@ -37,27 +37,6 @@ public class ScanScreenGUI extends JFrame {
 	private JTextArea scannedItemsArea;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ScanScreenGUI frame = new ScanScreenGUI(new CustomerUI(new DoItYourselfStationAR()));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public ScanScreenGUI(CustomerUI customer) {
