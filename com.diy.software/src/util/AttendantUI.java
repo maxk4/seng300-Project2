@@ -51,7 +51,6 @@ public class AttendantUI {
 		System.out.println(String.format("Station %d: Weight Discrepancy Resolved", index + 1));
 	}
 
-	
 	public void notifyLowInkDetected(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Low Ink", index + 1));
@@ -59,7 +58,17 @@ public class AttendantUI {
 	
 	public void notifyLowInkResolved(CustomerUI customer) {
 		int index = idOf(customer);
-		System.out.println(String.format("Station %d: Ink Filled", index + 1));
+		System.out.println(String.format("Station %d: Ink Refilled", index + 1));
+	}
+	
+	public void notifyLowPaperDetected(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Low Paper", index + 1));
+	}
+	
+	public void notifyLowPaperResolved(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Paper Refilled", index + 1));
 	}
 	
 	/**

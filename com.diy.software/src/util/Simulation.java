@@ -9,6 +9,7 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.diy.simulation.Customer;
+import com.jimmyselectronics.OverloadException;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
@@ -75,6 +76,8 @@ public class Simulation {
 			DiscrepancyListener dl = new DiscrepancyListener(attendant);
 			ui.registerDiscrepancyListener(dl);
 			ui.registerNoBaggingRequestListener(nbrListener);
+			
+			station.printer.register(new LowInkLowPaper(ui, attendant));
 			
 			uis.add(ui);
 			stations.add(station);

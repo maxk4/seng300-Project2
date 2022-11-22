@@ -7,19 +7,23 @@ import com.jimmyselectronics.abagnale.IReceiptPrinter;
 import com.jimmyselectronics.abagnale.ReceiptPrinterListener;
 import com.jimmyselectronics.abagnale.ReceiptPrinterD;
 
-public class LowInkLowPaper implements ReceiptPrinterListener{
+public class LowInkLowPaper implements ReceiptPrinterListener {
 	
 	boolean lowPaper;
 	boolean lowInk;
 	boolean noPaper;
 	boolean noInk;
+	private AttendantUI attendant;
+	private CustomerUI customer;
 	
 	//Constructor
-	public LowInkLowPaper() {
+	public LowInkLowPaper(CustomerUI customer, AttendantUI attendant) {
 		this.lowPaper = false;
 		this.lowInk = false;
 		this.noPaper = false;
 		this.noInk = false;
+		this.customer = customer;
+		this.attendant = attendant;
 	}
 
 	@Override
@@ -59,10 +63,14 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	}
 
 	@Override
-	public void paperAdded(IReceiptPrinter printer) {}
+	public void paperAdded(IReceiptPrinter printer) {
+		attendant.notifyLowPaperResolved(customer);
+	}
 
 	@Override
-	public void inkAdded(IReceiptPrinter printer) {}
+	public void inkAdded(IReceiptPrinter printer) {
+		attendant.notifyLowInkResolved(customer);
+	}
 	
 	public boolean getLowInk() {
 		return lowInk;
@@ -92,9 +100,11 @@ public class LowInkLowPaper implements ReceiptPrinterListener{
 	
 	public void notifyLowInk() {
 		System.out.println("Less than 10% ink remaining.");
+		attendant.notifyLowInkDetected(customer);
 	}
 	
 	public void notifyLowPaper() {
 		System.out.println("Less than 10% paper remaining.");
+		attendant.notifyLowPaperDetected(customer);
 	}
 }

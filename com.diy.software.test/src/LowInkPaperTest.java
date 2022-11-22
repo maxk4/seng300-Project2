@@ -16,6 +16,9 @@ import com.jimmyselectronics.OverloadException;
 import com.jimmyselectronics.abagnale.IReceiptPrinter;
 import com.jimmyselectronics.abagnale.ReceiptPrinterD;
 
+import util.AttendantStation;
+import util.AttendantUI;
+import util.CustomerUI;
 import util.LowInkLowPaper;
 
 
@@ -26,13 +29,20 @@ public class LowInkPaperTest {
 	public static final int MAXIMUM_PAPER = 10;
 	public static final int MAXIMUM_INK = 20;
 
-	LowInkLowPaper listener = new LowInkLowPaper();
+	LowInkLowPaper listener;
 	DoItYourselfStationAR station;
 	
 	java.io.ByteArrayOutputStream output = new java.io.ByteArrayOutputStream();
 	
 	@Before
 	public void setup() {
+		station = new DoItYourselfStationAR();
+		station.plugIn();
+		station.turnOn();
+		CustomerUI customer = new CustomerUI(station);
+		AttendantUI attendant = new AttendantUI(new AttendantStation(), 1);
+		
+		listener = new LowInkLowPaper(customer, attendant);
 		printer.plugIn();
 		printer.turnOn();
 		printer.register(listener);

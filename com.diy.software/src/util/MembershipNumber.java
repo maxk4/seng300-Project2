@@ -1,6 +1,7 @@
 package util;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /*
@@ -10,6 +11,9 @@ input will be stored in a HashMap, where:
  */
 
 public class MembershipNumber {
+	
+	public static final Map<Integer, String> MEMBERS = new HashMap<Integer, String>();
+	
     public static void main(String[] args) {
         HashMap<String, Integer> CustomerMembershipNum = new HashMap<>();
 
