@@ -19,6 +19,7 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 	public static WeightDiscrepancyGUI weightDiscrepancyGUI;
 	public static OrderFinishedGUI orderFinishedGUI;
 	public static KeypadGUI keypadGUI;
+	public static PurchaseBagsGUI purchaseBagsGUI;
 	
 	public static int START_SCREEN = 			1;
 	public static int SCAN_SCREEN = 			2;
@@ -29,6 +30,7 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 	public static int WEIGHT_DISCREP_SCREEN = 	7;
 	public static int KEYPAD_SCREEN = 			8;
 	public static int ORDER_FINISHED_SCREEN = 	9;
+	public static int PURCHASE_BAGS_SCREEN = 	10;
 	
 	private boolean screenLocked = false;
 
@@ -56,6 +58,7 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 
 		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
 		orderFinishedGUI = new OrderFinishedGUI();
+		purchaseBagsGUI = new PurchaseBagsGUI();
 		
 		//changeView(-1);
 		// Launch Startup Screen
@@ -110,9 +113,15 @@ public class MainGUILauncher extends AbstractDevice <TouchScreenListener>  {
 		case 9:
 			orderFinishedGUI.setVisible(isVisible);
 			break;
+		case 10:
+			purchaseBagsGUI.setVisible(isVisible);
+			break;
 		}
 	}
-
+	/**
+	 *
+	 *	!!!!!!!!!!!!!!!! DEPRECATING THIS METHOD! DO NOT  USE !!!!!!!!!!!!!!
+	 */
 	public static void changeView(int windowNum) {
 		switch (windowNum) {
 		

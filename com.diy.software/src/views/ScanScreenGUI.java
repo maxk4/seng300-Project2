@@ -98,7 +98,7 @@ public class ScanScreenGUI extends MainGUILauncher {
 		JButton btnNewButton_6_1 = new JButton("Buy Bags");
 		btnNewButton_6_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setScreenVisiblility(MainGUILauncher.KEYPAD_SCREEN, true);
+				setScreenVisiblility(MainGUILauncher.PURCHASE_BAGS_SCREEN, true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
