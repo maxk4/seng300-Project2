@@ -5,12 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.diy.hardware.DoItYourselfStationAR;
+
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -20,6 +24,7 @@ import java.awt.event.ActionEvent;
 
 import util.AttendantStation;
 import util.AttendantUI;
+import util.CustomerUI;
 
 public class AttendantGUI extends JFrame {
 
@@ -35,11 +40,21 @@ public class AttendantGUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AttendantGUI frame = new AttendantGUI(new AttendantUI(new AttendantStation(), 1));
-					frame.setVisible(true);
+					DoItYourselfStationAR station = new DoItYourselfStationAR();
+					station.plugIn();
+					station.turnOn();
+					CustomerUI customer = new CustomerUI(station);
+					AttendantUI attendant = new AttendantUI(new AttendantStation(), 1);
+					attendant.addCustomerUI(customer);
+					attendant.show();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,7 +66,8 @@ public class AttendantGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AttendantGUI(AttendantUI attendant) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setTitle("Attendant GUI");
 		setBounds(100, 100, 593, 298);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(14, 144, 215));

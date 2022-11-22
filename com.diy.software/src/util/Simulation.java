@@ -88,7 +88,7 @@ public class Simulation {
 		
 		// Make Attendant UI visible
 		SwingUtilities.invokeLater(() -> {
-			aStation.getTouchScreen().setVisible(true);
+			
 		});
 	}
 	

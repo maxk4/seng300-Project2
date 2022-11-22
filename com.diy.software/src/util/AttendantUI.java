@@ -1,5 +1,10 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import views.AttendantGUI;
+
 /**
  * Class controlling the UI of the attendant station
  * @author Taylor Wong
@@ -8,6 +13,8 @@ package util;
 public class AttendantUI {
 	
 	private AttendantStation station;
+	private AttendantGUI gui;
+	private List<CustomerUI> stations;
 	
 	/**
 	 * Make a new AttendantUI attached to the touch screen of the provided AttendantStation
@@ -15,6 +22,13 @@ public class AttendantUI {
 	 */
 	public AttendantUI(AttendantStation station, int maxStations) {
 		this.station = station;
+		stations = new ArrayList<CustomerUI>(maxStations);
+		gui = new AttendantGUI(this);
+		gui.setVisible(true);
+	}
+	
+	public void show() {
+		gui.setVisible(true);
 	}
 	
 	/**
@@ -44,6 +58,7 @@ public class AttendantUI {
 	 * @param customer CustomerUI to add
 	 */
 	public void addCustomerUI(CustomerUI customer) {
+		stations.add(customer);
 	}
 	
 	/**
@@ -51,5 +66,6 @@ public class AttendantUI {
 	 * @param customer CustomerUI to remove
 	 */
 	public void removeCustomerUI(CustomerUI customer) {
+		stations.remove(customer);
 	}
 }

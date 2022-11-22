@@ -15,6 +15,8 @@ import com.jimmyselectronics.OverloadException;
 import com.jimmyselectronics.abagnale.IReceiptPrinter;
 import com.jimmyselectronics.abagnale.ReceiptPrinterD;
 
+import util.LowInkLowPaper;
+
 
 public class LowInkPaperTest {
 	
