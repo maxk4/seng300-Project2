@@ -232,7 +232,6 @@ public class CustomerUI {
 				listener.notifyWeightDiscrepancyResolved(this);
 			weightDiscrepancyGUI.setVisible(false);
 		} else {
-			System.out.println("reset");
 			startScreenGUI.dispose();
 			scanScreenGUI.dispose();
 			payWithCashGUI.dispose();

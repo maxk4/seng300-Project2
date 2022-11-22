@@ -41,7 +41,6 @@ public class ExpectedWeightListener implements ElectronicScaleListener {
 			customer.alertWeightDiscrepancy();
 		else customer.resolveWeightDiscrepancy();
 		lastWeight = weightInGrams;
-		System.out.println(String.format("Expected: %f Actual%f", expectedWeight, weightInGrams));
 	}
 
 	@Override

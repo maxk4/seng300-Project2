@@ -44,7 +44,6 @@ public class AttendantUI {
 	 * @param customer CustomerUI who has a weight discrepancy
 	 */
 	public void notifyWeightDiscrepancyDetected(CustomerUI customer) {
-		System.out.println(customer + " has a weight discrepancy");
 	}
 	
 	/**
