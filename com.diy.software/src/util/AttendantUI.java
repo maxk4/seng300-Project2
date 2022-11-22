@@ -27,16 +27,11 @@ public class AttendantUI {
 		gui.setVisible(true);
 	}
 	
-	public void show() {
-		gui.setVisible(true);
-	}
-	
 	/**
 	 * Notify the attendant that the customer is making a no bagging request
 	 * @param customer CustomerUI that is making the request
 	 */
 	public void notifyNoBaggingRequest(CustomerUI customer) {
-		
 	}
 	
 	/**

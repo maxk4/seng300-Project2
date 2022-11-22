@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
+import com.jimmyselectronics.EmptyException;
+import com.jimmyselectronics.OverloadException;
 import com.unitedbankingservices.DisabledException;
-import com.unitedbankingservices.OutOfCashException;
-import com.unitedbankingservices.TooMuchCashException;
 
 import views.OrderFinishedGUI;
 import views.PayWithCashGUI;
@@ -25,6 +25,7 @@ public class CustomerUI {
 	
 	private long balance = 0;
 	private boolean inProgress = false;
+	private long total = 0;
 	
 	private ExpectedWeightListener weightListener;
 	private ProductList productList;
@@ -386,6 +387,8 @@ public class CustomerUI {
 		// Show end screen
 		orderFinishedGUI.setVisible(true);
 		
+		printReceipt();
+		
 		try {
 			cashPayment.returnChange();
 		} catch (DisabledException e) {
@@ -400,6 +403,36 @@ public class CustomerUI {
 		
 	}
 	
+	/**
+	 * Print Receipt
+	 */
+	public void printReceipt() {
+		total = 0;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Transaction Complete\n");
+		sb.append("--------------------\n");
+		productList.forEach((prod, desc, price) -> {
+			sb.append(String.format("%s\t\t$%.2f\n", desc, price / 100d));
+			total += price;
+		});
+		sb.append("--------------------\n");
+		sb.append(String.format("\t\tTotal:\t$%.2f", total / 100d));
+		String receipt = sb.toString();
+		for (char c : receipt.toCharArray()) {
+			try {
+				station.printer.print(c);
+			} catch (EmptyException e) {
+				// Notify attendant
+			} catch (OverloadException e) {
+				e.printStackTrace();
+			}
+		}
+		station.printer.cutPaper();
+	}
+	
+	/**
+	 * Begin a session
+	 */
 	public void beginSession() {
 
 		startScreenGUI = new StartScreenGUI(this);
