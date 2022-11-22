@@ -16,6 +16,7 @@ import views.OrderFinishedGUI;
 import views.PayWithCashGUI;
 import views.PayWithCreditGUI;
 import views.PayWithDebitGUI;
+import views.PurchaseBagsGUI;
 import views.ScanScreenGUI;
 import views.StartScreenGUI;
 import views.WeightDiscrepancyGUI;
@@ -42,6 +43,7 @@ public class CustomerUI {
 
 	private ScanScreenGUI scanScreenGUI;
 	private StartScreenGUI startScreenGUI;
+	private PurchaseBagsGUI purchaseBagsGUI;
 	
 	private WeightDiscrepancyGUI weightDiscrepancyGUI;
 	private OrderFinishedGUI orderFinishedGUI;
@@ -304,6 +306,7 @@ public class CustomerUI {
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
+		purchaseBagsGUI.setVisible(false);
 		inProgress = true;
 	}
 	
@@ -440,7 +443,7 @@ public class CustomerUI {
 		payWithCashGUI = new PayWithCashGUI(this);
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
-		
+		purchaseBagsGUI = new PurchaseBagsGUI(this);
 		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
 		orderFinishedGUI = new OrderFinishedGUI();
 		
@@ -452,6 +455,7 @@ public class CustomerUI {
 		payWithDebitGUI.setVisible(false);
 		weightDiscrepancyGUI.setVisible(false);
 		orderFinishedGUI.setVisible(false);
+		purchaseBagsGUI.setVisible(false);
 		
 		balance = 0;
 		productList = new ProductList();
@@ -462,5 +466,16 @@ public class CustomerUI {
 		station.banknoteOutput.disable();
 		station.banknoteValidator.disactivate();
 		station.cardReader.disable();
+	}
+
+	public void purchageBags() {
+		startScreenGUI.setVisible(false);
+		scanScreenGUI.setVisible(false);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
+		weightDiscrepancyGUI.setVisible(false);
+		orderFinishedGUI.setVisible(false);
+		purchaseBagsGUI.setVisible(true);
 	}
 }
