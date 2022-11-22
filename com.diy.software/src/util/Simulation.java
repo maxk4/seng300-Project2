@@ -88,10 +88,6 @@ public class Simulation {
 		aStation.getTouchScreen().turnOn();
 		aStation.getTouchScreen().enable();
 		
-		// Make Attendant UI visible
-		SwingUtilities.invokeLater(() -> {
-			
-		});
 	}
 	
 	private static void setup() {
