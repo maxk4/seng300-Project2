@@ -8,6 +8,9 @@ import javax.swing.JFrame;
 import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
+import com.unitedbankingservices.DisabledException;
+import com.unitedbankingservices.OutOfCashException;
+import com.unitedbankingservices.TooMuchCashException;
 
 import views.OrderFinishedGUI;
 import views.PayWithCashGUI;
@@ -45,20 +48,10 @@ public class CustomerUI {
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
 		
-		startScreenGUI = new StartScreenGUI(this);
-		scanScreenGUI = new ScanScreenGUI(this);
-		payWithCashGUI = new PayWithCashGUI(this);
-		payWithCreditGUI = new PayWithCreditGUI(this);
-		payWithDebitGUI = new PayWithDebitGUI(this);
-		
-		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
-		orderFinishedGUI = new OrderFinishedGUI();
-		
-		cashPayment = new CashPayment(this, null, station);
 		//PayWithCardListener cardListener = new PayWithCardListener(this);
 		//station.cardReader.register(cardListener);
-		
-		setScanningEnabled(true);
+
+		cashPayment = new CashPayment(this, null, station);
 		beginSession();
 	}
 	
@@ -218,13 +211,14 @@ public class CustomerUI {
 	 * Alert the UI that there is a weight discrepancy
 	 */
 	public void alertWeightDiscrepancy() {
-		
-		// Show weight discrepancy gui
-		station.scanner.disable();
-		for (DiscrepancyListener listener : discrepancyListeners)
-			listener.notifyWeightDiscrepancyDetected(this);
-		
-		weightDiscrepancyGUI.setVisible(true);
+		if (inProgress) {
+			// Show weight discrepancy gui
+			station.scanner.disable();
+			for (DiscrepancyListener listener : discrepancyListeners)
+				listener.notifyWeightDiscrepancyDetected(this);
+			
+			weightDiscrepancyGUI.setVisible(true);
+		}
 	}
 	
 	/**
@@ -232,10 +226,23 @@ public class CustomerUI {
 	 * the attached expected weight listener
 	 */
 	public void resolveWeightDiscrepancy() {
-		station.scanner.enable();
-		for (DiscrepancyListener listener : discrepancyListeners)
-			listener.notifyWeightDiscrepancyResolved(this);
-		weightDiscrepancyGUI.setVisible(false);
+		if (inProgress) {
+			station.scanner.enable();
+			for (DiscrepancyListener listener : discrepancyListeners)
+				listener.notifyWeightDiscrepancyResolved(this);
+			weightDiscrepancyGUI.setVisible(false);
+		} else {
+			System.out.println("reset");
+			startScreenGUI.dispose();
+			scanScreenGUI.dispose();
+			payWithCashGUI.dispose();
+			payWithCreditGUI.dispose();
+			payWithDebitGUI.dispose();
+			weightDiscrepancyGUI.dispose();
+			orderFinishedGUI.dispose();
+			
+			beginSession();
+		}
 	}
 
 	/**
@@ -276,7 +283,7 @@ public class CustomerUI {
 	 */
 	public void notifyPayment(long amount) {
 		balance -= amount;
-		scanScreenGUI.update(amount, productList);
+		scanScreenGUI.update(balance, productList);
 	}
 	
 	/**
@@ -374,11 +381,32 @@ public class CustomerUI {
 		// Show end screen
 		orderFinishedGUI.setVisible(true);
 		
+		try {
+			cashPayment.returnChange();
+		} catch (DisabledException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// Alert attendant
+		}
+		
 		inProgress = false;
+		
+		weightListener.setExpectedWeight(0);
 		
 	}
 	
 	public void beginSession() {
+
+		startScreenGUI = new StartScreenGUI(this);
+		scanScreenGUI = new ScanScreenGUI(this);
+		payWithCashGUI = new PayWithCashGUI(this);
+		payWithCreditGUI = new PayWithCreditGUI(this);
+		payWithDebitGUI = new PayWithDebitGUI(this);
+		
+		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
+		orderFinishedGUI = new OrderFinishedGUI();
+		
+		
 		startScreenGUI.setVisible(true);
 		scanScreenGUI.setVisible(false);
 		payWithCashGUI.setVisible(false);

@@ -13,14 +13,8 @@ import javax.swing.JPanel;
 
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
-import com.jimmyselectronics.AbstractDevice;
-import com.jimmyselectronics.AbstractDeviceListener;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.opeechee.Card;
-import com.jimmyselectronics.virgilio.ElectronicScale;
-import com.jimmyselectronics.virgilio.ElectronicScaleListener;
-import com.unitedbankingservices.DisabledException;
-import com.unitedbankingservices.TooMuchCashException;
 import com.unitedbankingservices.banknote.Banknote;
 import com.unitedbankingservices.coin.Coin;
 
@@ -29,7 +23,7 @@ public class CustomerUISimulator extends CustomerUI {
 	public CustomerUISimulator(DoItYourselfStationAR station, Customer customer) {
 		super(station);
 		
-		JDialog customerSim = new JDialog(getFrame());
+		JDialog customerSim = new JDialog();
 		customerSim.setLocationRelativeTo(null);
 		
 		JPanel container = new JPanel();
