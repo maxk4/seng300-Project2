@@ -15,6 +15,8 @@ import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.simulation.Customer;
 import com.jimmyselectronics.Item;
 import com.jimmyselectronics.opeechee.Card;
+import com.unitedbankingservices.DisabledException;
+import com.unitedbankingservices.TooMuchCashException;
 import com.unitedbankingservices.banknote.Banknote;
 import com.unitedbankingservices.coin.Coin;
 
@@ -122,8 +124,10 @@ public class CustomerUISimulator extends CustomerUI {
 			coin.addActionListener(e -> {
 				try {
 					station.coinSlot.receive(new Coin(Currency.getInstance(Locale.CANADA), denom));
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				} catch (DisabledException e1) {
+					
+				} catch (TooMuchCashException e1) {
+					// Alert attendant
 				}
 			});
 			cash.add(coin);

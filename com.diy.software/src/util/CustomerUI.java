@@ -284,6 +284,12 @@ public class CustomerUI {
 	public void notifyPayment(long amount) {
 		balance -= amount;
 		scanScreenGUI.update(balance, productList);
+
+		startScreenGUI.setVisible(false);
+		scanScreenGUI.setVisible(true);
+		payWithCashGUI.setVisible(false);
+		payWithCreditGUI.setVisible(false);
+		payWithDebitGUI.setVisible(false);
 	}
 	
 	/**
@@ -418,5 +424,11 @@ public class CustomerUI {
 		balance = 0;
 		productList = new ProductList();
 		scanScreenGUI.update(0, productList);
+		
+		station.coinSlot.disable();
+		station.banknoteInput.disable();
+		station.banknoteOutput.disable();
+		station.banknoteValidator.disactivate();
+		station.cardReader.disable();
 	}
 }
