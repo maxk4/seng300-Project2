@@ -9,16 +9,19 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.Product;
 
+import views.OrderFinishedGUI;
 import views.PayWithCashGUI;
 import views.PayWithCreditGUI;
 import views.PayWithDebitGUI;
 import views.ScanScreenGUI;
 import views.StartScreenGUI;
+import views.WeightDiscrepancyGUI;
 
 
 public class CustomerUI {
 	
 	private long balance = 0;
+	private boolean inProgress = false;
 	
 	private ExpectedWeightListener weightListener;
 	private ProductList productList;
@@ -36,6 +39,9 @@ public class CustomerUI {
 	private ScanScreenGUI scanScreenGUI;
 	private StartScreenGUI startScreenGUI;
 	
+	private WeightDiscrepancyGUI weightDiscrepancyGUI;
+	private OrderFinishedGUI orderFinishedGUI;
+	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
 		
@@ -44,6 +50,9 @@ public class CustomerUI {
 		payWithCashGUI = new PayWithCashGUI(this);
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
+		
+		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
+		orderFinishedGUI = new OrderFinishedGUI();
 		
 		cashPayment = new CashPayment(this, null, station);
 		//PayWithCardListener cardListener = new PayWithCardListener(this);
@@ -214,6 +223,8 @@ public class CustomerUI {
 		//station.scanner.disable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyDetected(this);
+		
+		weightDiscrepancyGUI.setVisible(true);
 	}
 	
 	/**
@@ -224,6 +235,7 @@ public class CustomerUI {
 		station.scanner.enable();
 		for (DiscrepancyListener listener : discrepancyListeners)
 			listener.notifyWeightDiscrepancyResolved(this);
+		weightDiscrepancyGUI.setVisible(false);
 	}
 
 	/**
@@ -278,7 +290,7 @@ public class CustomerUI {
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
-		
+		inProgress = true;
 	}
 	
 	/**
@@ -359,10 +371,9 @@ public class CustomerUI {
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
 		// Show end screen
+		orderFinishedGUI.setVisible(true);
 		
-		
-		
-		System.out.println("end session");
+		inProgress = false;
 		
 	}
 	
@@ -372,6 +383,8 @@ public class CustomerUI {
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
+		weightDiscrepancyGUI.setVisible(false);
+		orderFinishedGUI.setVisible(false);
 		
 		balance = 0;
 		productList = new ProductList();

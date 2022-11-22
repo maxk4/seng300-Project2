@@ -24,7 +24,7 @@ public class CustomerUISimulator extends CustomerUI {
 		customerSim.setLocationRelativeTo(null);
 		
 		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1, 2));
+		container.setLayout(new GridLayout(1, 4));
 		
 		JPanel cart = new JPanel();
 		cart.setLayout(new BoxLayout(cart, BoxLayout.PAGE_AXIS));
@@ -33,16 +33,31 @@ public class CustomerUISimulator extends CustomerUI {
 		JLabel cartLabel = new JLabel("Cart: Click to Scan");
 		cart.add(cartLabel);
 		for (Item item : customer.shoppingCart) {
-			JButton button = new JButton(String.format("Item %d: Weight: %fkg", ++i, item.getWeight()));
+			JButton button = new JButton(String.format("Item %d: Weight: %.2fkg", ++i, item.getWeight()));
 			button.addActionListener(e -> {
 				if (station.scanner.isDisabled()) return;
 				customer.shoppingCart.add(item);
 				customer.selectNextItem();
 				customer.scanItem();
-				customer.placeItemInBaggingArea();
 				System.out.println("Scanned");
 			});
 			cart.add(button);
+		}
+		
+		JLabel placeLabel = new JLabel("Items: Click to add to Scale");
+		JPanel placeList = new JPanel();
+		placeList.setLayout(new BoxLayout(placeList, BoxLayout.PAGE_AXIS));
+		placeList.add(placeLabel);
+		for (Item item : customer.shoppingCart) {
+			JButton button = new JButton(String.format("Item %d: Weight: %.2fkg", ++i, item.getWeight()));
+			button.addActionListener(e -> {
+				if (station.scanner.isDisabled()) return;
+				customer.shoppingCart.add(item);
+				customer.selectNextItem();
+				customer.placeItemInBaggingArea();
+				System.out.println("Placed");
+			});
+			placeList.add(button);
 		}
 		
 		JPanel wallet = new JPanel();
@@ -67,11 +82,12 @@ public class CustomerUISimulator extends CustomerUI {
 		}
 		
 		container.add(cart);
+		container.add(placeList);
 		container.add(wallet);
 		container.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
 		customerSim.getContentPane().add(container);
-		
+		customerSim.setTitle("Customer Simulator");
 		customerSim.pack();
 		customerSim.setVisible(true);
 		

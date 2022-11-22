@@ -187,7 +187,6 @@ public class ScanScreenGUI extends JFrame {
 		});
 		scannedItemsArea.setText(priceSB.toString());
 		scannedPricesArea.setText(productSB.toString());
-		textField.setText(String.format("$%.2f", balance / 100d));
-		System.out.println(products);
+		textField.setText(String.format("%.2f", balance / 100d));
 	}
 }

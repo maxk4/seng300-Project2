@@ -11,7 +11,7 @@ import com.jimmyselectronics.virgilio.ElectronicScaleListener;
  */
 public class ExpectedWeightListener implements ElectronicScaleListener {
 	
-	private double expectedWeight, sensitivity, lastWeight;
+	private double expectedWeight, sensitivity = 0, lastWeight;
 	private CustomerUI customer;
 	
 	/**
@@ -41,6 +41,7 @@ public class ExpectedWeightListener implements ElectronicScaleListener {
 			customer.alertWeightDiscrepancy();
 		else customer.resolveWeightDiscrepancy();
 		lastWeight = weightInGrams;
+		System.out.println(String.format("Expected: %f Actual%f", expectedWeight, weightInGrams));
 	}
 
 	@Override
