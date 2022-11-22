@@ -48,6 +48,7 @@ public class PurchaseBags {
 	private Barcode bagBarcode;
 	private BarcodedProduct bag;
 	private CustomerUI customer;
+	private DoItYourselfStationAR station;
 
 /**
  * Opens Customer UI to select bagging options
@@ -89,8 +90,7 @@ public class PurchaseBags {
 	  
 	  @Override public void actionPerformed(ActionEvent e) {
 	  dialog.setVisible(false); } });
-	  
-	  
+
 	  }
 	  
 	  
@@ -100,6 +100,7 @@ public class PurchaseBags {
  * @param Create Customer UI to select Bag(s) amount
  * @return
  */
+
   @SuppressWarnings("serial") 
   
   public void purchaseBagsFrame(CustomerUI customer) {
@@ -185,6 +186,7 @@ public class PurchaseBags {
 	  
   }
 
+  
   	public void setUnitCostBag(double a) {
   		this.unitcostBag = a;
   	}
@@ -229,32 +231,16 @@ public class PurchaseBags {
 
 		createProductBag();
 		
-		/** Error handling for 0 bags, null exception error gets thrown at totalCostBags **/
-		if (amountBags == 0) {
-			System.out.println("0 bags");
-		}
+		System.out.println("Bag Price:" + bag.getPrice());
 
-		else {
-			System.out.println(totalcostBags);
-			
-			/** Customer is null error here **/
-			//customer.addBarcodedProductToList(bag);
-		}
-
-	}
-
-	public static void main(String[] args) {		
-
-		/** TEST **/ 
-		PurchaseBags test = new PurchaseBags();
 		
-		 
-		test.setAmountBags(5);
-		test.addProductBagToList();
+		DoItYourselfStationAR station = new DoItYourselfStationAR();
+		station.plugIn();
+		station.turnOn();
+
+		customer = new CustomerUI(station);
 		
-		//System.out.println(test.getTotalCostBags());
-		 
-		 
+		customer.addBarcodedProductToList(bag);
 	}
 
 }
