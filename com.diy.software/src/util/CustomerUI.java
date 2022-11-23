@@ -31,7 +31,7 @@ public class CustomerUI {
 	private ExpectedWeightListener weightListener;
 	private ProductList productList;
 	
-	private List<DiscrepancyListener> discrepancyListeners = new ArrayList<DiscrepancyListener>();
+	private List<CustomerStationListener> stationListeners = new ArrayList<CustomerStationListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
 	private DoItYourselfStationAR station;
 	
@@ -139,13 +139,13 @@ public class CustomerUI {
 	 * @throws IllegalStateException    when the listener is already registered
 	 * @throws IllegalArgumentException when the listener is null
 	 */
-	public void registerDiscrepancyListener(DiscrepancyListener listener)
+	public void registerDiscrepancyListener(CustomerStationListener listener)
 			throws IllegalStateException, IllegalArgumentException {
 		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null");
-		if (discrepancyListeners.contains(listener))
+		if (stationListeners.contains(listener))
 			throw new IllegalStateException("listener is already registerd");
-		discrepancyListeners.add(listener);
+		stationListeners.add(listener);
 	}
 
 	/**
@@ -155,13 +155,13 @@ public class CustomerUI {
 	 * @throws IllegalStateException    when the listener is not registered
 	 * @throws IllegalArgumentException when the listener is null
 	 */
-	public void deregisterDiscrepancyListener(DiscrepancyListener listener)
+	public void deregisterDiscrepancyListener(CustomerStationListener listener)
 			throws IllegalStateException, IllegalArgumentException {
 		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null");
-		if (!discrepancyListeners.remove(listener))
+		if (!stationListeners.remove(listener))
 			throw new IllegalStateException("listener is not registerd");
-		discrepancyListeners.remove(listener);
+		stationListeners.remove(listener);
 	}
 
 	/**
@@ -212,9 +212,9 @@ public class CustomerUI {
 	 * 
 	 * @param Check array contents to ensure discrepancy listener is present
 	 */
-	public boolean checkDiscrepancyListener(DiscrepancyListener listener) {
+	public boolean checkDiscrepancyListener(CustomerStationListener listener) {
 		boolean array_contains;
-		array_contains = discrepancyListeners.contains(listener);
+		array_contains = stationListeners.contains(listener);
 		return array_contains;
 	}
 
@@ -225,7 +225,7 @@ public class CustomerUI {
 		if (inProgress) {
 			// Show weight discrepancy gui
 			station.scanner.disable();
-			for (DiscrepancyListener listener : discrepancyListeners)
+			for (CustomerStationListener listener : stationListeners)
 				listener.notifyWeightDiscrepancyDetected(this);
 			
 			weightDiscrepancyGUI.setVisible(true);
@@ -239,7 +239,7 @@ public class CustomerUI {
 	public void resolveWeightDiscrepancy() {
 		if (inProgress) {
 			station.scanner.enable();
-			for (DiscrepancyListener listener : discrepancyListeners)
+			for (CustomerStationListener listener : stationListeners)
 				listener.notifyWeightDiscrepancyResolved(this);
 			weightDiscrepancyGUI.setVisible(false);
 		} else {
@@ -294,12 +294,9 @@ public class CustomerUI {
 	public void notifyPayment(long amount) {
 		balance -= amount;
 		scanScreenGUI.update(balance, productList);
-
-		startScreenGUI.setVisible(false);
-		scanScreenGUI.setVisible(true);
-		payWithCashGUI.setVisible(false);
-		payWithCreditGUI.setVisible(false);
-		payWithDebitGUI.setVisible(false);
+		if (balance <= 0) {
+			completePayment();
+		}
 	}
 	
 	/**
@@ -322,6 +319,7 @@ public class CustomerUI {
 	 * Notify customerui that payment has completed
 	 */
 	public void completePayment() {
+		startScreenGUI.setVisible(false);
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);
 		payWithCreditGUI.setVisible(false);
@@ -339,15 +337,17 @@ public class CustomerUI {
 	 * 
 	 */
 	public void payWithCash() {
-		scanScreenGUI.setVisible(true);
-		payWithCashGUI.setVisible(true);
-		payWithCreditGUI.setVisible(false);
-		payWithDebitGUI.setVisible(false);
-		
-		station.coinSlot.enable();
-		station.banknoteInput.enable();
-		station.banknoteOutput.enable();
-		station.banknoteValidator.activate();
+		if (balance > 0) {
+			scanScreenGUI.setVisible(true);
+			payWithCashGUI.setVisible(true);
+			payWithCreditGUI.setVisible(false);
+			payWithDebitGUI.setVisible(false);
+			
+			station.coinSlot.enable();
+			station.banknoteInput.enable();
+			station.banknoteOutput.enable();
+			station.banknoteValidator.activate();
+		}
 	}
 
 	/**
@@ -405,7 +405,9 @@ public class CustomerUI {
 		} catch (DisabledException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			// Alert attendant
+			for (CustomerStationListener listener : stationListeners) {
+				listener.notifyOutOfChange(this);
+			}
 		}
 		
 		inProgress = false;

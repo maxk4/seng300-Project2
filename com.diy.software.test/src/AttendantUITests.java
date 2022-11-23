@@ -19,7 +19,7 @@ import util.AttendantStation;
 import util.AttendantStationListener;
 import util.AttendantUI;
 import util.CustomerUI;
-import util.DiscrepancyListener;
+import util.CustomerStationListener;
 import util.ExpectedWeightListener;
 import util.ScanItemListener;
 public class AttendantUITests {
@@ -54,7 +54,7 @@ public class AttendantUITests {
 			station.scale.register(ewl);
 			ui.setWeightListener(ewl);
 			
-			DiscrepancyListener dl = new DiscrepancyListener(attendant);
+			CustomerStationListener dl = new CustomerStationListener(attendant);
 			ui.registerDiscrepancyListener(dl);
 			
 			uis.add(ui);

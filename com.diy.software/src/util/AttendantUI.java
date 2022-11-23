@@ -90,4 +90,9 @@ public class AttendantUI {
 	private int idOf(CustomerUI customer) {
 		return stations.indexOf(customer);
 	}
+
+	public void notifyOutOfChange(CustomerUI customer) {
+		int index = idOf(customer);
+		System.out.println(String.format("Station %d: Out of Change", index + 1));
+	}
  }

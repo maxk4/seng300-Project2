@@ -93,7 +93,6 @@ public class LowInkLowPaper implements ReceiptPrinterListener {
 	 *  Abort printing, suspend station, and inform attendant that duplicate receipt must be printed and station needs maintenance
 	 */ 
 	public void abortPrinting() {
-		
 		JOptionPane maintenanceWarning = new JOptionPane();
 		JOptionPane.showMessageDialog(maintenanceWarning,"Duplicate receipt must printed. Station needs maintenance. (No Ink/Paper)");
 	}

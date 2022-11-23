@@ -20,7 +20,7 @@ import com.jimmyselectronics.virgilio.ElectronicScale;
 import util.AttendantStation;
 import util.AttendantUI;
 import util.CustomerUI;
-import util.DiscrepancyListener;
+import util.CustomerStationListener;
 
 import com.diy.hardware.Product;
 
@@ -32,8 +32,8 @@ public class CustomerUITest {
 	private AttendantStation attstation;
 	private AttendantUI attendant;
 	private BarcodedProduct product;
-	private DiscrepancyListener dlistener;
-	private DiscrepancyListener dlistener1;
+	private CustomerStationListener dlistener;
+	private CustomerStationListener dlistener1;
 	private ElectronicScale scale;
 	private NoBaggingRequestListenerStub nbrlistener;
 	
@@ -84,14 +84,14 @@ public class CustomerUITest {
 	
 	@Test
 	public void registerDiscrepancyListenerTest0() {
-		dlistener = new DiscrepancyListener(attendant);
+		dlistener = new CustomerStationListener(attendant);
 		customer.registerDiscrepancyListener(dlistener);
 		assertTrue(customer.checkDiscrepancyListener(dlistener));
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void registerDiscrepancyListenerTest1() {
-		dlistener = new DiscrepancyListener(attendant);
+		dlistener = new CustomerStationListener(attendant);
 		customer.registerDiscrepancyListener(dlistener);
 		customer.registerDiscrepancyListener(dlistener);
 		
@@ -107,7 +107,7 @@ public class CustomerUITest {
 	@Test
 	public void deregisterDiscrepancyListenerTest0() {
 		
-		dlistener = new DiscrepancyListener(attendant);
+		dlistener = new CustomerStationListener(attendant);
 		
 		customer.registerDiscrepancyListener(dlistener);
 		
@@ -118,7 +118,7 @@ public class CustomerUITest {
 	@Test(expected = IllegalStateException.class)
 	public void deregisterDiscrepancyListenerTest1() {
 		
-		dlistener = new DiscrepancyListener(attendant);
+		dlistener = new CustomerStationListener(attendant);
 		
 		customer.deregisterDiscrepancyListener(dlistener);
 	}

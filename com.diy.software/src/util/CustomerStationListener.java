@@ -5,7 +5,7 @@ package util;
  * @author Taylor Wong
  *
  */
-public class DiscrepancyListener {
+public class CustomerStationListener {
 	
 	private AttendantUI attendant;
 	
@@ -13,7 +13,7 @@ public class DiscrepancyListener {
 	 * Make a new DiscrepancyListener attached to the provided AttendantUI
 	 * @param attendant AttendantUI to attach the new listener to
 	 */
-	public DiscrepancyListener(AttendantUI attendant) {
+	public CustomerStationListener(AttendantUI attendant) {
 		this.attendant = attendant;
 	}
 	
@@ -31,5 +31,9 @@ public class DiscrepancyListener {
 	 */
 	public void notifyWeightDiscrepancyResolved(CustomerUI customer) {
 		attendant.notifyWeightDiscrepancyResolved(customer);
+	}
+	
+	public void notifyOutOfChange(CustomerUI customer) {
+		attendant.notifyOutOfChange(customer);
 	}
 }

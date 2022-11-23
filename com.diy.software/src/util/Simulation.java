@@ -73,7 +73,7 @@ public class Simulation {
 			station.scale.register(ewl);
 			ui.setWeightListener(ewl);
 			
-			DiscrepancyListener dl = new DiscrepancyListener(attendant);
+			CustomerStationListener dl = new CustomerStationListener(attendant);
 			ui.registerDiscrepancyListener(dl);
 			ui.registerNoBaggingRequestListener(nbrListener);
 			
