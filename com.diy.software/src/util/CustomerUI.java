@@ -478,6 +478,9 @@ public class CustomerUI {
 		station.cardReader.disable();
 	}
 
+	/**
+	 * Open purchase bag gui
+	 */
 	public void purchageBags() {
 		startScreenGUI.setVisible(false);
 		scanScreenGUI.setVisible(false);
