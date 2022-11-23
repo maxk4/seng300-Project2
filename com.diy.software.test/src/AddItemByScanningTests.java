@@ -76,6 +76,7 @@ public class AddItemByScanningTests {
        station.turnOn();
        station.scanner.enable();
        ui = new CustomerUI(station);
+       ui.startScanning();
       
        sil = new ScanItemListener(ui);
        station.scanner.register(sil);
@@ -113,7 +114,7 @@ public class AddItemByScanningTests {
    public void testScanItemValidBarcode() { 
       
        // Setup Station
-       station.scanner.enable();
+       ui.startScanning();
        customer.shoppingCart.add(item1);
        customer.shoppingCart.add(item2);
        customer.selectNextItem();

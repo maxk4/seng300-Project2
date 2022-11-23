@@ -67,8 +67,10 @@ public class CashPaymentTest {
 		// initialize software
 		customer = new CustomerUI(checkoutStation);
 		attendant = new AttendantUI(attendantStation, 1);
-		cashPayment = customer.getCashPaymentController();
-		
+		cashPayment = new CashPayment(customer, attendant, checkoutStation);
+		customer.setCashPaymentController(cashPayment);
+		customer.startScanning();
+		customer.setBalance(100);
 		customer.payWithCash();
 	}
 	
@@ -77,41 +79,13 @@ public class CashPaymentTest {
 		PowerGrid.reconnectToMains();
 	}
 	
-	private void banknoteSlotToValidator() {
-		checkoutStation.banknoteInput.sink = new Sink<Banknote>() {
-			@Override
-			public void receive(Banknote cash) throws TooMuchCashException, DisabledException {
-				checkoutStation.banknoteValidator.receive(cash);
-			}
-			@Override
-			public boolean hasSpace() {
-				return true;
-			}
-			
-		};		
-	}
-	
-	private void coinSlotToValidator() {
-		checkoutStation.coinSlot.sink = new Sink<Coin>() {
-			
-			@Override
-			public void receive(Coin cash) throws TooMuchCashException, DisabledException {
-				checkoutStation.coinValidator.receive(cash);			
-			}
-
-			@Override
-			public boolean hasSpace() {
-				return true;				
-			}
-			
-		};		
-	}
 	
 	@Test
 	public void testBanknotePayment() throws DisabledException, TooMuchCashException {
 		//banknoteSlotToValidator();
 		
 		Banknote fiveDollar = new Banknote(Currency.getInstance(Locale.CANADA), 500);
+		Banknote tenDollar = new Banknote(Currency.getInstance(Locale.CANADA), 1000);
 		
 		customer.setBalance(100);
 		
@@ -122,9 +96,11 @@ public class CashPaymentTest {
 				checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
 		assertEquals(-400, customer.getBalance());
+		customer.setBalance(100);
+		customer.payWithCash();
 		
 		while(cashPayment.getValidBanknoteCount() != 2) {
-			checkoutStation.banknoteInput.receive(fiveDollar);
+			checkoutStation.banknoteInput.receive(tenDollar);
 			if (cashPayment.getValidBanknoteCount() != 2)
 				checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
@@ -175,13 +151,15 @@ public class CashPaymentTest {
 			checkoutStation.banknoteInput.removeDanglingBanknote();
 		}
 		assertEquals(-400, customer.getBalance());
+		customer.setBalance(100);
+		customer.payWithCash();
 		
 		while(true) {
 			checkoutStation.coinSlot.receive(quarter);
 			if (cashPayment.getValidCoinCount() == 1)
 				break;
 		}
-		assertEquals(-425, customer.getBalance());
+		assertEquals(75, customer.getBalance());
 	}
 	
 	@Test

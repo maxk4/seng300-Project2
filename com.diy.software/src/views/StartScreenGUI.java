@@ -37,7 +37,7 @@ public class StartScreenGUI extends JFrame {
 		
 		JButton btnNewButton_4 = new JButton("Start Scanning");
 		btnNewButton_4.setIcon(new ImageIcon(ScanScreenGUI.class.getResource("/resources/icons8-barcode-100.png")));
-		btnNewButton_4.addActionListener(e -> customer.setScanningEnabled(true));
+		btnNewButton_4.addActionListener(e -> customer.startScanning());
 		
 		JLabel lblNewLabel = new JLabel("DIYourselfStation");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 23));

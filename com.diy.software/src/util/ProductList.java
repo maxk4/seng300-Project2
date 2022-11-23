@@ -56,7 +56,9 @@ public class ProductList {
 	 * @return true if the product is in the list false otherwise
 	 */
 	public boolean containsProduct(Product product) {
-		for (Product p : products) if (p.equals(product)) return true;
+		for (Product p : products) {
+			if (p.equals(product)) return true;
+		}
 		return false;
 	}
 	

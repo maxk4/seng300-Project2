@@ -50,8 +50,6 @@ public class CustomerUI {
 	
 	public CustomerUI(DoItYourselfStationAR station) {
 		this.station = station;
-
-		cashPayment = new CashPayment(this, null, station);
 		beginSession();
 	}
 	
@@ -72,6 +70,14 @@ public class CustomerUI {
 	 */
 	public CashPayment getCashPaymentController() {
 		return cashPayment;
+	}
+	
+	/**
+	 * Sets the cashPayment field
+	 * @param CashPayment cashPayment field of this customer ui
+	 */
+	public void setCashPaymentController(CashPayment cashPayment) {
+		this.cashPayment = cashPayment;
 	}
 	
 	/**
@@ -303,8 +309,8 @@ public class CustomerUI {
 	 * Enable/Disable the station associated with this customerUI's scanner
 	 * @param enabled boolean true if the scanner should be enabled false otherwise
 	 */
-	public void setScanningEnabled(boolean enabled) {
-		if (enabled) station.scanner.enable();
+	public void startScanning() {
+		station.scanner.enable();
 
 		startScreenGUI.setVisible(false);
 		scanScreenGUI.setVisible(true);

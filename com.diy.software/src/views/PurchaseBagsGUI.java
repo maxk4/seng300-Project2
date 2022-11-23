@@ -167,7 +167,7 @@ public class PurchaseBagsGUI extends JFrame{
 				for (int i = 0; i < bags; i++) {
 					customer.addBarcodedProductToList(new Bag());
 				}
-				customer.setScanningEnabled(true);
+				customer.startScanning();
 			}
 		});
 		btnNewButton_Enter.setFont(new Font("Lucida Grande", Font.BOLD, 19));

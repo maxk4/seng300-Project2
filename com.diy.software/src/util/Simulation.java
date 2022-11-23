@@ -85,6 +85,8 @@ public class Simulation {
 				e.printStackTrace();
 			}
 			
+			ui.setCashPaymentController(new CashPayment(ui, attendant, station));
+			
 			uis.add(ui);
 			stations.add(station);
 		}
