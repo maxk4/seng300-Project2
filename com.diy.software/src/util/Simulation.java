@@ -78,6 +78,12 @@ public class Simulation {
 			ui.registerNoBaggingRequestListener(nbrListener);
 			
 			station.printer.register(new LowInkLowPaper(ui, attendant));
+			try {
+				station.printer.addInk(10);
+				station.printer.addPaper(10);
+			} catch (OverloadException e) {
+				e.printStackTrace();
+			}
 			
 			uis.add(ui);
 			stations.add(station);
@@ -105,8 +111,8 @@ public class Simulation {
 		for (int i = 0; i < barcodes.length; i++)
 			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), (i + 1) * 100, 2.3));
 		
-		for (int i = 0; i < 5; i++) {
-			Card card = new Card("credit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);
+		for (int i = 0; i < 10; i++) {
+			Card card = new Card(i % 2 == 0 ? "credit" : "debit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);
 			Calendar expiry = Calendar.getInstance();
 			expiry.set(2025, 1, 1);
 			Bank.CARD_ISSUER.addCardData(card.number, card.cardholder, expiry, card.cvv, Double.MAX_VALUE);

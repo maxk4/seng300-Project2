@@ -97,7 +97,7 @@ public class CashPayment implements BanknoteValidatorObserver, CoinValidatorObse
 		customer.notifyPayment(-changeIssued);
 		
 		if (needMaintenance) {
-//		notify attendant (customer, customer.getBalance()), suspend station
+			attendant.notifyOutOfChange(customer);
 		}
 		if (customer.getBalance() != 0) throw new OutOfCashException();
 	} 
