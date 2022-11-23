@@ -36,4 +36,8 @@ public class CustomerStationListener {
 	public void notifyOutOfChange(CustomerUI customer) {
 		attendant.notifyOutOfChange(customer);
 	}
+	
+	public void nofityAddBag(CustomerUI customer) {
+		// notify
+	}
 }

@@ -95,4 +95,8 @@ public class AttendantUI {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Out of Change", index + 1));
 	}
+	
+	public void notifyAddBag(CustomerUI customer) {
+		// Prompt attendant
+	}
  }
