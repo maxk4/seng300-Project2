@@ -42,7 +42,10 @@ public class LowInkPaperTest {
 		CustomerUI customer = new CustomerUI(station);
 		AttendantUI attendant = new AttendantUI(new AttendantStation(), 1);
 		
-		listener = new LowInkLowPaper(customer, attendant);
+		listener = new LowInkLowPaper(customer, attendant) {
+			@Override
+			public void abortPrinting() {}
+		};
 		printer.plugIn();
 		printer.turnOn();
 		printer.register(listener);
