@@ -1,112 +1,160 @@
 package views;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.diy.hardware.DoItYourselfStationAR;
-
-import java.awt.Color;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import util.AttendantStation;
 import util.AttendantUI;
 import util.CustomerUI;
+import util.StationComponent;
 
+@SuppressWarnings("serial")
 public class AttendantGUI extends JFrame {
 
+	private List<StationComponent> stationComponents;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JLabel lblNewLabel;
-	private JButton btnLock;
-	private JButton btnUnlock;
-	private JButton btnNewButton_1;
+	private JPanel stationPanel;
 
 	/**
 	 * Create the frame.
 	 */
 	public AttendantGUI(AttendantUI attendant) {
+		super();
+		stationComponents = new ArrayList<StationComponent>();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Attendant GUI");
 		setBounds(100, 100, 593, 298);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(14, 144, 215));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
 		
-		JButton btnNewButton = new JButton("Approve");
-		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		stationPanel = new JPanel();
+		stationPanel.setLayout(new BoxLayout(stationPanel, BoxLayout.PAGE_AXIS));
+		stationPanel.setAlignmentX(LEFT_ALIGNMENT);
+		stationPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		
-		textField = new JTextField();
-		textField.setBackground(new Color(144, 211, 255));
-		textField.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		textField.setColumns(10);
+		contentPane.add(stationPanel);
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 		
-		lblNewLabel = new JLabel("Station Number: ");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		
-		btnLock = new JButton("Lock");
-		btnLock.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnLock.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		
-		btnUnlock = new JButton("Unlock");
-		btnUnlock.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		
-		btnNewButton_1 = new JButton("Order Screen");
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(9)
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnLock, GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-						.addComponent(btnUnlock, GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1, Alignment.TRAILING))
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnNewButton_1)
-					.addGap(40)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(btnLock, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnUnlock, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(31, Short.MAX_VALUE))
-		);
-		contentPane.setLayout(gl_contentPane);
-
+		getContentPane().add(contentPane);
+		pack();
+		setVisible(true);
 	}
 	
+	public void update() {
+		stationPanel.removeAll();
+		for (StationComponent sc : stationComponents) stationPanel.add(sc);
+		revalidate();
+		repaint();
+		pack();
+	}
+	
+	public void addStation(CustomerUI customer) {
+		stationComponents.add(new StationComponent(customer, "Station " + (stationComponents.size() + 1)));
+		update();
+	}
+	
+	public void notifyWeightDiscrepancyDetected(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.notifyDectected(StationComponent.WEIGHT_DISCREPANCY, new StationComponent.Action() {
+			@Override
+			public void deny() {
+				sc.notifyResolved(StationComponent.WEIGHT_DISCREPANCY);
+			}
+			
+			@Override
+			public void approve() {
+				customer.notifyWeightApproved();
+				sc.notifyResolved(StationComponent.WEIGHT_DISCREPANCY);
+			}
+		});
+	}
+	
+	public void notifyWeightDiscrepancyResolved(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.notifyResolved(StationComponent.WEIGHT_DISCREPANCY);
+	}
+	
+	public void notifyLowInkDetected(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.LOW_INK, false);
+	}
+	
+	public void notifyLowInkResolved(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.LOW_INK, true);
+	}
+	
+	public void notifyLowPaperDetected(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.LOW_PAPER, false);
+	}
+	
+	public void notifyLowPaperResolved(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.LOW_PAPER, true);
+	}
+	
+	public void notifyOutOfChangeDetected(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.OUT_OF_CHANGE, false);
+	}
+	
+	public void notifyOutOfChangeResolved(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.alert(StationComponent.OUT_OF_CHANGE, true);
+	}
 
+	public void notifyAddOwnBag(CustomerUI customer) {
+		int index = indexOf(customer);
+		if (index < 0) return;
+		StationComponent sc = stationComponents.get(index);
+		sc.notifyDectected(StationComponent.ADD_OWN_BAG, new StationComponent.Action() {
+			@Override
+			public void deny() {
+				customer.denyBag();
+				sc.notifyResolved(StationComponent.ADD_OWN_BAG);
+			}
+			
+			@Override
+			public void approve() {
+				customer.approveBag();
+				sc.notifyResolved(StationComponent.ADD_OWN_BAG);
+			}
+		});
+	}
+	
+	private int indexOf(CustomerUI customer) {
+		for (int i = 0; i < stationComponents.size(); i++) if (stationComponents.get(i).customer == customer) return i;
+		return -1;
+	}
+	
 }

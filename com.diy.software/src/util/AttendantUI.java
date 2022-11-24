@@ -40,6 +40,7 @@ public class AttendantUI {
 	public void notifyWeightDiscrepancyDetected(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Weight Discrepancy Detected", index + 1));
+		gui.notifyWeightDiscrepancyDetected(customer);
 	}
 	
 	/**
@@ -49,26 +50,31 @@ public class AttendantUI {
 	public void notifyWeightDiscrepancyResolved(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Weight Discrepancy Resolved", index + 1));
+		gui.notifyWeightDiscrepancyResolved(customer);
 	}
 
 	public void notifyLowInkDetected(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Low Ink", index + 1));
+		gui.notifyLowInkDetected(customer);
 	}
 	
 	public void notifyLowInkResolved(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Ink Refilled", index + 1));
+		gui.notifyLowInkResolved(customer);
 	}
 	
 	public void notifyLowPaperDetected(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Low Paper", index + 1));
+		gui.notifyLowPaperDetected(customer);
 	}
 	
 	public void notifyLowPaperResolved(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Paper Refilled", index + 1));
+		gui.notifyLowPaperResolved(customer);
 	}
 	
 	/**
@@ -77,6 +83,7 @@ public class AttendantUI {
 	 */
 	public void addCustomerUI(CustomerUI customer) {
 		stations.add(customer);
+		gui.addStation(customer);
 	}
 	
 	/**
@@ -94,9 +101,10 @@ public class AttendantUI {
 	public void notifyOutOfChange(CustomerUI customer) {
 		int index = idOf(customer);
 		System.out.println(String.format("Station %d: Out of Change", index + 1));
+		gui.notifyOutOfChangeDetected(customer);
 	}
 	
 	public void notifyAddBag(CustomerUI customer) {
-		// Prompt attendant
+		gui.notifyAddOwnBag(customer);
 	}
  }

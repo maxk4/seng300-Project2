@@ -93,6 +93,9 @@ public class ScanScreenGUI extends JFrame {
 		JButton btnNewButton_6 = new JButton("Enter Member #");
 		
 		JButton btnNewButton_7 = new JButton("Use Personal Bags");
+		btnNewButton_7.addActionListener(e -> {
+			customer.addBag();
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		

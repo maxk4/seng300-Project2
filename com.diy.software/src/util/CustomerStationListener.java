@@ -38,6 +38,6 @@ public class CustomerStationListener {
 	}
 	
 	public void nofityAddBag(CustomerUI customer) {
-		// notify
+		attendant.notifyAddBag(customer);
 	}
 }

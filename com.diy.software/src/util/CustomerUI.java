@@ -25,7 +25,7 @@ import views.WeightDiscrepancyGUI;
 public class CustomerUI {
 	
 	private long balance = 0;
-	private boolean inProgress = false;
+	private boolean inProgress = false, placingBag = false;
 	private long total = 0;
 	
 	private ExpectedWeightListener weightListener;
@@ -104,6 +104,14 @@ public class CustomerUI {
 	 */
 	public void notifyExpectedWeight(double weight) {
 		weightListener.updateExpectedWeight(weight);
+	}
+
+	/**
+	 * Notify the weight listener that the weight is correct
+	 * 
+	 */
+	public void notifyWeightApproved() {
+		weightListener.approveWeightDiscrepancy();
 	}
 
 	/**
@@ -231,8 +239,10 @@ public class CustomerUI {
 		if (inProgress) {
 			// Show weight discrepancy gui
 			station.scanner.disable();
-			for (CustomerStationListener listener : stationListeners)
-				listener.notifyWeightDiscrepancyDetected(this);
+			for (CustomerStationListener listener : stationListeners) {
+				if (placingBag) listener.nofityAddBag(this);
+				else listener.notifyWeightDiscrepancyDetected(this);
+			}
 			
 			weightDiscrepancyGUI.setVisible(true);
 		}
@@ -246,7 +256,7 @@ public class CustomerUI {
 		if (inProgress) {
 			station.scanner.enable();
 			for (CustomerStationListener listener : stationListeners)
-				listener.notifyWeightDiscrepancyResolved(this);
+				if (!placingBag) listener.notifyWeightDiscrepancyResolved(this);
 			weightDiscrepancyGUI.setVisible(false);
 		} else {
 			startScreenGUI.dispose();
@@ -496,5 +506,18 @@ public class CustomerUI {
 		weightDiscrepancyGUI.setVisible(false);
 		orderFinishedGUI.setVisible(false);
 		purchaseBagsGUI.setVisible(true);
+	}
+	
+	public void addBag() {
+		placingBag = true;
+	}
+	
+	public void approveBag() {
+		weightListener.approveWeightDiscrepancy();
+		placingBag = false;
+	}
+	
+	public void denyBag() {
+		placingBag = false;
 	}
 }
