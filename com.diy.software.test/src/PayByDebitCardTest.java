@@ -90,6 +90,7 @@ public class PayByDebitCardTest {
 	public void testSuccessfulTransactionWithDebit() throws IOException {
 		bank.addCardData("1234567890123456", "John Smith", expiry, "123", 150);
 		String expected = "The transaction was successful\r\n";
+		customer.payWithDebit();
 		customer.setBalance(10);
 		data = reader.insert(debitCard, "0000");
 		//payWithCard.transactionWithCreditCard(reader, data, bank, 25);

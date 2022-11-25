@@ -163,22 +163,6 @@ public class CustomerUI {
 	}
 
 	/**
-	 * Deregister a DiscrepancyListener
-	 * 
-	 * @param listener DiscrepancyListener to register
-	 * @throws IllegalStateException    when the listener is not registered
-	 * @throws IllegalArgumentException when the listener is null
-	 */
-	public void deregisterDiscrepancyListener(CustomerStationListener listener)
-			throws IllegalStateException, IllegalArgumentException {
-		if (listener == null)
-			throw new IllegalArgumentException("listener cannot be null");
-		if (!stationListeners.remove(listener))
-			throw new IllegalStateException("listener is not registerd");
-		stationListeners.remove(listener);
-	}
-
-	/**
 	 * Register a NoBaggingRequestListener
 	 * 
 	 * @param listener NoBaggingRequestListener to register
@@ -194,21 +178,6 @@ public class CustomerUI {
 		nbrListeners.add(listener);
 	}
 
-	/**
-	 * Deregister a DiscrepancyListener
-	 * 
-	 * @param listener DiscrepancyListener to register
-	 * @throws IllegalStateException    when the listener is not registered
-	 * @throws IllegalArgumentException when the listener is null
-	 */
-	public void deregisterNoBaggingRequestListener(NoBaggingRequestListener listener)
-			throws IllegalStateException, IllegalArgumentException {
-		if (listener == null)
-			throw new IllegalArgumentException("listener cannot be null");
-		if (!nbrListeners.remove(listener))
-			throw new IllegalStateException("listener is not registerd");
-		nbrListeners.remove(listener);
-	}
 	
 	/**
 	 * Check if No Bagging Request Listener is added to array
