@@ -10,7 +10,7 @@ input will be stored in a HashMap, where:
 
 public class MembershipNumber {
 	
-	private ArrayList<Integer> MEMBER_NUMBERS;
+	public static ArrayList<Integer> MEMBER_NUMBERS;
 	private Integer currentMember;
 	
 	
@@ -25,7 +25,7 @@ public class MembershipNumber {
         if (NumberLength != 8) {
         	System.out.println("The number you entered is invalid");
         	return 8;}
-        if (!(this.MEMBER_NUMBERS.contains(num))) {
+        if (!(MEMBER_NUMBERS.contains(num))) {
         	System.out.println("The number you entered is not a member");
         	return 0;}
         if (currentMember != null) {
@@ -40,11 +40,11 @@ public class MembershipNumber {
     }
     
     public void addMem(Integer num) {
-    	this.MEMBER_NUMBERS.add(num);
+    	MEMBER_NUMBERS.add(num);
     }
     
     public void removeMem(Integer num){
-    	this.MEMBER_NUMBERS.remove(num);
+    	MEMBER_NUMBERS.remove(num);
     }
     
     public Integer getCurrentMember() {
