@@ -36,6 +36,7 @@ public class ScanScreenGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextField memberField;
 	private JTextArea scannedPricesArea;
 	private JTextArea scannedItemsArea;
 
@@ -59,6 +60,10 @@ public class ScanScreenGUI extends JFrame {
 		textField = new JTextField();
 		textField.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		textField.setColumns(10);
+		
+		memberField = new JTextField();
+		memberField.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		memberField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Debit");
 		btnNewButton.addActionListener(e -> {
@@ -123,7 +128,8 @@ public class ScanScreenGUI extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addComponent(memberField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -181,7 +187,8 @@ public class ScanScreenGUI extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(memberField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(63))
 		);
 		
@@ -208,5 +215,9 @@ public class ScanScreenGUI extends JFrame {
 		scannedItemsArea.setText(priceSB.toString());
 		scannedPricesArea.setText(productSB.toString());
 		textField.setText(String.format("$%.2f", balance / 100d));
+	}
+	
+	public void updateMember(Integer number) {
+		memberField.setText("Member #: "+ number);
 	}
 }
