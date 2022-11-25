@@ -177,7 +177,7 @@ public class EnterMemberNumberGUI extends JFrame{
 		            txtMemberNumber.setText("");
 		            customer.startScanning();
 				}
-				else {
+				if (memberNumber != 8 && memberNumber != 0 && memberNumber != 1){
 					customer.useMemberNumber(memberNumber);
 					customer.startScanning();
 				}
