@@ -12,6 +12,7 @@ import com.jimmyselectronics.EmptyException;
 import com.jimmyselectronics.OverloadException;
 import com.unitedbankingservices.DisabledException;
 
+import views.EnterMemberNumberGUI;
 import views.OrderFinishedGUI;
 import views.PayWithCashGUI;
 import views.PayWithCreditGUI;
@@ -30,6 +31,7 @@ public class CustomerUI {
 	
 	private ExpectedWeightListener weightListener;
 	private ProductList productList;
+	private MembershipNumber membershipNum;
 	
 	private List<CustomerStationListener> stationListeners = new ArrayList<CustomerStationListener>();
 	private List<NoBaggingRequestListener> nbrListeners = new ArrayList<NoBaggingRequestListener>();
@@ -44,6 +46,7 @@ public class CustomerUI {
 	private ScanScreenGUI scanScreenGUI;
 	private StartScreenGUI startScreenGUI;
 	private PurchaseBagsGUI purchaseBagsGUI;
+	private EnterMemberNumberGUI memberNumGUI;
 	
 	private WeightDiscrepancyGUI weightDiscrepancyGUI;
 	private OrderFinishedGUI orderFinishedGUI;
@@ -163,6 +166,25 @@ public class CustomerUI {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Deregister a DiscrepancyListener
+	 * 
+	 * @param listener DiscrepancyListener to register
+	 * @throws IllegalStateException    when the listener is not registered
+	 * @throws IllegalArgumentException when the listener is null
+	 */
+	public void deregisterDiscrepancyListener(CustomerStationListener listener)
+			throws IllegalStateException, IllegalArgumentException {
+		if (listener == null)
+			throw new IllegalArgumentException("listener cannot be null");
+		if (!stationListeners.remove(listener))
+			throw new IllegalStateException("listener is not registerd");
+		stationListeners.remove(listener);
+	}
+
+	/**
+>>>>>>> origin/JC
 	 * Register a NoBaggingRequestListener
 	 * 
 	 * @param listener NoBaggingRequestListener to register
@@ -178,7 +200,6 @@ public class CustomerUI {
 		nbrListeners.add(listener);
 	}
 
-	
 	/**
 	 * Check if No Bagging Request Listener is added to array
 	 * 
@@ -297,6 +318,7 @@ public class CustomerUI {
 		payWithCreditGUI.setVisible(false);
 		payWithDebitGUI.setVisible(false);
 		purchaseBagsGUI.setVisible(false);
+		memberNumGUI.setVisible(false);
 		inProgress = true;
 	}
 	
@@ -439,6 +461,7 @@ public class CustomerUI {
 		payWithCreditGUI = new PayWithCreditGUI(this);
 		payWithDebitGUI = new PayWithDebitGUI(this);
 		purchaseBagsGUI = new PurchaseBagsGUI(this);
+		memberNumGUI = new EnterMemberNumberGUI(this);
 		weightDiscrepancyGUI = new WeightDiscrepancyGUI();
 		orderFinishedGUI = new OrderFinishedGUI();
 		
@@ -451,9 +474,11 @@ public class CustomerUI {
 		weightDiscrepancyGUI.setVisible(false);
 		orderFinishedGUI.setVisible(false);
 		purchaseBagsGUI.setVisible(false);
+		memberNumGUI.setVisible(false);
 		
 		balance = 0;
 		productList = new ProductList();
+		membershipNum = new MembershipNumber();
 		scanScreenGUI.update(0, productList);
 		
 		station.coinSlot.disable();
@@ -477,6 +502,36 @@ public class CustomerUI {
 		purchaseBagsGUI.setVisible(true);
 	}
 	
+	/*
+	 *  Open enter membership number gui
+	 */
+	public void enterMemNum() {
+		if (membershipNum.getCurrentMember() == null) {
+			startScreenGUI.setVisible(false);
+			scanScreenGUI.setVisible(false);
+			payWithCashGUI.setVisible(false);
+			payWithCreditGUI.setVisible(false);
+			payWithDebitGUI.setVisible(false);
+			weightDiscrepancyGUI.setVisible(false);
+			orderFinishedGUI.setVisible(false);
+			memberNumGUI.setVisible(true);
+		}
+	}
+	public Integer checkMemberNumber(Integer number) {
+		return membershipNum.checkMemNum(number);
+	}
+	
+	public void useMemberNumber(Integer number) {
+		scanScreenGUI.updateMember(number);
+	}
+	
+	public void addMemberNumber(Integer number) {
+		membershipNum.addMem(number);
+	}
+	
+	public Integer getCurrMem() {
+		return membershipNum.getCurrentMember();
+	}
 	public void addBag() {
 		placingBag = true;
 	}

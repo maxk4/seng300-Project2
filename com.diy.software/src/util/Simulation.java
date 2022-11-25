@@ -33,7 +33,9 @@ public class Simulation {
 	};
 	
 	public static List<Card> cards = new ArrayList<Card>();
-
+	public static List<Integer> members = new ArrayList<>();
+	
+	
 	public static void main(String[] args) {
 		
 		if (args.length < 1) {
@@ -86,7 +88,9 @@ public class Simulation {
 			}
 			
 			ui.setCashPaymentController(new CashPayment(ui, attendant, station));
-			
+			for (int j = 0; j < members.size(); j++) {
+				ui.addMemberNumber(members.get(j));
+			}
 			uis.add(ui);
 			stations.add(station);
 		}
@@ -120,6 +124,10 @@ public class Simulation {
 			Bank.CARD_ISSUER.addCardData(card.number, card.cardholder, expiry, card.cvv, Double.MAX_VALUE);
 			cards.add(card);
 		}
+		
+		members.add(12345678);
+		members.add(23456789);
+		members.add(34567890);
 	}
 
 	private static Customer genCustomer() {
