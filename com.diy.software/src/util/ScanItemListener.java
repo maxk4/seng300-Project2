@@ -20,6 +20,7 @@ public class ScanItemListener implements BarcodeScannerListener {
 	
 	private CustomerUI customer;
 	private boolean enabled = false;
+	private int successfulScan;
 	
 	public ScanItemListener(CustomerUI customer) {
 		this.customer = customer;
@@ -55,6 +56,11 @@ public class ScanItemListener implements BarcodeScannerListener {
 		// Update the CustomerUI to include the scanned item
 		customer.addBarcodedProductToList(product);
 		customer.notifyExpectedWeight(product.getExpectedWeight());
+		successfulScan++;
+	}
+	
+	public int getSuccessfulScan() {
+		return successfulScan;
 	}
 
 }
