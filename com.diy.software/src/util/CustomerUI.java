@@ -396,7 +396,7 @@ public class CustomerUI {
 	 * @throws IllegalStateException when balance > 0
 	 */
 	public void endSession() throws IllegalStateException {
-		if (balance > 0) throw new IllegalStateException("Customer balance is greater than 0");
+		if (balance > 0) throw new IllegalStateException("The Customer's balance is greater than 0");
 
 		scanScreenGUI.setVisible(true);
 		payWithCashGUI.setVisible(false);
