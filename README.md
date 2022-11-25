@@ -1,7 +1,7 @@
 # SENG300P1-7
 
 ## Running
-To run the project run the Simulation class with the integer number of DIY Stations passed as an argument
+To run the project run the Simulation class with the integer number of DIY Stations passed as an command line argument
 
 ## Notes
 Running the simulation with n DIY stations will open:

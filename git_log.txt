@@ -1,3 +1,15 @@
+commit 64fee36a609ce68fb9be877feff2a5829c7b0ac5
+Author: JM <67851073+M2tch2@users.noreply.github.com>
+Date:   Thu Nov 24 22:31:57 2022 -0700
+
+    Update ScanItemListener.java
+
+commit 195fa8c3e17e9f19815fa85f266fd0bec7e557fe
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 22:02:52 2022 -0700
+
+    updated log and readme files
+
 commit 47b0e61ceff3b14a5582f9225b8c61875428f990
 Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
 Date:   Thu Nov 24 21:56:13 2022 -0700
@@ -339,18 +351,6 @@ Date:   Tue Nov 22 12:11:27 2022 -0700
 
     Completed test cases
 
-commit 236b96d4f5759cad679e35712241c47772098800
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Tue Nov 22 02:18:16 2022 -0700
-
-    PurchaseBags GUI
-
-commit 9449f1e59a8986d86d25a8f568c2d2600ad178cf
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Tue Nov 22 02:16:45 2022 -0700
-
-    Purchase Bags main file from previous two deleted branches
-
 commit a3a7471e720c11a190c473b531dab981c97e9301
 Merge: 84cb616 3daf08e
 Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
@@ -562,36 +562,6 @@ Author: brodyl <75949899+brodyl@users.noreply.github.com>
 Date:   Mon Nov 21 13:04:16 2022 -0700
 
     Adding three new views to the GUI
-
-commit 1fe7973fdc10f868579bcedb261c2f1953055d60
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Mon Nov 21 02:57:15 2022 -0700
-
-    note update
-
-commit ea7bfee0559fb43ffb22f53631c109e56870f8ca
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Mon Nov 21 02:50:41 2022 -0700
-
-    method updates
-
-commit 38b82288f77a47ff700e781eefbdbfec6401f9ed
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Mon Nov 21 01:15:56 2022 -0700
-
-    Slight changes, no change to functionality
-
-commit b21a2036fcde8ab47043c7f936e55fe7d07e775c
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Mon Nov 21 01:05:12 2022 -0700
-
-    PurchaseBags (UI not implemented)
-
-commit 1a9bd14fa39c6b8718a95be5b1026184dcdb4252
-Author: Shaheryar Syed <Shaheryar Syed@Shaheryar-PC>
-Date:   Mon Nov 21 00:34:53 2022 -0700
-
-    PurchaseBags main file
 
 commit e15be6f33a3085fbc26d2458089c20fb3acb3929
 Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
