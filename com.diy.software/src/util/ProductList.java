@@ -69,15 +69,4 @@ public class ProductList {
 	public int size() {
 		return products.size();
 	}
-
-	/**
-	 * Create an array of JLabels each representing a product entry
-	 * @return JLabel[] containing the labels
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		forEach((prod, desc, price) -> sb.append(String.format("%s\t\t\t$%.2f\n", desc, price / 100d)));
-		return sb.toString();
-	}
 }

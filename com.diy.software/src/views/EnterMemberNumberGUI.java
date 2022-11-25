@@ -160,25 +160,9 @@ public class EnterMemberNumberGUI extends JFrame{
 				String currValue = txtMemberNumber.getText();
 				Integer memberNumber = Integer.valueOf(currValue);
 				memberNumber = customer.checkMemberNumber(memberNumber);
-				if (memberNumber == 8) {
-					txtMemberNumber.setText("Invalid #");
-		            txtMemberNumber.setText("");
-		            customer.startScanning();
-				}
-				if (memberNumber == 0) {
-					txtMemberNumber.setText("Not a Member");
-		            txtMemberNumber.setText("");
-		            customer.startScanning();
-				}
-				if (memberNumber == 1) {
-					txtMemberNumber.setText("A Member # already in use");
-		            txtMemberNumber.setText("");
-		            customer.startScanning();
-				}
-				if (memberNumber != 8 && memberNumber != 0 && memberNumber != 1){
-					customer.useMemberNumber(memberNumber);
-					customer.startScanning();
-				}
+				customer.useMemberNumber(memberNumber);
+				txtMemberNumber.setText("");
+				customer.startScanning();
 			}
 		});
 		btnNewButton_Enter.setFont(new Font("Lucida Grande", Font.BOLD, 19));

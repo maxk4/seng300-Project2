@@ -57,7 +57,11 @@ public class LowInkPaperTest {
 	
 	@After
 	public void finish() {
-		customer.endSession();
+		try {
+			customer.endSession();
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	/**
