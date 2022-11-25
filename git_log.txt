@@ -1,3 +1,112 @@
+commit 47b0e61ceff3b14a5582f9225b8c61875428f990
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 21:56:13 2022 -0700
+
+    Fixed double payment bug
+
+commit a97f0e0274eac4c106e392e873aa6679b69dd8ec
+Merge: a9d038e 7eb6db8
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 21:37:42 2022 -0700
+
+    Merge remote-tracking branch 'origin/JC'
+
+commit 7eb6db81f4a17d3c55ea2968bd20d62eb0dc9a24
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 21:36:11 2022 -0700
+
+    Update ScanScreenGUI.java
+
+commit 2b8e7d0acca5b434f1ddd750eea636e947c80f2d
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 21:35:43 2022 -0700
+
+    Update EnterMemberNumberGUI.java
+
+commit a9d038e59542c2bf59661a01fd6508f16b33d5e3
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 21:33:16 2022 -0700
+
+    removed unused code and updated tests
+
+commit 7a1425f9b974bc721d6a38c7e7b362adf6dd4ff7
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 21:21:27 2022 -0700
+
+    Fixed and removed some tests
+
+commit 9a88b2b0fba7e2597f3d1d143534f845e089d1c7
+Author: collin0426 <117128818+collin0426@users.noreply.github.com>
+Date:   Thu Nov 24 20:46:03 2022 -0700
+
+    Update LowInkLowPaper.java
+
+commit e4f0e382787b058f19c8c2591f90f0e2d4448510
+Merge: 9f3ec61 01d4b07
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 20:25:05 2022 -0700
+
+    Merge branch 'main' of https://github.com/maxk4/seng300-Project2
+
+commit 01d4b07d3ef862ee4459485c1cd6200e08dc171b
+Author: collin0426 <117128818+collin0426@users.noreply.github.com>
+Date:   Thu Nov 24 20:24:38 2022 -0700
+
+    Update PayByDebitCardTest.java
+    
+    Remove unused classes
+
+commit 9f3ec61a947761c75fd87ed9456650f037d0a945
+Merge: fa93102 23e8344
+Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
+Date:   Thu Nov 24 20:24:27 2022 -0700
+
+    Merge remote-tracking branch 'origin/JC'
+
+commit 051c20cbe8ea6c97dfad8d0f4ec37f380db0c9a0
+Author: collin0426 <117128818+collin0426@users.noreply.github.com>
+Date:   Thu Nov 24 20:19:35 2022 -0700
+
+    Update CustomerUI.java
+
+commit 8cda03c1d5767b7c44391645695151919d5350e8
+Author: collin0426 <117128818+collin0426@users.noreply.github.com>
+Date:   Thu Nov 24 20:18:46 2022 -0700
+
+    CustomerUI.java
+    
+    fixed class endSession
+
+commit 23e8344525fe27be60565898a4fd13b25a9df631
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 20:07:51 2022 -0700
+
+    Update ScanScreenGUI.java
+
+commit 55647e020a6c93e9480173e279fecbfdd9b14ff5
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 20:07:21 2022 -0700
+
+    Update EnterMemberNumberGUI.java
+
+commit 7cbb3a11898f8111cbdd33a02bc38225c8cdc8c5
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 20:06:54 2022 -0700
+
+    Create CustomerUI.java
+
+commit 9cb20090489bd45455d8a29d669924bdafeee135
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 20:05:53 2022 -0700
+
+    Create Simulation.java
+
+commit 918c37acb0ee87a8fa22083a68e3eb4ebc544f25
+Author: jcsicat <74794260+jcsicat@users.noreply.github.com>
+Date:   Thu Nov 24 20:04:59 2022 -0700
+
+    Create MembershipNumber.java
+
 commit fa93102430c6910109cbe6dca157f61c0f9625ba
 Author: taylor.wong2 <taylor.wong2@cs.ucalgary.ca>
 Date:   Thu Nov 24 19:12:10 2022 -0700

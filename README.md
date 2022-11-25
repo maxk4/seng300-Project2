@@ -12,6 +12,7 @@ Running the simulation with n DIY stations will open:
 All classes in the com.diy.software.simulation package are purely for simulation.
 Classes in com.diy.software.util are for the logic and functionality
 Classes com.diy.software.view are primarily GUI elements/windows
+Please ignore the buttons in the payment windows as they are not functional; please use the Simulation window instead
 
 ## Operation
 1) To start scanner click the start scanning button in the Customer UI
