@@ -89,7 +89,7 @@ public class PayByDebitCardTest {
 	@Test
 	public void testSuccessfulTransactionWithDebit() throws IOException {
 		bank.addCardData("1234567890123456", "John Smith", expiry, "123", 150);
-		String expected = "This transaction was successful\r\n";
+		String expected = "The transaction was successful\r\n";
 		customer.payWithDebit();
 		customer.setBalance(10);
 		data = reader.insert(debitCard, "0000");
@@ -104,7 +104,7 @@ public class PayByDebitCardTest {
 	@Test
 	public void testSuccessfulTransactionWithCredit() throws IOException {
 		bank.addCardData("2234567890123456", "John Smith", expiry, "111", 150);
-		String expected = "This transaction was successful\r\n";
+		String expected = "The transaction was successful\r\n";
 		customer.payWithCredit();
 		customer.setBalance(10);
 		data = reader.insert(creditCard, "0000");
@@ -119,7 +119,7 @@ public class PayByDebitCardTest {
 	 */
 	@Test
 	public void testFailedTransactionWithCredit() throws IOException {
-		String expected = "This hold failed\r\n";
+		String expected = "The hold failed\r\n";
 		data = reader.insert(creditCard, "0000");
 		//payWithCard.transactionWithCreditCard(reader, data, bank, 300);
 		assertEquals(expected, content.toString());
@@ -130,7 +130,7 @@ public class PayByDebitCardTest {
 	 */
 	@Test 
 	public void testFailedTransactionWithDebit() throws IOException {
-		String expected = "This hold failed\r\n";
+		String expected = "The hold failed\r\n";
 		data = reader.insert(debitCard, "0000");
 		//payWithCard.transactionWithCreditCard(reader, data, bank, 200);
 		assertEquals(expected, content.toString());
@@ -141,7 +141,7 @@ public class PayByDebitCardTest {
 	 */
 	@Test
 	public void testCardTapped() throws IOException {
-		String expected = "This hold failed\r\n";
+		String expected = "The hold failed\r\n";
 		reader.tap(creditCard);
 		//payWithCard.cardTapped(reader);
 		assertEquals(expected, content.toString());
