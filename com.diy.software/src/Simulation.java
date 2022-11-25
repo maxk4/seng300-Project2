@@ -1,3 +1,4 @@
+package util;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -8,10 +9,13 @@ import com.diy.hardware.BarcodedProduct;
 import com.diy.hardware.DoItYourselfStationAR;
 import com.diy.hardware.external.ProductDatabases;
 import com.diy.simulation.Customer;
+import com.jimmyselectronics.OverloadException;
 import com.jimmyselectronics.necchi.Barcode;
 import com.jimmyselectronics.necchi.BarcodedItem;
 import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.opeechee.Card;
+
+import ca.powerutility.PowerGrid;
 
 public class Simulation {
 	
@@ -29,7 +33,9 @@ public class Simulation {
 	};
 	
 	public static List<Card> cards = new ArrayList<Card>();
-
+	public static List<Integer> members = new ArrayList<>();
+	
+	
 	public static void main(String[] args) {
 		
 		if (args.length < 1) {
@@ -57,7 +63,7 @@ public class Simulation {
 			DoItYourselfStationAR station = new DoItYourselfStationAR();
 			station.plugIn();
 			station.turnOn();
-			CustomerUI ui = new CustomerUISimulator(station, customer);
+			CustomerUI ui = new CustomerUISimulator(station, customer, "Station " + (i + 1));
 			
 			ScanItemListener sil = new ScanItemListener(ui);
 			station.scanner.register(sil);
@@ -69,51 +75,68 @@ public class Simulation {
 			station.scale.register(ewl);
 			ui.setWeightListener(ewl);
 			
-			DiscrepancyListener dl = new DiscrepancyListener(attendant);
+			CustomerStationListener dl = new CustomerStationListener(attendant);
 			ui.registerDiscrepancyListener(dl);
 			ui.registerNoBaggingRequestListener(nbrListener);
 			
+			station.printer.register(new LowInkLowPaper(ui, attendant));
+			try {
+				station.printer.addInk(10);
+				station.printer.addPaper(10);
+			} catch (OverloadException e) {
+				e.printStackTrace();
+			}
+			
+			ui.setCashPaymentController(new CashPayment(ui, attendant, station));
+			for (int j = 0; j < members.size(); j++) {
+				ui.addMemberNumber(members.get(j));
+			}
+				
+			
 			uis.add(ui);
 			stations.add(station);
-			ui.getFrame().setLocation(i * ui.getFrame().getWidth(), 0);
-			SwingUtilities.invokeLater(() -> {
-				ui.getFrame().setVisible(true);
-			});
 		}
 		
 		// Register diy stations with the attendant station
 		for (CustomerUI cStation : uis) aStation.registerStation(cStation);
+		
+		MaintenanceSimulator ms = new MaintenanceSimulator(attendant, stations);
 		
 		// Setup attendant station
 		aStation.getTouchScreen().plugIn();
 		aStation.getTouchScreen().turnOn();
 		aStation.getTouchScreen().enable();
 		
-		// Make Attendant UI visible
-		SwingUtilities.invokeLater(() -> {
-			aStation.getTouchScreen().setVisible(true);
-		});
 	}
 	
 	private static void setup() {
+		int[] banknoteDenominations = {5000,2000,1000,500};
+		long[] coinDenominations = {200, 100, 25, 10, 5};
+		DoItYourselfStationAR.configureBanknoteDenominations(banknoteDenominations);
+		DoItYourselfStationAR.configureCoinDenominations(coinDenominations);
+		PowerGrid.engageUninterruptiblePowerSource();
 		
 		for (int i = 0; i < barcodes.length; i++)
-			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), i + 1, 0.1));
+			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcodes[i], new BarcodedProduct(barcodes[i], "Product " + (i + 1), (i + 1) * 100, 2.3));
 		
-		for (int i = 0; i < 5; i++) {
-			Card card = new Card("credit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);
+		for (int i = 0; i < 10; i++) {
+			Card card = new Card(i % 2 == 0 ? "credit" : "debit", "841799260331897" + i, "Sir Fakeman", "564", "0000".intern(), true, true);
 			Calendar expiry = Calendar.getInstance();
 			expiry.set(2025, 1, 1);
 			Bank.CARD_ISSUER.addCardData(card.number, card.cardholder, expiry, card.cvv, Double.MAX_VALUE);
 			cards.add(card);
 		}
+		
+		members.add(12345678);
+		members.add(23456789);
+		members.add(34567890);
 	}
 
 	private static Customer genCustomer() {
 		Customer customer = new Customer();
 		
 		for (int i = 0; i < 10; i++) {
-			BarcodedItem item = new BarcodedItem(barcodes[i], 0.1);
+			BarcodedItem item = new BarcodedItem(barcodes[i], 2.3);
 			customer.shoppingCart.add(item);
 		}
 		customer.wallet.cards.addAll(cards);
