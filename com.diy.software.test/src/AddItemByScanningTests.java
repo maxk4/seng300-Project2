@@ -120,7 +120,11 @@ public class AddItemByScanningTests {
        customer.selectNextItem();
        
        // Scan first Item
-       customer.scanItem();
+       while(true) {
+           customer.scanItem();
+           if (sil.getSuccessfulScan() == 1)
+        	   break;
+       }
        customer.placeItemInBaggingArea();
        
        assertTrue(ui.checkProductList(prod2));
