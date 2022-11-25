@@ -9,6 +9,9 @@ Running the simulation with n DIY stations will open:
     1 Maintenance Simulation window
     n Customer UI windows; and
     n Customer Simulation windows
+All classes in the com.diy.software.simulation package are purely for simulation.
+Classes in com.diy.software.util are for the logic and functionality
+Classes com.diy.software.view are primarily GUI elements/windows
 
 ## Operation
 1) To start scanner click the start scanning button in the Customer UI
@@ -28,4 +31,4 @@ Running the simulation with n DIY stations will open:
 9) Once all items have been removed the UI will switch back to the starting screen.
 
 ## Sources
-    https://stackoverflow.com/questions/36950743/how-can-i-check-to-see-if-a-dialog-is-closed
+    How can I check to see if a dialog is closed? Stack Overflow. (1963, June 1). Retrieved November 24, 2022, from https://stackoverflow.com/questions/36950743/how-can-i-check-to-see-if-a-dialog-is-closed 

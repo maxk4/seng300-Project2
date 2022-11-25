@@ -59,7 +59,6 @@ public class CustomerUI {
 	public CustomerUI(DoItYourselfStationAR station, String title) {
 		this.station = station;
 		
-		cashPayment = new CashPayment(this, null, station);
 		beginSession();
 		
 		scanScreenGUI.setTitle(title);

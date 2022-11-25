@@ -105,6 +105,13 @@ public class Simulation {
 			}
 			uis.add(ui);
 			stations.add(station);
+			
+			try {
+				station.printer.addInk(100);
+				station.printer.addPaper(100);
+			} catch (OverloadException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		// Register diy stations with the attendant station
