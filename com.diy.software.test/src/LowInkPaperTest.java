@@ -31,6 +31,7 @@ public class LowInkPaperTest {
 
 	LowInkLowPaper listener;
 	DoItYourselfStationAR station;
+	CustomerUI customer;
 	
 	java.io.ByteArrayOutputStream output = new java.io.ByteArrayOutputStream();
 	
@@ -39,7 +40,7 @@ public class LowInkPaperTest {
 		station = new DoItYourselfStationAR();
 		station.plugIn();
 		station.turnOn();
-		CustomerUI customer = new CustomerUI(station);
+		customer = new CustomerUI(station);
 		AttendantUI attendant = new AttendantUI(new AttendantStation(), 1);
 		
 		listener = new LowInkLowPaper(customer, attendant) {
@@ -52,6 +53,11 @@ public class LowInkPaperTest {
 		
 		System.setOut(new java.io.PrintStream(output));
 		
+	}
+	
+	@After
+	public void finish() {
+		customer.endSession();
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package util;
+package simulation;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,6 +16,18 @@ import com.jimmyselectronics.necchi.Numeral;
 import com.jimmyselectronics.opeechee.Card;
 
 import ca.powerutility.PowerGrid;
+import util.AttendantStation;
+import util.AttendantStationListener;
+import util.AttendantUI;
+import util.Bank;
+import util.CashPayment;
+import util.CustomerStationListener;
+import util.CustomerUI;
+import util.ExpectedWeightListener;
+import util.LowInkLowPaper;
+import util.NoBaggingRequestListener;
+import util.PayWithCardListener;
+import util.ScanItemListener;
 
 public class Simulation {
 	
@@ -100,10 +112,6 @@ public class Simulation {
 		
 		MaintenanceSimulator ms = new MaintenanceSimulator(attendant, stations);
 		
-		// Setup attendant station
-		aStation.getTouchScreen().plugIn();
-		aStation.getTouchScreen().turnOn();
-		aStation.getTouchScreen().enable();
 		
 	}
 	

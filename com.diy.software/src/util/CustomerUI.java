@@ -166,25 +166,6 @@ public class CustomerUI {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
-	 * Deregister a DiscrepancyListener
-	 * 
-	 * @param listener DiscrepancyListener to register
-	 * @throws IllegalStateException    when the listener is not registered
-	 * @throws IllegalArgumentException when the listener is null
-	 */
-	public void deregisterDiscrepancyListener(CustomerStationListener listener)
-			throws IllegalStateException, IllegalArgumentException {
-		if (listener == null)
-			throw new IllegalArgumentException("listener cannot be null");
-		if (!stationListeners.remove(listener))
-			throw new IllegalStateException("listener is not registerd");
-		stationListeners.remove(listener);
-	}
-
-	/**
->>>>>>> origin/JC
 	 * Register a NoBaggingRequestListener
 	 * 
 	 * @param listener NoBaggingRequestListener to register

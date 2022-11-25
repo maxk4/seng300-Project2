@@ -28,12 +28,6 @@ public class AttendantUI {
 	}
 	
 	/**
-	 * Notify the attendant that the customer is making a no bagging request
-	 * @param customer CustomerUI that is making the request
-	 */
-	public void notifyNoBaggingRequest(CustomerUI customer) {}
-	
-	/**
 	 * Notify the attendant that there is a weight discrepancy
 	 * @param customer CustomerUI who has a weight discrepancy
 	 */
@@ -84,14 +78,6 @@ public class AttendantUI {
 	public void addCustomerUI(CustomerUI customer) {
 		stations.add(customer);
 		gui.addStation(customer);
-	}
-	
-	/**
-	 * Remove a customer from the AttendantUI
-	 * @param customer CustomerUI to remove
-	 */
-	public void removeCustomerUI(CustomerUI customer) {
-		stations.remove(customer);
 	}
 	
 	private int idOf(CustomerUI customer) {

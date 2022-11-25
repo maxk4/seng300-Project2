@@ -1,4 +1,4 @@
-package util;
+package views;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +12,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import util.CustomerUI;
+
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")

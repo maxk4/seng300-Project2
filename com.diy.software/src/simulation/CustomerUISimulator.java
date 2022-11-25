@@ -1,4 +1,4 @@
-package util;
+package simulation;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.Currency;
@@ -19,6 +19,8 @@ import com.unitedbankingservices.DisabledException;
 import com.unitedbankingservices.TooMuchCashException;
 import com.unitedbankingservices.banknote.Banknote;
 import com.unitedbankingservices.coin.Coin;
+
+import util.CustomerUI;
 
 public class CustomerUISimulator extends CustomerUI {
 

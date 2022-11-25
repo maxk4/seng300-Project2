@@ -19,7 +19,6 @@ import java.util.Set;
 
 import util.AttendantUI;
 import util.CustomerUI;
-import util.StationComponent;
 
 @SuppressWarnings("serial")
 public class AttendantGUI extends JFrame {

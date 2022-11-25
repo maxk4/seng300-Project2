@@ -19,11 +19,4 @@ public class AttendantStationListener {
 		attendant.addCustomerUI(customer);
 	}
 	
-	/**
-	 * Add the CustomerUI to the AttendantUI
-	 * @param customer CustomerUI to add
-	 */
-	public void noftifyDeregistered(CustomerUI customer) {
-		attendant.removeCustomerUI(customer);
-	}
 }
