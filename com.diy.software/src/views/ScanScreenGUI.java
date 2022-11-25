@@ -60,10 +60,12 @@ public class ScanScreenGUI extends JFrame {
 		textField = new JTextField();
 		textField.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		textField.setColumns(10);
+		textField.setEditable(false);
 		
 		memberField = new JTextField();
 		memberField.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		memberField.setColumns(10);
+		memberField.setEditable(false);
 		
 		JButton btnNewButton = new JButton("Debit");
 		btnNewButton.addActionListener(e -> {
@@ -96,10 +98,8 @@ public class ScanScreenGUI extends JFrame {
 		JButton btnNewButton_5 = new JButton("Attendant");
 		
 		JButton btnNewButton_6 = new JButton("Enter Member #");
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				customer.enterMemNum();
-			}
+		btnNewButton_6.addActionListener(e -> {
+			customer.enterMemNum();
 		});
 		
 		JButton btnNewButton_7 = new JButton("Use Personal Bags");
@@ -128,8 +128,7 @@ public class ScanScreenGUI extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addComponent(memberField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -154,6 +153,7 @@ public class ScanScreenGUI extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnNewButton_6, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+								.addComponent(memberField, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnNewButton_7, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
 								.addComponent(btnNewButton_6_1, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
 							.addContainerGap())))
@@ -167,6 +167,7 @@ public class ScanScreenGUI extends JFrame {
 							.addComponent(btnNewButton_5)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNewButton_6)
+							.addComponent(memberField)
 							.addGap(18)
 							.addComponent(btnNewButton_6_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -187,8 +188,7 @@ public class ScanScreenGUI extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(memberField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(63))
 		);
 		
@@ -196,9 +196,11 @@ public class ScanScreenGUI extends JFrame {
 		scannedPricesArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		scrollPane.setRowHeaderView(scannedPricesArea);
 		scannedPricesArea.setColumns(10);
+		scannedPricesArea.setEditable(false);
 		
 		scannedItemsArea = new JTextArea();
 		scannedItemsArea.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		scannedItemsArea.setEditable(false);
 		scrollPane.setViewportView(scannedItemsArea);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -216,8 +218,15 @@ public class ScanScreenGUI extends JFrame {
 		scannedPricesArea.setText(productSB.toString());
 		textField.setText(String.format("$%.2f", balance / 100d));
 	}
-	
+
 	public void updateMember(Integer number) {
-		memberField.setText("Member #: "+ number);
+		if (number == 8) 
+			memberField.setText("Invalid #");
+		if (number == 0) 
+			memberField.setText("Not a Member");
+		if (number == 1) 
+			memberField.setText("A Member # already in use");
+		if (number != 8 && number != 0 && number != 1)
+		memberField.setText(number + "");
 	}
 }
